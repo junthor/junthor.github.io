@@ -138,3 +138,12 @@
     src: 
         url('/Dungeon Drop Case/Dungeon Drop Case.otf') format("opentype");
 }
+@font-face {
+    font-family: 'Sovngarde';
+    src: url('./Sovngarde/SovngardeLight.otf');
+}
+@font-face {
+    font-family: 'Sovngarde';
+    src: url('./Sovngarde/SovngardeBold.otf');
+    font-weight: bold;
+}
