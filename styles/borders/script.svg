@@ -1,0 +1,46 @@
+<svg viewBox='0 0 350 350' xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Small Bars -->
+  	<rect width="6" height="32" x="22" y="22" fill="#deb400"/>
+  	<rect width="4" height="31" x="23" y="23" fill="#000"/>
+  	<rect width="6" height="32" x="322" y="22" fill="#deb400"/>
+  	<rect width="4" height="31" x="323" y="23" fill="#000"/>
+    
+  	<rect width="6" height="32" x="22" y="296" fill="#deb400"/>
+  	<rect width="4" height="31" x="23" y="296" fill="#000"/>
+  	<rect width="6" height="32" x="322" y="296" fill="#deb400"/>
+  	<rect width="4" height="31" x="323" y="296" fill="#000"/>
+    
+    
+    <!-- Yellow Big Rectangle -->
+  	<rect width="250" height="14" x="50" y="0" fill="#deb400"/>
+  	<rect width="250" height="14" x="50" y="336" fill="#deb400"/>
+  	<rect width="14" height="250" x="0" y="50" fill="#deb400"/>
+  	<rect width="14" height="250" x="336" y="50" fill="#deb400"/>
+    
+    <!-- Yellow Big Rectangle Corners -->
+	<path d="M 0 57 A 57 57 0 0 0 57 0" style="stroke: #deb400; fill:none; stroke-width:14;"/>
+	<path d="M 0 293 A 57 57 0 0 1 57 350" style="stroke: #deb400; fill:none; stroke-width:14;"/>
+	<path d="M 293 0 A 57 57 0 0 0 350 57" style="stroke: #deb400; fill:none; stroke-width:14;"/>
+    <path d="M 293 350 A 57 57 0 0 1 350 293" style="stroke: #deb400; fill:none; stroke-width:14;"/>
+    
+    <!-- Black Big Rectangle Corners -->
+    <path d="M 293 346 A 57 57 0 0 1 346 293" style="stroke: #000; fill:none; stroke-width:8;"/>
+	<path d="M 293 4 A 57 57 0 0 0 346 57" style="stroke: #000; fill:none; stroke-width:8;"/>
+	<path d="M 4 293 A 57 57 0 0 1 57 346" style="stroke: #000; fill:none; stroke-width:8;"/>
+	<path d="M 4 57 A 57 57 0 0 0 57 4" style="stroke: #000; fill:none; stroke-width:8;"/>
+    
+    
+    <!-- Big Bars -->
+  	<rect width="294" height="6" x="28" y="22" fill="#deb400"/>
+  	<rect width="300" height="4" x="23" y="23" fill="#000"/>
+  	<rect width="294" height="6" x="28" y="322" fill="#deb400"/>
+  	<rect width="300" height="4" x="23" y="323" fill="#000"/>
+    
+    <!-- Black Big Rectangle -->
+  	<rect width="244" height="8" x="53" y="3" fill="#000"/>
+  	<rect width="244" height="8" x="53" y="339" fill="#000"/>
+  	<rect width="8" height="244" x="3" y="53" fill="#000"/>
+  	<rect width="8" height="244" x="339" y="53" fill="#000"/>
+    
+</svg>

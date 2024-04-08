@@ -1,0 +1,76 @@
+<svg viewBox='0 -3 520 426' xmlns="http://www.w3.org/2000/svg">
+    
+    <!-- BACKGROUND -->
+    <path d="M 70 36 
+    A 36 36 0 0 1 36 70 V 350 
+    A 36 36 0 0 1 70 388 
+    H 140 V 385 A 70 20 0 0 1 210 366 H 310 A 70 20 0 0 1 380 385 V 388 H 450 
+    A 36 36 0 0 1 488 350 V 70 
+    A 36 36 0 0 1 450 32
+    H 388 V 35 A 70 20 0 0 1 310 54 H 210 A 70 20 0 0 1 140 35 V 32
+    H 68" style="fill:white;"/>
+    
+    <!-- YELLOW -->
+    
+    <!-- circle -->
+    <circle r="11" cx="180" cy="8" fill="#deb400"/>
+    <circle r="11" cx="340" cy="8" fill="#deb400"/>
+    <circle r="11" cx="180" cy="412" fill="#deb400"/>
+    <circle r="11" cx="340" cy="412" fill="#deb400"/>
+    
+    <!-- TOP -->
+    <path d="M 488 140 L 513 120 V 84
+    A 76 76 0 0 1 436 7 H 84 
+    A 76 76 0 0 1 7 84
+    V 120 L 30 140 H 32" style="stroke: #deb400; fill:none; stroke-width:14;"/>
+    
+    <!-- RECTANGLE -->
+    <path d="M 68 32 A 36 36 0 0 0 32 68 
+    V 352 A 36 36 0 0 0 68 388 
+    H 140 V 385 
+    A 70 20 0 0 1 210 366 H 310 A 70 20 0 0 1 380 385 
+    V 388 H 452 A 36 36 0 0 0 488 352 
+    V 68 A 36 36 0 0 0 452 32
+    H 388 V 35
+    A 70 20 0 0 1 310 54 H 210 A 70 20 0 0 1 140 35 V 32
+    H 68" style="stroke: #deb400; fill:none; stroke-width:14;"/>
+
+    <!-- BOTTOM -->
+    <path d="M 488 280 L 513 300 V 336
+    A 76 76 0 0 0 436 413 H 84
+    A 76 76 0 0 0 7 336
+    V 300 L 30 280 H 32" style="stroke: #deb400; fill:none; stroke-width:14;"/>  
+    
+    <!-- BLACK -->
+    
+    <!-- circle -->
+    <circle r="8" cx="180" cy="8" fill="#000"/>
+    <circle r="8" cx="340" cy="8" fill="#000"/>
+    <circle r="8" cx="180" cy="412" fill="#000"/>
+    <circle r="8" cx="340" cy="412" fill="#000"/>
+    
+    <!-- TOP -->
+    <path d="M 488 140 L 513 120 V 84
+    A 76 76 0 0 1 436 7 H 84 
+    A 76 76 0 0 1 7 84
+    V 120 L 30 140 H 32" style="stroke: #000; fill:none; stroke-width:8;"/>
+    
+    <!-- RECTANGLE -->
+    <path d="M 68 32 A 36 36 0 0 0 32 68 
+    V 352 A 36 36 0 0 0 68 388 
+    H 140 V 385 
+    A 70 20 0 0 1 210 366 H 310 A 70 20 0 0 1 380 385 
+    V 388 H 452 A 36 36 0 0 0 488 352 
+    V 68 A 36 36 0 0 0 452 32
+    H 388 V 35
+    A 70 20 0 0 1 310 54 H 210 A 70 20 0 0 1 140 35 V 32
+    H 68" style="stroke: #000; fill:none; stroke-width:8;"/>
+    
+    <!-- BOTTOM -->
+    <path d="M 488 280 L 513 300 V 336
+    A 76 76 0 0 0 436 413 H 84
+    A 76 76 0 0 0 7 336
+    V 300 L 30 280 H 32" style="stroke: #000; fill:none; stroke-width:8;"/>
+    
+    
+</svg>

@@ -1,0 +1,141 @@
+.color-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 150px;
+    padding: 8px;
+    margin: 4px;
+    border-radius: 8px;
+    background-color: #00000055;
+
+    font-family: 'Lato', sans-serif;
+    color: white;
+}
+
+.full .color-name {
+    height: fit-content;
+    font-weight: bold;
+    margin: 4px 0;
+}
+
+.full .color-value {
+    color: #aaa;
+    height: fit-content;
+    font-weight: bold;
+    margin: 4px 0;
+    font-size: 10px;
+    padding-left: 4px;
+}
+
+.full color-selector {
+    height: 50px;
+}
+
+.full .clr-field button {
+    width: 100%;
+    height: 50px;
+    border-radius: 0px;
+}
+
+.full .clr-field button::after {
+    border: 2px solid #00000055;
+    box-sizing: border-box;
+    box-shadow: none;
+}
+
+.full input {
+    width: 100%;
+    padding: none;
+    box-sizing: border-box;
+    opacity: 0;
+    cursor: pointer;
+    height: 50px;
+}
+
+.window-popup {
+    display: block;
+    flex-flow: column wrap;
+    z-index: 100;
+
+    position: absolute;
+    width: fit-content;
+}
+
+.window-title {
+    width: fit-content;
+    font-size: 22px;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+.window-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #222;
+    border-radius: 8px;
+    padding: 4px;
+    box-sizing: border-box;
+    margin-bottom: 4px;
+    border: 1px solid #111;
+
+    cursor: move;
+}
+
+.window-popup > * {
+    box-shadow: 0 0 4px #00000055;
+}
+
+#color-picker {
+    display: flex;
+    flex-flow: row wrap;
+
+    padding: 10px;
+    background-color: #333;
+    border-radius: 10px;
+    height: 300px;
+    width: 540px;
+    border: 1px solid #111;
+
+    z-index: 100;
+    overflow-y: scroll;
+    resize: both;
+}
+
+.category {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 10px 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+.category:first-child{
+    margin-top: 0;
+}
+
+.category-name {
+    width: 100%;
+    color: white;
+    font-size: 24px;
+}
+
+.close-button {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(148, 51, 51);
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 100%;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    padding: 1px 2px;
+    box-sizing: border-box;
+}
+
+.close-button:hover {
+    background-color: rgb(176, 85, 85);
+}

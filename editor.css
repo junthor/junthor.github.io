@@ -1,0 +1,586 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url(color.css);
+@import url(fonts/dnd-fonts.css);
+
+html {
+    height: 100vh;
+    width: 100vw;
+
+    background-color: lightgray;
+}
+
+body {
+    display: flex;
+    flex-flow: column nowrap;
+
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    text-rendering: optimizeLegibility;
+}
+
+button, label {
+    cursor: pointer;
+
+    background-color: gray;
+    margin: 0;
+    padding: 8px;
+
+    border: none;
+    border-right:1px solid #aaa;
+    color:#ddd;
+
+    font-family: 'Lato';
+}
+
+.column-break {
+    margin-top: 270mm;
+    break-after: always;
+}
+
+button .svg-icon {
+    height: 16px;
+    filter: invert(74%) sepia(100%) saturate(1%) hue-rotate(26deg) brightness(100%) contrast(93%);
+}
+button:hover .svg-icon {
+    filter: invert(100%) sepia(7%) saturate(0%) hue-rotate(102deg) brightness(113%) contrast(101%);
+}
+
+button:hover{
+    color:#fff;
+    background-color: #aaa;
+}
+
+table {
+    width: 100%;
+    font-size: 10pt;
+    break-inside: avoid;
+    vertical-align: baseline;
+}
+
+h1 {
+    column-span: all;
+}
+
+#editor-container {
+    display: flex;
+    flex-flow: row;
+
+    flex-grow: 1;
+
+    box-sizing: border-box;
+    overflow: hidden;
+
+    box-sizing: border-box;
+    padding: 4px
+}
+
+p {
+    margin: 0;
+}
+
+#options {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100px;
+    flex-shrink: 0;
+    align-items: flex-end;
+
+    background-image: url(curator.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top right;
+}
+
+.button-container {
+    display: flex;
+    flex-flow: row wrap;
+    flex-shrink: 0;
+    width: 50%;
+
+    box-sizing: border-box;
+}
+
+.button-container .widgets {
+    display: flex;
+    border-radius: 9px;
+    
+    box-shadow: 0px 2px 0px #555;
+    border: 1px solid #aaa;
+    margin: 4px;
+}
+
+.button-container .widgets button:last-child{
+    border:none;
+    border-radius: 0 8px 8px 0;
+}
+.button-container .widgets button:first-child{
+    border-radius: 8px 0 0 8px;
+}
+.button-container .widgets button .dropdown {
+    width: 150px;
+    display: none;
+    position: absolute;
+    top: 32px;
+    color:black;
+    background-color: white;
+    border: 1px solid #aaa;
+    z-index: 100;
+    left:0;
+}
+.button-container .widgets button:hover .dropdown {
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: left;
+}
+.dropdown div {
+    background-color: gray;
+    margin: 0;
+    padding: 8px;
+
+    border: none;
+    border-bottom:1px solid #aaa;
+    color:#ddd;
+
+    font-family: 'Lato';
+}
+.dropdown div:hover {
+    background-color: #aaa;
+}
+
+.bbcode-content-buttons {
+    width: 100%;
+    background-color: #333;
+    box-shadow: 0 0 4px black;
+    padding: 4px;
+    box-sizing: border-box;
+    z-index: 20;
+    border-bottom: 1px solid #aaa;
+}
+
+.print-button, .save-button, .load-button {
+    font-size: 20px;
+    color:white;
+    border:none;
+    border-radius: 10px;
+    top: 4px;
+    margin-bottom: 3px;
+}
+
+.print-button { 
+    background-color: rgb(148, 12, 12); float: right; 
+    box-shadow: 0px 2px 0px #4d0d0d;
+    border: 1px solid #bd2525;
+}
+.print-button:hover { background-color: rgb(200, 27, 27); }
+.save-button { 
+    background-color: rgb(12, 148, 53);
+    box-shadow: 0px 2px 0px #134d0d;
+    border: 1px solid #25bd46;
+}
+.save-button:hover { background-color: rgb(27, 200, 56); }
+.load-button { 
+    background-color: rgb(12, 80, 148);
+    box-shadow: 0px 2px 0px #0d214d;
+    border: 1px solid #255fbd;
+    margin-right: 6px;
+}
+.load-button:hover { background-color: rgb(27, 119, 200); }
+input[type=file] {
+    display: none;
+}
+
+.bbcode-editor {
+    border: 1px solid black;
+    outline: none;
+    box-sizing: border-box;
+    resize: none;
+    font-family: 'Fira Code', sans-serif;
+
+    width: 50%;
+    padding: 0;
+    margin: 0;
+
+    font-size: 13px;
+}
+
+.splitter {
+    width: 6px;
+    cursor: ew-resize;
+}
+
+.bbcode-content-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 50%;
+    position: relative;
+
+    border: 1px solid black;
+    box-sizing: border-box;
+    background-color: gray;
+    overflow: hidden;
+}
+
+.bbcode-content {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+
+    overflow-y: scroll;
+    box-sizing: border-box;
+
+    position: relative;
+    padding: 30px;
+    flex-grow: 1;
+}
+
+.text {
+    margin: 0;
+    padding: 0;
+    /* white-space: pre-line; */
+    text-align: justify;
+}
+
+.columns {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    overflow: hidden;
+}
+
+.column {
+    display: flex;
+    flex-flow: column wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    justify-content: flex-start;
+}
+
+.page tr:nth-child(odd) td {
+    background-color: var(--secondary-color);
+}
+.page tr:nth-child(even) td {
+    background-color: var(--table-color);
+}
+
+table {
+  border-spacing: 0px;
+}
+
+table * {
+    border: none;
+    margin: none;
+    padding: none;
+}
+
+.ccolumn {
+    justify-content: center;
+}
+
+.ecolumn {
+    justify-content: flex-end;
+}
+
+.row {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+.fill {
+    margin: 0;
+    padding: 0;
+}
+
+.nowrap {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+
+ul, ol {
+    margin: 0;
+}
+
+.bbcode-content .page {
+    margin: 15px auto;
+    box-shadow: 0 0 10px black;
+}
+
+.bbcode-content .page:first-child {
+    margin: 0 auto;
+}
+
+.page:nth-child(2n+1) .page-number {
+    right: 20px;
+    left: unset;
+}
+
+.page-number {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    text-align: center;
+}
+
+.page-number::after{
+    content: counter(number-of-page);
+    color: var(--primary-color)
+}
+
+.page-content {
+    margin: 1.4cm;
+    box-sizing: border-box;
+
+    column-count: 2;
+    column-fill: auto;
+    column-gap: 1cm;
+
+    width: calc(100% - 2.8cm);
+    height: calc(100% - 2.8cm);
+}
+
+.page {
+    /* A4 */
+    width: 210mm;
+    height: 297mm;
+
+    position: relative;
+
+    box-sizing: border-box;
+    overflow: hidden;
+    contain: size;
+
+    background-color: white;
+
+    counter-increment: number-of-page;
+
+    z-index: 10;
+
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.page img {
+    z-index: -1;
+}
+
+p {
+    break-inside: avoid;
+}
+
+.wide {
+    column-span: all;
+    margin-bottom: var(--space-between);
+}
+
+.page pre {
+    display: block;
+    word-break: break-all;
+}
+
+.page pre code {
+    border: 1px solid black;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #ddd;
+    color: #333;
+    border: 1px solid #aaa;
+    display: block;
+}
+
+.page code {
+    padding: 0;
+    margin: 0;
+    white-space: pre-wrap;
+    display: inline-block;
+
+    padding: 2px 4px;
+    background-color: #ddd;
+    color: #333;
+}
+
+.page.empty::after{
+    display: none;
+}
+
+.page::after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    content: ' ';
+
+    background-image: url('./styles/footers/elven.png');
+    background-size: cover;
+}
+
+.page:nth-child(even)::after {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.page img.cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* TODO: MOVE TO DEFAULT.JS !! */
+
+blockquote {
+    font-family: 'Mrs Eaves XL', 'Bookinsanity', serif;
+    font-style: italic;
+    margin: var(--space-between) 0;
+    font-size: var(--quote-text-size);
+    line-height: 1.4;
+}
+blockquote li {
+    float: right;
+    font-family: var(--text-font);
+    font-style: normal;
+}
+blockquote ul {
+    list-style-type: none;
+    margin-top: var(--space-between);
+}
+blockquote li::before {
+    content: '— ';
+}
+
+blockquote p::first-line {
+    font-family: var(--heading-font);
+    font-style: normal;
+    font-size: 120%;
+    line-height: 1.2;
+}
+
+.note, .description {
+    display: inline-block;
+    width: 100%;
+}
+
+dl {
+    margin: 0 0 0 1em;
+}
+
+dd {
+    display: inline;
+    width: fit-content;
+    text-indent: 0;
+    margin: 0;
+}
+
+dt {
+    display: inline;
+    width: fit-content;
+    margin-right: 0.2em;
+    margin-left: -1em;
+}
+
+.monster {
+    background-image: url('./styles/backgrounds/Handbook.png');
+    display: block;
+    break-inside: avoid;
+    margin: 1em 0;
+}
+
+.monster.wide .monster-content{
+    columns: 2;
+    column-fill: balance;
+    column-gap: 1cm;
+}
+
+.monster.wide p{
+    break-inside: auto;
+}
+
+.monster h2 {
+    font-size: 26px;
+}
+.monster h3 {
+    border-color: #922610;
+}
+.monster hr ~ :is(dl, p) {
+    color: #58180D;
+}
+.monster hr:last-of-type ~ :is(dl, p) {
+    color: inherit;
+}
+.monster hr + table:first-of-type {
+    color: #58180D;
+    background-color: transparent;
+    font-size: 13px;
+}
+.monster hr + table:first-of-type tr {
+    background-color: transparent;
+}
+.monster hr + table:first-of-type td {
+    background-color: transparent;
+}
+
+.monster .border {
+    position: relative;
+    width: calc(100% + 4px);
+    height: 6px;
+    margin-left: -3px;
+    background-image: url('./styles/monster-border.jpg');
+    border: 1px solid #333;
+    box-sizing: content-box;
+    box-shadow: 0 0 4px black;
+    z-index: 1;
+}
+
+.monster h2 + p {
+    font-style: italic;
+    margin-top: -0.5em;
+}
+
+.monster .monster-content {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 0 4px black;
+}
+
+.monster hr {
+    background-image: url('./styles/separator.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 100%;
+    width: 100%;
+    height: 4px;
+    border: none;
+}
+
+.text-stroke {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-text-stroke: 0;
+    width: 100%;
+}
+
+.frame {
+    border-style: solid;
+    border-image-outset: 25px 17px;
+    border-image-repeat: stretch;
+    border-image-slice: 38%;
+    border-image-source: url('./styles/borders/frame.svg');
+    border-image-width: 50px;
+    background-color: white;
+    margin: 25px 17px;
+}

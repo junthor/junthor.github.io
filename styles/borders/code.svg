@@ -1,0 +1,25 @@
+<svg viewBox='0 0 100 100' xmlns="http://www.w3.org/2000/svg">
+
+	<path d="M 0 23 A 23 23 0 0 0 23 0" style="stroke: #615231; fill:none; stroke-width:2;"/>
+  	<rect width="54" height="2" x="23" y="0" fill="#615231"/>
+	<path d="M 77 0 A 23 23 0 0 0 100 23" style="stroke: #615231; fill:none; stroke-width:2;"/>
+    
+	<path d="M 0 77 A 23 23 0 0 1 23 100" style="stroke: #615231; fill:none; stroke-width:2;"/>
+  	<rect width="54" height="2" x="23" y="98" fill="#615231"/>
+	<path d="M 100 77 A 23 23 0 0 0 77 100" style="stroke: #615231; fill:none; stroke-width:2;"/>
+    
+  	<rect width="2" height="54" x="0" y="23" fill="#615231"/>
+  	<rect width="2" height="54" x="98" y="23" fill="#615231"/>
+    
+    
+	<path d="M 4 16 A 12 12 0 0 0 16 4" style="stroke: #b4a278; fill:none; stroke-width:2;"/>
+  	<rect width="68" height="2" x="16" y="4" fill="#b4a278"/>
+	<path d="M 84 4 A 12 12 0 0 0 96 16" style="stroke: #b4a278; fill:none; stroke-width:2;"/>
+    
+	<path d="M 4 84 A 12 12 0 0 1 16 96" style="stroke: #b4a278; fill:none; stroke-width:2;"/>
+  	<rect width="68" height="2" x="16" y="94" fill="#b4a278"/>
+	<path d="M 96 84 A 12 12 0 0 0 84 96" style="stroke: #b4a278; fill:none; stroke-width:2;"/>
+    
+  	<rect width="2" height="68" x="4" y="16" fill="#b4a278"/>
+  	<rect width="2" height="68" x="94" y="16" fill="#b4a278"/>
+</svg>
