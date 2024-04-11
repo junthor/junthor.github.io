@@ -1,14 +1,24 @@
 class BBParser {
   #COMPLEX_TAGS;
   #SIMPLE_TAGS;
-  #markdown;
+  #TOC;
 
   constructor(tags = BBCODE_TAGS, static_tags = BBCODE_TAGS_STATIC) {
     this.#COMPLEX_TAGS = tags;
     this.#SIMPLE_TAGS = static_tags;
+
+    let TOC = {page:0, content: []}
+    this.#TOC = TOC
+
+    marked.Renderer.prototype.heading = function (text, level, raw) {
+      if (level > 3 || !text.includes('[*]')) return `<h${level}>${text}</h${level}>`
+      text = text.replace('[*]', '').trim()
+      TOC.content[TOC.page].push([level, text])
+      return `<h${level}>${text}</h${level}>`
+    }
+
     marked.Renderer.prototype.paragraph = function (text) {
       text = text.replaceAll(/\n:\n/gi, '<br><br>')
-      console.log(text)
       if (text.includes("::")) {
         text = text.split("\n");
         let res = [];
@@ -46,16 +56,25 @@ class BBParser {
     return marked.parse(text);
   }
 
-  parse(text) {
+  parse(text, first_page, start_offset, offset) {
     text = this.#parse_tags(text);
-    //TODO: BETTER IMPLEMENTATION FOR THIS
 
     text = text.split("[newpage]");
 
-    for (let i = 0; i < text.length; i++)
+    for (let i = start_offset; i < text.length - offset; i++) {
+      this.#TOC.page = i+first_page-start_offset
+      this.#TOC.content[this.#TOC.page] = []
       text[i] = this.#parse_markdown(text[i]);
+    }
+
+    console.log(this.#TOC)
 
     return text;
+  }
+
+  simple_parse(text) {
+    text = this.#parse_tags(text);
+    return this.#parse_markdown(text);
   }
 
   #tag_decompose(tag) {
@@ -91,10 +110,11 @@ class BBParser {
         if (tag[start] == '"' || tag[start] == "'")
           value = tag.substring(start + 1, i - 1);
         else value = tag.substring(start, i);
+        value = value.trim()
         if (key) {
-          test_decomposition[key] = value;
+          test_decomposition[key.trim()] = value;
           key = undefined;
-        } else test_decomposition[value] = undefined;
+        } else if (value != '') test_decomposition[value] = undefined;
         start = i + 1;
         continue;
       }
@@ -104,7 +124,6 @@ class BBParser {
         start = i + 1;
       }
     }
-
     return test_decomposition;
   }
 
@@ -141,7 +160,25 @@ class BBParser {
 
     // If the tag is complex, need we need further computation
     let decomposition = this.#tag_decompose(tag);
+
+    // Closing Tag
+    if (decomposition['name'][0] == '/') {
+      let syntax = this.#COMPLEX_TAGS[decomposition["name"].substring(1)];
+
+      // Not a supported tag
+      if(!syntax) {
+        result.push(tag);
+        return end
+      }
+
+      code = `</${syntax['tag']}>`
+      if(syntax['add_end']) code = syntax['add_end'] + code
+      result.push(code)
+      return end
+    }
+
     let syntax = this.#COMPLEX_TAGS[decomposition["name"]];
+
 
     // Not a supported tag
     if (!syntax) {
@@ -186,7 +223,6 @@ class BBParser {
           } else if (key[0] == "#") {
             // Anchor
             html_param["id"] = [key.substring(1)];
-            console.log("KW: " + key);
           }
           continue;
         }
@@ -200,8 +236,6 @@ class BBParser {
             let end = "";
             if (parameter.length > 3) end = parameter[3];
             html_param[parameter[0]].push(parameter[1] + value + end);
-          } else {
-            console.log(value);
           }
         }
       }
@@ -220,9 +254,10 @@ class BBParser {
       if (syntax["self_closing"]) closing = "/>";
       else closing = ">";
       code = "<" + syntax["tag"] + adds + closing;
-      result.push(code);
 
-      console.log(code);
+      if(syntax["add_start"]) code += syntax["add_start"]
+
+      result.push(code);
 
       return end;
     }

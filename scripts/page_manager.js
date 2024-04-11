@@ -126,34 +126,52 @@ class PageManager {
   }
 
   /**
-   * Check around the cursor position for a newpage
+   * Search for an occurence of the given word
    * @param {*} text 
-   * @param {*} cursor 
-   * @param {*} tags 
-   * @param {*} max_distance 
+   * @param {*} start 
+   * @param {*} end 
+   * @param {*} word 
+   * @returns The index of the first letter if the word is matched, -1 otherwise
+   */
+  #search_for(text, start, end, word) {
+    let c = start
+    while(c < end) {
+      let i = 0
+      while(c < end && text[c] != word[i]) c++
+      while(c+i < end && i < word.length && text[c+i] == word[i]) i++
+      if(i == word.length) return c
+      c++
+    }
+    return -1
+  }
+
+  /**
+   * Check around the cursor position for the first newpage (left to right)
+   * @param {*} text The text
+   * @param {*} cursor The position to check
+   * @param {*} tags The tags to check for
+   * @param {*} max_distance The maximum search distance
    * @returns The end position of the tag if it exists, -1 otherwise
    */
   #check_around_cursor(text, cursor, tags, max_distance = 20){
-    let start = cursor
-    let end = cursor
+    let start = cursor  - max_distance
+    while(cursor+max_distance - start > 9) {
+      // Find the open bracket of the tag
+      start = this.#search_for(text, start, cursor+max_distance, '[newpage')
+      let end = start+8
 
-    // Find the open bracket of the tag
-    while(cursor-start < max_distance && text[start] != '[') start--
-    if(text[start] != '[') {
-      start = cursor
-      while(start-cursor < max_distance && text[start] != '[') start++
-      if(text[start] != '[') return -1
-      end = start
+      if(start == -1) return -1
+      // Find the close bracket of the tag
+      while(end-cursor < max_distance && text[end] != ']') end++
+      if(text[end] != ']') return -1
+
+      // Check if the tag we found is valid
+      let element = text.substring(start, end+1)
+      if(tags.includes(element)) return end
+      start += 8
+      console.log(element)
     }
 
-    // Find the close bracket of the tag
-    while(end-cursor < max_distance && text[end] != ']') end++
-    if(text[end] != ']') return -1
-
-    // Check if the tag we found is valid
-    let element = text.substring(start, end+1)
-    console.log(element)
-    if(tags.includes(element)) return end
     return -1
   }
 

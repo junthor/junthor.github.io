@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url(color.css);
 @import url(fonts/dnd-fonts.css);
+:root {
+    /* A4 DEFAULT */
+    --page-width: 210mm;
+    --page-height: 297mm;
+}
 
 html {
     height: 100vh;
@@ -34,11 +39,11 @@ button, label {
     border-right:1px solid #aaa;
     color:#ddd;
 
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
 }
 
 .column-break {
-    margin-top: 270mm;
+    display: block;
     break-after: always;
 }
 
@@ -60,6 +65,7 @@ table {
     font-size: 10pt;
     break-inside: avoid;
     vertical-align: baseline;
+    border-spacing: 0px;
 }
 
 h1 {
@@ -75,7 +81,6 @@ h1 {
     box-sizing: border-box;
     overflow: hidden;
 
-    box-sizing: border-box;
     padding: 4px
 }
 
@@ -146,7 +151,7 @@ p {
     border-bottom:1px solid #aaa;
     color:#ddd;
 
-    font-family: 'Lato';
+    font-family: 'Lato', sans-serif;
 }
 .dropdown div:hover {
     background-color: #aaa;
@@ -192,6 +197,23 @@ p {
 .load-button:hover { background-color: rgb(27, 119, 200); }
 input[type=file] {
     display: none;
+}
+.bbcode-content-buttons select {
+    cursor: pointer;
+    font-size: 20px;
+    color:white;
+    border:none;
+    border-radius: 10px;
+    top: 4px;
+    height: 40px;
+    margin-bottom: 3px;
+    margin-left: 6px;
+    background-color: #888;
+    box-shadow: 0px 2px 0px #555;
+    border: 1px solid #aaa;
+}
+.bbcode-content-buttons select:hover{
+    background-color: #aaa;
 }
 
 .bbcode-editor {
@@ -241,25 +263,12 @@ input[type=file] {
 .text {
     margin: 0;
     padding: 0;
-    /* white-space: pre-line; */
     text-align: justify;
 }
 
-.columns {
-    display: flex;
-    flex-flow: row nowrap;
-    width: 100%;
-    overflow: hidden;
-}
-
 .column {
-    display: flex;
-    flex-flow: column wrap;
-    flex-grow: 1;
-    flex-shrink: 1;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    justify-content: flex-start;
+    columns: 2;
+    column-gap: 1cm;
 }
 
 .page tr:nth-child(odd) td {
@@ -267,10 +276,6 @@ input[type=file] {
 }
 .page tr:nth-child(even) td {
     background-color: var(--table-color);
-}
-
-table {
-  border-spacing: 0px;
 }
 
 table * {
@@ -337,21 +342,24 @@ ul, ol {
 }
 
 .page-content {
-    margin: 1.4cm;
+    margin-top: var(--page-margin-top);
+    margin-left: var(--page-margin-left);
+    margin-right: var(--page-margin-right);
+    margin-bottom: var(--page-margin-bottom);
     box-sizing: border-box;
 
     column-count: 2;
     column-fill: auto;
     column-gap: 1cm;
 
-    width: calc(100% - 2.8cm);
-    height: calc(100% - 2.8cm);
+    width: calc(100% - var(--page-margin-left) - var(--page-margin-right));
+    height: calc(100% - var(--page-margin-top) - var(--page-margin-bottom));
 }
 
 .page {
     /* A4 */
-    width: 210mm;
-    height: 297mm;
+    width: var(--page-width);
+    height: var(--page-height);
 
     position: relative;
 
@@ -373,11 +381,8 @@ ul, ol {
     z-index: -1;
 }
 
-p {
-    break-inside: avoid;
-}
-
 .wide {
+    display: block !important;
     column-span: all;
     margin-bottom: var(--space-between);
 }
@@ -388,7 +393,6 @@ p {
 }
 
 .page pre code {
-    border: 1px solid black;
     padding: 8px;
     border-radius: 4px;
     background-color: #ddd;
@@ -398,18 +402,33 @@ p {
 }
 
 .page code {
-    padding: 0;
+    padding: 2px 4px;
     margin: 0;
     white-space: pre-wrap;
     display: inline-block;
 
-    padding: 2px 4px;
     background-color: #ddd;
     color: #333;
 }
 
 .page.empty::after{
-    display: none;
+    background-image: none;
+}
+
+.page .footnote {
+    position: absolute;
+    bottom: 1.1cm;
+    right: 2cm;
+
+    font-family: var(--text-font);
+    font-size: var(--text-size);
+    text-align: right;
+    color: var(--primary-color);
+}
+
+.page:nth-child(even) .footnote {
+    left: 2cm;
+    text-align: left;
 }
 
 .page::after{
@@ -417,11 +436,13 @@ p {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60px;
+    height: 100%;
     content: ' ';
 
     background-image: url('./styles/footers/elven.png');
-    background-size: cover;
+    background-size: contain;
+    background-position: bottom;
+    background-repeat: no-repeat;
 }
 
 .page:nth-child(even)::after {
@@ -437,35 +458,6 @@ p {
     position: absolute;
     left: 0;
     top: 0;
-}
-
-/* TODO: MOVE TO DEFAULT.JS !! */
-
-blockquote {
-    font-family: 'Mrs Eaves XL', 'Bookinsanity', serif;
-    font-style: italic;
-    margin: var(--space-between) 0;
-    font-size: var(--quote-text-size);
-    line-height: 1.4;
-}
-blockquote li {
-    float: right;
-    font-family: var(--text-font);
-    font-style: normal;
-}
-blockquote ul {
-    list-style-type: none;
-    margin-top: var(--space-between);
-}
-blockquote li::before {
-    content: '— ';
-}
-
-blockquote p::first-line {
-    font-family: var(--heading-font);
-    font-style: normal;
-    font-size: 120%;
-    line-height: 1.2;
 }
 
 .note, .description {
@@ -491,14 +483,35 @@ dt {
     margin-left: -1em;
 }
 
+
+/* TODO: MOVE TO DEFAULT.JS !! */
+
 .monster {
-    background-image: url('./styles/backgrounds/Handbook.png');
+    font-family: var(--table-font);
+    font-size: var(--text-size);
     display: block;
     break-inside: avoid;
     margin: 1em 0;
+    padding: 4px 2px;
+    background-color: var(--monster-background-color);
+
+    border-style: solid;
+    border-width: 7px 6px;
+    border-image: url('https://homebrewery.naturalcrit.com/assets/monsterBorderFancy.png') 14 round;
+    border-image-outset: 0px 2px;
+    box-shadow: 1px 4px 14px #888888;
 }
 
-.monster.wide .monster-content{
+.monster.brs{
+    padding: 6px 2px;
+    border-image: url('./styles/borders/monster.svg');
+    border-image-outset: 0;
+    border-image-width: 10px;
+    border-image-slice: 10% fill;
+    box-shadow: none;
+}
+
+.monster.wide {
     columns: 2;
     column-fill: balance;
     column-gap: 1cm;
@@ -508,20 +521,13 @@ dt {
     break-inside: auto;
 }
 
-.monster h2 {
-    font-size: 26px;
-}
-.monster h3 {
-    border-color: #922610;
-}
-.monster hr ~ :is(dl, p) {
-    color: #58180D;
-}
-.monster hr:last-of-type ~ :is(dl, p) {
-    color: inherit;
-}
+.monster h2, .monster h3 { color: var(--monster-text-color); }
+.monster h2 { font-size: 26px; }
+.monster h3 { font-family: var(--table-font); border-color: var(--monster-text-color); border-width: 1px; }
+.monster hr ~ :is(dl, p) { color: var(--monster-text-color); }
+.monster hr:last-of-type ~ :is(dl, p) { color: inherit; }
 .monster hr + table:first-of-type {
-    color: #58180D;
+    color: var(--monster-text-color);
     background-color: transparent;
     font-size: 13px;
 }
@@ -531,39 +537,43 @@ dt {
 .monster hr + table:first-of-type td {
     background-color: transparent;
 }
-
-.monster .border {
-    position: relative;
-    width: calc(100% + 4px);
-    height: 6px;
-    margin-left: -3px;
-    background-image: url('./styles/monster-border.jpg');
-    border: 1px solid #333;
-    box-sizing: content-box;
-    box-shadow: 0 0 4px black;
-    z-index: 1;
-}
-
 .monster h2 + p {
     font-style: italic;
     margin-top: -0.5em;
 }
 
-.monster .monster-content {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    box-shadow: 0 0 4px black;
-}
-
 .monster hr {
-    background-image: url('./styles/separator.svg');
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 100%;
+    background:var(--monster-separator-color);
+    mask-image: url('https://junthor.github.io/styles/separator.svg');
+    mask-position: left center;
+    mask-repeat: no-repeat;
     width: 100%;
     height: 4px;
     border: none;
+}
+
+.frame {
+    font-family: var(--text-font);
+    font-size: var(--text-size);
+    border-style: solid;
+    border-image-outset: 25px 17px;
+    border-image-repeat: stretch;
+    border-image-slice: 38%;
+    border-image-source: url('./styles/borders/frame.svg');
+    border-image-width: 15;
+    background-color: white;
+    margin: 25px 17px;
+}
+.frame.simple {
+    border-image-slice: 20%;
+    border-image-outset: 8px 8px;
+    border-image-width: 5;
+    border-image-source: url('./styles/borders/script.svg');
+}
+.frame.small {
+    border-image-outset: 10px 10px;
+    border-image-width: 10;
+    border-image-source: url('./styles/borders/code.svg');
 }
 
 .text-stroke {
@@ -574,13 +584,44 @@ dt {
     width: 100%;
 }
 
-.frame {
-    border-style: solid;
-    border-image-outset: 25px 17px;
-    border-image-repeat: stretch;
-    border-image-slice: 38%;
-    border-image-source: url('./styles/borders/frame.svg');
-    border-image-width: 50px;
-    background-color: white;
-    margin: 25px 17px;
+.watercolor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    
+    mask-position: bottom left;
+    mask-repeat: no-repeat;
+    --wc-scale-x: 1;
+    --wc-scale-y: 1;
+    --wc-x: 0;
+    --wc-y: 0;
+
+    transform: scale(var(--wc-scale-x), var(--wc-scale-y)) translate(var(--wc-x), var(--wc-y));
+    z-index: -2;
+}
+
+.page-preview .watercolor {
+    background-color: #00000088;
+}
+
+.watercolor > .wc-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: scale(var(--wc-scale-x), var(--wc-scale-y));
+}
+
+.watercolor.right{
+    --wc-scale-x: -1;
+    filter: FlipH;
+}
+
+.watercolor.top{
+    --wc-scale-y: -1;
+}
+
+.name {
+    z-index: 10;
 }

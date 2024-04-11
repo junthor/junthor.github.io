@@ -1,6 +1,7 @@
 const DEFAULT_REGEX = {
-  size: /((?:\d+(.\d+)?)(?:px|em|%|cm)\s*)+/i,
-  position: /((\d+)(px|em|%)|0)/i,
+  number: /(\d+)/i,
+  size: /((?:\d+(.\d+)?)(?:px|em|%|cm|rem|pt)\s*)+/i,
+  position: /((\d+)(px|em|%|cm|rem|pt)|0)/i,
   color: /#((?:[\d|a-f|A-F]{3}){1,2})/i,
   text: /(.*?)/i,
   link: /(.*)/i,
@@ -23,7 +24,6 @@ const DEFAULT_PROPERTIES = {
 
   // STYLING
   bg: ['style', 'background-color:', DEFAULT_REGEX["color"]],
-  fg: ['style', 'color:', DEFAULT_REGEX["color"]],
   color: ['style', 'background-color:', DEFAULT_REGEX["color"]],
   radius: ['style', 'border-radius:', DEFAULT_REGEX["size"]],
   border: ['style', 'border:', DEFAULT_REGEX["text"]],
@@ -65,15 +65,36 @@ const SEPARATOR = {
 let DEBUG_COUNT = 0
 
 const BBCODE_TAGS = {
+
+  part: {
+    tag: 'div',
+    params: {
+      margin: DEFAULT_PROPERTIES["margin"],
+      'margin-top': DEFAULT_PROPERTIES["margin-top"],
+      'margin-bottom': DEFAULT_PROPERTIES["margin-bottom"],
+      'margin-left': DEFAULT_PROPERTIES["margin-left"],
+      'margin-right': DEFAULT_PROPERTIES["margin-right"],
+    },
+    keywords: {
+      dmg: ['class', 'dmg'],
+      phb: ['class', 'phb'],
+      brs: ['class', 'brs'],
+    },
+    auto_params: {
+      class: 'part wide'
+    }
+  }, 
+
   stroke: {
     full_tag: true,
     regex: {
       "<div style='-webkit-text-stroke:$1 #$3; position:relative'>$4<span class='text-stroke'>$4</span></div>":
-      /\[stroke ((?:\d+(.\d+)?)(?:px|em|%)\s*)+ #((?:[\d|a-f|A-F]{3}){1,2})\](.*?)\[\/stroke\]/gi,
+      /\[stroke ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+ #((?:[\d|a-f|A-F]{3}){1,2})\](.*?)\[\/stroke\]/gi,
       "<div style='-webkit-text-stroke:$3 #$1; position:relative'>$4<span class='text-stroke'>$4</span></div>":
-      /\[stroke #((?:[\d|a-f|A-F]{3}){1,2}) ((?:\d+(.\d+)?)(?:px|em|%)\s*)+\](.*?)\[\/stroke\]/gi,
+      /\[stroke #((?:[\d|a-f|A-F]{3}){1,2}) ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+\](.*?)\[\/stroke\]/gi,
     }
   },
+
   p: {
     tag: 'p',
     params: {
@@ -87,11 +108,12 @@ const BBCODE_TAGS = {
       left: ['style', 'text-align: left'],
       right: ['style', 'text-align: right'],
       justify: ['style', 'text-align: justify'],
-      smallcaps: ['style', 'font-variant: smallcaps'],
+      smallcaps: ['style', 'font-variant: small-caps'],
       italic: ['style', 'font-style: italic'],
       bold: ['style', 'font-weight: bold'],
     }
   },
+
   text: {
     tag: 'span',
     params: {
@@ -101,18 +123,13 @@ const BBCODE_TAGS = {
       transform: ['style', 'font-variant:', DEFAULT_REGEX["variant"]]
     },
     keywords: {
-      smallcaps: ['style', 'font-variant: smallcaps'],
+      smallcaps: ['style', 'font-variant: small-caps'],
       italic: ['style', 'font-style: italic'],
       bold: ['style', 'font-weight: bold'],
     }
   },
   t: { alias: 'text' },
-  fill: {
-    full_tag: false,
-    regex: {
-      "<div class='fill' style='background-color:#$1; width: 100%; height: 100%;'>": /\[fill #([\da-f]+)\](\s*)/gi,
-    }
-  },
+
   url: {
     full_tag: true,
     regex: {
@@ -120,24 +137,28 @@ const BBCODE_TAGS = {
       "<a href='http://$1' title='$1'>$1</a>": /\[url](.*?)\[\/url]/gi,
     }
   },
+
   goto: {
     full_tag: true,
     regex: {
       "<a href='$1' title='$1'>$2</a>": /\[goto (.*?)\](.*?)\[\/goto\]/gi,
     }
   },
+
   link: {
     full_tag: true,
     regex: {
       "<a href='$1' title='$1'>$2</a>": /\[link (.*?)\](.*?)\[\/link\]/gi,
     }
   },
+
   color: {
     full_tag: false,
     regex: {
       "<span style='color:#$1'>": /\[color #([\da-f]+)\]/gi,
     }
   },
+
   image: {
     tag: 'img',
     self_closing: true,
@@ -179,6 +200,43 @@ const BBCODE_TAGS = {
       front: ['style', 'z-index:1'],
     }
   },
+
+  watercolor: {
+    tag: 'div',
+    add_start: '<div class="wc-container">',
+    add_end: '</div>',
+    params: {
+      mask: ['style', "mask-image: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png')"],
+      link: ['style', "mask-image: url('", DEFAULT_REGEX["text"], "')"],
+      size: ['style', "mask-size:", DEFAULT_REGEX["size"]],
+      bg: DEFAULT_PROPERTIES['bg'],
+      color: DEFAULT_PROPERTIES['bg'],
+      x: ['style', "--wc-x:", DEFAULT_REGEX["size"]],
+      y: ['style', "--wc-y: calc(-1 * ", DEFAULT_REGEX["size"], ")"],
+      'z-index': DEFAULT_PROPERTIES['z-index'],
+    },
+    keywords: {
+      top: ['class', 'top'],
+      right: ['class', 'right'],
+      front: ['style', 'z-index: 2'],
+      reverse: ['style', 'mask-composite:exclude']
+    },
+    auto_params: {
+      class: 'watercolor'
+    }
+  },
+
+  name: {
+    tag: 'div',
+    params: DEFAULT_PROPERTIES,
+    keywords: {
+      absolute: ['style', 'position:absolute']
+    },
+    auto_params: {
+      class: 'name'
+    }
+  },
+
   block: {
     tag: 'div',
     params: DEFAULT_PROPERTIES,
@@ -190,16 +248,76 @@ const BBCODE_TAGS = {
       wide: ['class', "wide"]
     }
   },
-  column: {
+
+  note: {
     tag: 'div',
     params: {
-      size: ['style', 'flex-grow:0;flex-shrink:0;width:', DEFAULT_REGEX["size"]],
-      min: ['style', 'flex-shrink:1;min-width:', DEFAULT_REGEX["size"]],
+      size: ['style', 'font-size:', DEFAULT_REGEX['size']],
+      color: DEFAULT_PROPERTIES['font-color'],
+      bg: DEFAULT_PROPERTIES['bg']
     },
     keywords: {
-      center: ['class', 'ccolumn'],
-      end: ['class', 'ecolumn'],
-      nowrap: ['style', 'flex-wrap:nowrap']
+      wide: ['class', "wide"]
+    },
+    auto_params: {
+      class: 'note'
+    }
+  },
+
+  description: {
+    tag: 'div',
+    params: {
+      size: ['style', 'font-size:', DEFAULT_REGEX['size']],
+      color: DEFAULT_PROPERTIES['font-color'],
+      bg: DEFAULT_PROPERTIES['bg']
+    },
+    keywords: {
+      wide: ['class', "wide"]
+    },
+    auto_params: {
+      class: 'description'
+    }
+  },
+
+  frame: {
+    tag: 'div',
+    params: DEFAULT_PROPERTIES,
+    keywords: {
+      left: ['style', 'float: left'],
+      right: ['style', 'float: right'],
+      multiply: ['style', 'mix-blend-mode: multiply'],
+      absolute: ['style', 'position:absolute'],
+      wide: ['class', "wide"],
+      simple: ['class', "simple"],
+      small: ['class', "small"],
+    },
+    auto_params: {
+      'class': 'frame'
+    }
+  },
+
+  monster: {
+    tag: 'div',
+    params: DEFAULT_PROPERTIES,
+    keywords: {
+      wide: ['class', "wide"],
+      brs: ['class', "brs"],
+    },
+    auto_params: {
+      'class': 'monster'
+    } 
+  },
+
+  columns: {
+    tag: 'div',
+    params: {
+      size: ['style', 'columns:', DEFAULT_REGEX["number"]],
+      gap: ['style', 'column-gap:', DEFAULT_REGEX["size"]],
+    },
+    keywords: {
+      wide: ['class', 'wide'],
+      2: ['style', 'columns:2'],
+      3: ['style', 'columns:3'],
     },
     auto_params: {
       class: 'column'
@@ -209,47 +327,21 @@ const BBCODE_TAGS = {
   vspace: {
     full_tag: false,
     regex: {
-      "<div style='margin-top:$1'></div>": /\[vspace ((?:\d+(.\d+)?)(?:px|em|%|cm)\s*)+\]/gi,
+      "<div style='margin-top:$1'></div>": /\[vspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
     }
   },
+
   hspace: {
     full_tag: false,
     regex: {
-      "<div style='display:inline-block;width:$1'></div>": /\[hspace ((?:\d+(.\d+)?)(?:px|em|%|cm)\s*)+\]/gi,
+      "<div style='display:inline-block;width:$1'></div>": /\[hspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
     }
   },
-
-  row: {
-    tag: 'div',
-    params: {
-      size: ['style', 'flex-grow: 0;flex-shrink: 0;height:', DEFAULT_REGEX["size"]],
-      min: ['style', 'min-height:', DEFAULT_REGEX["size"]],
-
-      class: DEFAULT_PROPERTIES["class"],
-      bg: DEFAULT_PROPERTIES["bg"],
-      padding: DEFAULT_PROPERTIES["padding"],
-      'padding-top': DEFAULT_PROPERTIES["padding-top"],
-      'padding-bottom': DEFAULT_PROPERTIES["padding-bottom"],
-      'padding-left': DEFAULT_PROPERTIES["padding-left"],
-      'padding-right': DEFAULT_PROPERTIES["padding-right"],
-
-      margin: DEFAULT_PROPERTIES["margin"],
-      'margin-top': DEFAULT_PROPERTIES["margin-top"],
-      'margin-bottom': DEFAULT_PROPERTIES["margin-bottom"],
-      'margin-left': DEFAULT_PROPERTIES["margin-left"],
-      'margin-right': DEFAULT_PROPERTIES["margin-right"],
-    },
-    keywords: {
-      nowrap: ['class', 'nowrap']
-    },
-    auto_params: {
-      class: 'row text'
-    }
-  }, 
 
 };
 
 const BBCODE_TAGS_STATIC = {
+  "[toc]": "<div id='auto-generated-toc'></div>",
   "[part]": "<div class='part wide'>",
   "[/part]": "</div>",
   "[cover]": "<div class='cover wide'>",
@@ -263,12 +355,11 @@ const BBCODE_TAGS_STATIC = {
 
   "[wide]": '<div class="wide">',
   "[/wide]": "</div>",
-  "[block]": "<div>",
-  "[/block]": "</div>",
+
   "[newcolumn]": '<div class="column-break"></div>',
-  "[nextcolumn]": '<div class="column-break"></div>',
-  "[columnbreak]": '<div class="column-break"></div>',
-  
+  "[nextcolumn]": '<div style="display:inline-block"></div><div class="column-break"></div>',
+  "[columnbreak]": '<div style="display:inline-block"></div><div class="column-break"></div>',
+  "[/monster]": "</div>",
 
   "[newpage num]": '[newpage]<div class="page-number"></div>',
   "[newpage number]": '[newpage]<div class="page-number"></div>',
@@ -277,12 +368,8 @@ const BBCODE_TAGS_STATIC = {
   "[page number]": '<div class="page-number"></div>',
   "[page num]": '<div class="page-number"></div>',
   "[nofooter]": '<div class="empty"></div>',
-
-
-  "[text]": "<span>", "[/text]": "</span>",
-  "[/t]": "</span>",
-  "[p]": "<p>",
-  "[/p]": "</p>",
+  "[footnote]": '<div class="footnote">',
+  "[/footnote]": '</div>',
 
   "[left]": '<p style="text-align:left;">',
   "[/left]": "</p>",
@@ -292,14 +379,6 @@ const BBCODE_TAGS_STATIC = {
   "[/center]": "</p>",
   "[justify]": '<p style="text-align:justify;">',
   "[/justify]": "</p>",
-
-  "[columns]": '<div class="columns text">',
-  "[/columns]": "</div>",
-  "[column]": '<div class="column">',
-  "[/column]": "</div>",
-  "[row]": '<div class="row text">',
-  "[/row]": "</div>",
-  "[/fill]": "</div>",
 
   "[b]": "<strong>",
   "[/b]": "</strong>",
@@ -312,40 +391,11 @@ const BBCODE_TAGS_STATIC = {
   "[newline]": "<br>",
   "[nl]": "<br>",
 
-  "[list unordered]": "<ul>",
-  "[/list unordered]": "</ul>",
-  "[list]": "<ul>",
-  "[/list]": "</ul>",
-  "[ul]": "<ul>",
-  "[/ul]": "</ul>",
-
-  "[list ordered]": "<ol>",
-  "[/list ordered]": "</ol>",
-  "[ol]": "<ol>",
-  "[/ol]": "</ol>",
-  "[list_item]": "<li>",
-  "[/list_item]": "</li>",
-  "[li]": "<li>",
-  "[/li]": "</li>",
-
-  "[red]": '<span style="color:red">',
-  "[/red]": "</span>",
-  "[blue]": '<span style="color:dodgerblue">',
-  "[/blue]": "</span>",
-  "[green]": '<span style="color:green">',
-  "[/green]": "</span>",
-  "[/color]": "</span>",
-  "[/size]": "</span>",
-
   "[big]": '<span style="font-size: 125%">',
   "[/big]": "</span>",
   "[small]": '<span style="font-size: 75%">',
   "[/small]": "</span>",
 
-  "[*]": "<li>",
-  "[/*]": "</li>",
-  "[-]": "<li>",
-  "[/-]": "</li>",
   "[code]": "<code>",
   "[/code]": "</code>",
 
@@ -359,13 +409,6 @@ const BBCODE_TAGS_STATIC = {
   "[/note]": "</div>",
   "[description]": "<div class='description'>",
   "[/description]": "</div>",
-
-  "[monster]": "<div class='monster'><div class='border'></div><div class='monster-content'>",
-  "[/monster]": "</div><div class='border'></div></div>",
-  "[monster wide]": "<div class='monster wide'><div class='border'></div><div class='monster-content'>",
-
-  "[monster notop]": "<div class='monster'><div class='monster-content'>",
-  "[/monster nobottom]": "</div></div>",
 
   "[splootch]": "<div class='splootch'>",
   "[/splootch]": "</div>",

@@ -130,6 +130,10 @@ class BBEditor {
     load_button.title = "Open file"
     load_button.innerHTML = '<i class="bi bi-folder-symlink-fill"></i> Open'
 
+    let paper_format = document.createElement("select")
+    paper_format.innerHTML = '<option value="A4">A4</option><option value="Letter">Letter</option>'
+    paper_format.addEventListener('change', e => this.#stylist.set_page_format(paper_format))
+
     let pdf_button = document.createElement("button");
     pdf_button.className = "print-button";
     pdf_button.title = "Save as PDF";
@@ -139,6 +143,7 @@ class BBEditor {
     buttonbar.appendChild(load_button);
     buttonbar.appendChild(load_input);
     buttonbar.appendChild(save_button);
+    buttonbar.appendChild(paper_format);
     buttonbar.appendChild(pdf_button);
 
     return buttonbar;
@@ -194,6 +199,10 @@ class BBEditor {
 
   }
 
+  simple_parse(data) {
+    return this.#parser.simple_parse(data)
+  }
+
   parse(data) {
     let first_page = 0;
     let text = this.get_text();
@@ -207,8 +216,9 @@ class BBEditor {
       first_page = data.page
       if(range.end) offset = 1
       if(data.page > 0) start_offset = 1
+
       this.#manage_unchanged_pages(first_page + 1, data.delta)
-      text = this.#parser.parse(text)
+      text = this.#parser.parse(text, first_page, start_offset, offset)
     } else {
       text = this.#parser.parse(text);
       this.#set_pages_number(text.length)
@@ -224,6 +234,7 @@ class BBEditor {
       } else if (page.classList.contains("empty")) {
         page.classList.remove("empty")
       }
+      // Adding class to Lettrine
       let headings = page.getElementsByTagName("h1")
       for(const h1 of headings) {
         let next = h1.nextElementSibling
@@ -231,7 +242,17 @@ class BBEditor {
           next.classList.add(next.innerText[0].toUpperCase())
         }
       }
+      
+      // Adapt the column break to the new page
+      let columns = page.getElementsByClassName('column-break')
+      set_columnbreak(columns)
     }
+
+    const toc = document.getElementById('auto-generated-toc')
+    if(!toc) return
+
+    toc.innerHTML = TOC
+
   }
 
   #create_page() {
@@ -277,7 +298,7 @@ class BBEditor {
   insert_line(start, end = '', sep = '\n') {
     let text = this.editor.getSelectedText().split(sep)
 
-    for(let i = 0; i < text.length; i++) text[i] = format(start, i+1) + text[i] + end
+    for(let i = 0; i < text.length; i++) text[i] = format(start, [i+1]) + text[i] + end
     text = text.join(sep)
 
     this.editor.insert(text)
@@ -310,9 +331,10 @@ class BBEditor {
 
   resize_drag() {
     let width = this.offsetWidth;
+
     // A4 format
-    let page_height = 1122.52;
-    let page_width = 793.7;
+    let page_height = document.getElementById('page0').offsetHeight;
+    let page_width = document.getElementById('page0').offsetWidth;
     let left_panel = this.editor.editor.container;
     let right_panel = this.editor.right_panel;
 
@@ -322,6 +344,8 @@ class BBEditor {
     let lw = MOUSE_POS.x - 3;
     let rw = width - lw - 3;
 
+    //let current_scroll = this.editor.content_container.scrollTop / this.editor.content.offsetHeight
+
     if (rw < page_width + magic) {
       let zoom_x = (rw - magic) / page_width;
       let zoom = zoom_x;
@@ -330,6 +354,7 @@ class BBEditor {
       this.editor.content.style.transformOrigin = "top left";
       this.editor.content.style.width = page_width * zoom + "px";
       this.editor.content.style.height = page_height * zoom + "px";
+      //this.editor.content_container.scrollTo(0, current_scroll * page_height * zoom)
     } else {
       right_panel.style.width = rw + "px";
       this.editor.content.style.transform = "";
@@ -359,3 +384,18 @@ function format(str, args) {
   }
   return formatted;
 };
+
+function set_columnbreak(columns) {
+  for(const column of columns) {
+    let previous = column.previousSibling
+    let bottom = 0
+    if(previous) bottom = previous.offsetTop + previous.offsetHeight + 2
+
+    // We changed column inside the previous element!
+    // Safe to assume we can use the top of column
+    let page = document.getElementById('page0').children[0]
+    if(page.offsetHeight + page.offsetTop < bottom) bottom = column.offsetTop
+
+    column.style.height = `calc(var(--page-height) - var(--page-margin-bottom) - ${bottom}px)`
+  }
+}
