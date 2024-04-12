@@ -6,7 +6,7 @@ class PageManager {
   constructor() {
     this.#positions = [-1];
     this.#tags = [
-      '[newpage]', '[newpage num]', '[newpage empty]', '[newpage number]'
+      '[newpage]'
     ]
     this.#max_distance = this.#tags[this.#tags.length - 1].length
   }

@@ -23,7 +23,7 @@ class Stylist {
         let popup = new Popup()
         
         popup.get_window().id = 'snippets-selector-container'
-        popup.set_title('<i class="fa-solid fa-font"></i> Snippets Sailor')
+        popup.set_title('<i class="fa-solid fa-wand-magic-sparkles"></i> Snippets Sailor')
 
         let snippets_selector = popup.get_content()
         snippets_selector.className = "snippets-selector"
@@ -59,6 +59,10 @@ class Stylist {
             const content = document.createElement('div')
             content.className = 'snippets-content'
             content.innerHTML = `<div class="snippet-category-name">${category}</div>`
+            const item_display = document.createElement('div')
+            item_display.style.columns = 2
+            item_display.style.padding = "8px"
+            content.appendChild(item_display)
             for(const i in this.#snippets[category]) {
                 let item = this.#snippets[category][i]
                 let item_elt = document.createElement('div')
@@ -78,7 +82,7 @@ class Stylist {
                         page_preview.style.display = "flex"
                     }
                 })
-                content.appendChild(item_elt)
+                item_display.appendChild(item_elt)
             }
 
             elt.addEventListener('click', e => this.replace_snippet_content(content))
@@ -99,7 +103,7 @@ class Stylist {
     create_text_customizer(){
         let popup = new Popup()
         popup.get_window().id = 'text-barber-container'
-        popup.set_title('<i class="fa-solid fa-font"></i> Text Tailor')
+        popup.set_title('<i class="fa-solid fa-pen-nib"></i> Text Tailor')
 
         let text_container = popup.get_content()
         text_container.style.position = "relative"
@@ -158,6 +162,7 @@ class Stylist {
             size.step = 0.01
             size.value = font_size
             size.id = var_name
+            size.name = var_name
             size.addEventListener('input', this.#change_font_size)
 
             let font_name = document.createElement('div')
@@ -168,7 +173,7 @@ class Stylist {
             let units = document.createElement('select')
             units.innerHTML = font_units
             units.value = font_unit
-            units.id = var_name
+            units.name = var_name
 
             size.font_size = size
             units.font_size = size
@@ -204,7 +209,7 @@ class Stylist {
     create_color_picker(){
         let popup = new Popup()
         popup.get_window().id = 'color-picker-container'
-        popup.set_title('<i class="bi bi-palette2"></i> Color Captain')
+        popup.set_title('<i class="fa-solid fa-palette"></i> Color Captain')
         this.#color_picker = popup.get_content()
         this.#color_picker.id = 'color-picker'
 
@@ -271,7 +276,7 @@ class Stylist {
         this.stylist.set_root_value(this.id, this.value)
     }
     #change_font_size(){
-        this.stylist.set_root_value(this.id, this.font_size.value + this.unit.value)
+        this.stylist.set_root_value(this.name, this.font_size.value + this.unit.value)
     }
 
     #change_color(){
@@ -285,6 +290,7 @@ class Stylist {
 
     apply_style(style){
         this.#styles = style
+        // Load colors
         for(const category in this.#color_variables) {
             for(let [name, color] of Object.entries(this.#color_variables[category])) {
                 let picker = document.getElementById(color)
@@ -292,6 +298,20 @@ class Stylist {
                 picker.value_div.innerHTML = picker.value
                 picker.parentElement.style.color = picker.value
             }
+        }
+        // Load fonts
+        for(const font in this.#font_variables) {
+            let data = this.#font_variables[font]
+            let family = document.getElementById(data.family)
+            let size = document.getElementById(data.size)
+
+            let font_size = this.#styles[':root'][data.size]
+            let font_unit = font_size.replaceAll(/[\d.]/gi, '')
+            font_size = parseFloat(font_size)
+
+            family.value = this.#styles[':root'][data.family]
+            size.value = font_size
+            size.unit.value = font_unit
         }
         this.hot_load()
     }

@@ -52,6 +52,10 @@ class BBParser {
     };
   }
 
+  get_toc(){
+    return this.#TOC
+  }
+
   #parse_markdown(text) {
     return marked.parse(text);
   }

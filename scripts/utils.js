@@ -113,12 +113,13 @@ const BBCODE_TAGS = {
       bold: ['style', 'font-weight: bold'],
     }
   },
-
+  
   text: {
     tag: 'span',
     params: {
       color: DEFAULT_PROPERTIES["fg"],
       size: DEFAULT_PROPERTIES["font-size"],
+      font: DEFAULT_PROPERTIES["font-family"],
       bg: DEFAULT_PROPERTIES["bg"],
       transform: ['style', 'font-variant:', DEFAULT_REGEX["variant"]]
     },
@@ -206,7 +207,7 @@ const BBCODE_TAGS = {
     add_start: '<div class="wc-container">',
     add_end: '</div>',
     params: {
-      mask: ['style', "mask-image: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png')"],
+      mask: ['style', "mask-image: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png'), linear-gradient(#fff, #fff)"],
       link: ['style', "mask-image: url('", DEFAULT_REGEX["text"], "')"],
       size: ['style', "mask-size:", DEFAULT_REGEX["size"]],
       bg: DEFAULT_PROPERTIES['bg'],
@@ -214,10 +215,14 @@ const BBCODE_TAGS = {
       x: ['style', "--wc-x:", DEFAULT_REGEX["size"]],
       y: ['style', "--wc-y: calc(-1 * ", DEFAULT_REGEX["size"], ")"],
       'z-index': DEFAULT_PROPERTIES['z-index'],
+      opacity: ['style', 'opacity:', DEFAULT_REGEX["float"]],
     },
     keywords: {
       top: ['class', 'top'],
       right: ['class', 'right'],
+      tl: ['class', 'top'],
+      br: ['class', 'right'],
+      tr: ['class', 'top right'],
       front: ['style', 'z-index: 2'],
       reverse: ['style', 'mask-composite:exclude']
     },
@@ -324,6 +329,45 @@ const BBCODE_TAGS = {
     }
   }, 
 
+  banner: {
+    tag: 'div',
+    params: {},
+    keywords: {
+      simple: ['class', 'simple'],
+      ribbon: ['class', 'ribbon'],
+      noshadow: ['style', 'filter: none'],
+    },
+    auto_params: { class: 'banner' }
+  },
+
+  footer: {
+    tag: 'div',
+    add_start: '<div class="footnote">',
+    add_end: '</div>',
+    params: {
+      color: DEFAULT_PROPERTIES['fg'],
+      number: ['style', "--footer-number: '", /\d+/, "'"]
+    },
+    keywords: {
+      number: ['style', '--footer-number: counter(number-of-page)'],
+      hide: ['style', 'background:none'],
+      phb: ['class', 'phb'],
+      draco: ['class', 'draco'],
+      xgte: ['class', 'xgte'],
+      ee: ['class', 'ee'],
+      mtof: ['class', 'mtof'],
+      dmg: ['class', 'dmg'],
+      // Variants
+      blue: ['class', 'blue'],
+      green: ['class', 'green'],
+      purple: ['class', 'purple'],
+      red: ['class', 'red'],
+      teal: ['class', 'teal'],
+      yellow: ['class', 'yellow'],
+    },
+    auto_params: { class: 'footer' }
+  },
+
   vspace: {
     full_tag: false,
     regex: {
@@ -360,16 +404,6 @@ const BBCODE_TAGS_STATIC = {
   "[nextcolumn]": '<div style="display:inline-block"></div><div class="column-break"></div>',
   "[columnbreak]": '<div style="display:inline-block"></div><div class="column-break"></div>',
   "[/monster]": "</div>",
-
-  "[newpage num]": '[newpage]<div class="page-number"></div>',
-  "[newpage number]": '[newpage]<div class="page-number"></div>',
-  "[newpage empty]": '[newpage]<div class="empty"></div>',
-
-  "[page number]": '<div class="page-number"></div>',
-  "[page num]": '<div class="page-number"></div>',
-  "[nofooter]": '<div class="empty"></div>',
-  "[footnote]": '<div class="footnote">',
-  "[/footnote]": '</div>',
 
   "[left]": '<p style="text-align:left;">',
   "[/left]": "</p>",
@@ -409,9 +443,6 @@ const BBCODE_TAGS_STATIC = {
   "[/note]": "</div>",
   "[description]": "<div class='description'>",
   "[/description]": "</div>",
-
-  "[splootch]": "<div class='splootch'>",
-  "[/splootch]": "</div>",
 
   "[separator diamond]": "<img src='./styles/diamond_title.svg' class='cover-diamond' />",
 

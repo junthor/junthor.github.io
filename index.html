@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <title>The Tales Curator</title>
@@ -39,6 +39,7 @@
         myWindow.document.write(editor.style_css());
         myWindow.document.write('<body>');
         myWindow.document.write(data);
+
         myWindow.document.write('</body></html>');
         myWindow.document.close(); // necessary for IE >= 10
 
@@ -70,10 +71,10 @@
         <!-- Editor buttons -->
         <div class="button-container">
             <div class="widgets">
-                <button title='Align Left' onclick="editor.insert('[left]', '[/left]')"><i class="fa-solid fa-align-left"></i></button>
-                <button title='Align Center' onclick="editor.insert('[center]', '[/center]')"><i class="fa-solid fa-align-center"></i></button>
-                <button title='Align Right' onclick="editor.insert('[right]', '[/right]')"><i class="fa-solid fa-align-right"></i></button>
-                <button title='Align Justify' onclick="editor.insert('[justify]', '[/justify]')"><i class="fa-solid fa-align-justify"></i></button>
+                <button title='Align Left' onclick="editor.insert_line('[left]', '[/left]', '\n\n')"><i class="fa-solid fa-align-left"></i></button>
+                <button title='Align Center' onclick="editor.insert_line('[center]', '[/center]', '\n\n')"><i class="fa-solid fa-align-center"></i></button>
+                <button title='Align Right' onclick="editor.insert_line('[right]', '[/right]', '\n\n')"><i class="fa-solid fa-align-right"></i></button>
+                <button title='Align Justify' onclick="editor.insert_line('[justify]', '[/justify]', '\n\n')"><i class="fa-solid fa-align-justify"></i></button>
             </div>
 
             <div class="widgets">
@@ -87,9 +88,14 @@
                         <div title="Table Title" onclick="editor.insert('##### ')"><i class="bi bi-type-h5"></i> Table Title</div>
                     </div>
                 </button>
+                <button title='Font' style="position: relative;">
+                    <i class="fa-solid fa-font"></i>
+                    <div class="dropdown" id="font-family-dropdown"></div>
+                </button>
                 <button title='Bold' onclick="editor.insert_line('**', '**', '  \n\n')"><i class="fa-solid fa-bold"></i></button>
-                <button title='Italic' onclick="editor.insert('_', '_')"><i class="fa-solid fa-italic"></i></button>
+                <button title='Italic' onclick="editor.insert('*', '*')"><i class="fa-solid fa-italic"></i></button>
                 <button title='Underline' onclick="editor.insert('[u]', '[/u]')"><i class="fa-solid fa-underline"></i></button>
+                <button title='Strikethrough' onclick="editor.insert('~', '~')"><i class="fa-solid fa-strikethrough"></i></button>
             </div>
             
             <div class="widgets">
@@ -103,7 +109,7 @@
             	<button title="Image" style="position: relative;">
                     <i class="fa-solid fa-image"></i>
                     <div class="dropdown">
-                        <div title="Image" onclick="editor.insert('[image link=\'', '\']')"><i class="fa-solid fa-images"></i> Image</div>
+                        <div title="Image" onclick="editor.insert('[image link=\'', '\']')"><i class="fa-solid fa-image"></i> Image</div>
                         <div title="Background Image" onclick="editor.insert('[image link=\'', '\' absolute top=0 left=0]')"><i class="fa-solid fa-images"></i> Background Image</div>
                     </div>
                 </button>
@@ -120,17 +126,18 @@
 
             
             <div class="widgets">
-            	<button title="Colors" onclick="toggle_visibility('color-picker-container')"><img class="svg-icon" src='./icons/palette.svg'/></button>
-            	<button title="Text" onclick="toggle_visibility('text-barber-container')"><i class="fa-solid fa-font"></i></button>
-            	<button title="Apps" onclick="toggle_visibility('snippets-selector-container')" style="position: relative;">
-                    <img class="svg-icon" src='./icons/snippets.svg'/>
+            	<button title="Color Captain" onclick="toggle_visibility('color-picker-container')"><i class="fa-solid fa-palette"></i></button>
+            	<button title="Text Tailor" onclick="toggle_visibility('text-barber-container')"><i class="fa-solid fa-pen-nib"></i></button>
+            	<button title="Snippets Sailor" onclick="toggle_visibility('snippets-selector-container')" style="position: relative;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-            	<button title="Quick Apps" style="position: relative;">
+            	<button title="Quick Snippets" style="position: relative;">
                     <i class="fa-solid fa-bolt"></i>
                     
                     <div class="dropdown">
-                        <div title="Cover" onclick="editor.insert('[cover]\n\n# Title\n[separator diamond]\n\n[splootch]\n    HOMEBREW\n[/splootch]\n\n[nofooter]\n[/cover]')"><i class="fa-solid fa-book"></i> Cover Page</div>
-                        <div title="Part" onclick="editor.insert('[part]\n\n# PART 1\n## Subtitle\n\n[nofooter]\n[/part]')"><i class="fa-solid fa-bookmark"></i> Part Page</div>
+                        <div title="Cover" onclick="editor.insert('[cover]\n\n# [stroke 0.15em #000]Title[/stroke]\n## [stroke 0.15em #000]Subtitle[/stroke]\n[separator diamond]\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[stroke 0.2em #000]Footnote[/stroke]\n[/footer]\n\n[/cover]')"><i class="fa-solid fa-book"></i> Cover Page</div>
+                        <div title="Part" onclick="editor.insert('[part]\n\n# PART 1\n## Subtitle\n\n[/part]')"><i class="fa-solid fa-bookmark"></i> Part Page</div>
+                        <div title="Footer" onclick="editor.insert('[footer show number]', '[/footer]')"><i class="fa-solid fa-asterisk"></i> Footer</div>
                         <div title="Note" onclick="editor.insert('[note]\n\n##### Note\n', '\n\n[/note]')"><i class="bi bi-sticky-fill"></i> Note</div>
                         <div title="Description" onclick="editor.insert('[description]\n\n##### Description', '\n\n[/description]')"><i class="bi bi-card-text"></i> Description</div>
                         <div title="Quote" onclick="editor.insert('\n> ', '\n> - Author\n')"><i class="bi bi-quote"></i> Quote</div>
@@ -151,7 +158,6 @@
 <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     let editor = new BBEditor("editor-container")
-
     
     Coloris({
     el: '.coloris',
@@ -176,6 +182,11 @@
         closeButton: true,
         closeLabel: 'Done',
     });
+
+    let ffd = document.getElementById('font-family-dropdown')
+    for(const ff of available_fonts) {
+        ffd.innerHTML += `<div title="${ff}" style="font-family:${ff}, Lato, sans-serif" onclick="editor.insert('[t font=\\'${ff}\\']', '[/t]')">${ff}</div>`
+    }
 </script>
 
 </html>

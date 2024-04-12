@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap&family=Overpass:ital,wght@0,100..900;1,100..900&display=swap&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url(color.css);
 @import url(fonts/dnd-fonts.css);
 :root {
@@ -324,23 +324,6 @@ ul, ol {
     margin: 0 auto;
 }
 
-.page:nth-child(2n+1) .page-number {
-    right: 20px;
-    left: unset;
-}
-
-.page-number {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    text-align: center;
-}
-
-.page-number::after{
-    content: counter(number-of-page);
-    color: var(--primary-color)
-}
-
 .page-content {
     margin-top: var(--page-margin-top);
     margin-left: var(--page-margin-left);
@@ -378,7 +361,7 @@ ul, ol {
 }
 
 .page img {
-    z-index: -1;
+    z-index: -2;
 }
 
 .wide {
@@ -411,11 +394,82 @@ ul, ol {
     color: #333;
 }
 
-.page.empty::after{
-    background-image: none;
+
+@media print {
+    a[href^="#"]:after {
+        content: none;
+    }
 }
 
-.page .footnote {
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('./styles/footers/phb.png');
+    background-size: contain;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+.footer::after{
+    position: absolute;
+    bottom: 0.8cm;
+    right: 0.15cm;
+    text-align: center;
+    content: var(--footer-number);
+    color: var(--primary-color);
+    width: 1cm;
+}
+.footer.phb { background-image: url('./styles/footers/phb.png'); }
+.footer.phb.blue { background-image: url('./styles/footers/phb-blue.png'); }
+.footer.phb.green { background-image: url('./styles/footers/phb-green.png'); }
+.footer.phb.purple { background-image: url('./styles/footers/phb-purple.png'); }
+.footer.phb.red { background-image: url('./styles/footers/phb-red.png'); }
+.footer.phb.teal { background-image: url('./styles/footers/phb-teal.png'); }
+.footer.phb.yellow { background-image: url('./styles/footers/phb-yellow.png'); }
+
+.footer.dmg { background-image: url('./styles/footers/dmg.png'); }
+.footer.dmg.blue { background-image: url('./styles/footers/dmg-blue.png'); }
+.footer.dmg.green { background-image: url('./styles/footers/dmg-green.png'); }
+.footer.dmg.purple { background-image: url('./styles/footers/dmg-purple.png'); }
+.footer.dmg.red { background-image: url('./styles/footers/dmg-red.png'); }
+.footer.dmg.teal { background-image: url('./styles/footers/dmg-teal.png'); }
+.footer.dmg.yellow { background-image: url('./styles/footers/dmg-yellow.png'); }
+.footer.ee { background-image: url('./styles/footers/ee.png'); }
+.footer.draco {
+    background-image: url('./styles/footers/draco.png');
+    background-size: 9.25cm;
+    background-position: bottom right;
+}
+.footer.draco::after{ right: 0.1cm; bottom: 1.165cm; }
+
+.footer.mtof {
+    background-image: url('./styles/footers/MToF.png');
+    background-size: 7.9375cm;
+    background-position: bottom -0.37cm right -0.37cm;
+}
+.footer.mtof::after{ right: 0.07cm; }
+
+.footer.xgte {
+    background-image: url('./styles/footers/XgtE.png');
+    background-position: bottom -0.5cm right -0.4cm;
+}
+.footer.xgte::after{ right: 0.35cm; bottom: 0.75cm; }
+
+.page:nth-child(even) .footer, .page:nth-child(even) .footer::after, .page:nth-child(even) .footer > *{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.footnote {
     position: absolute;
     bottom: 1.1cm;
     right: 2cm;
@@ -426,32 +480,25 @@ ul, ol {
     color: var(--primary-color);
 }
 
-.page:nth-child(even) .footnote {
-    left: 2cm;
-    text-align: left;
-}
+.mtof .footnote { bottom: 1.0cm; right: 1.8cm; }
+.draco .footnote { bottom: 0.7cm; right: 1.8cm; }
+.xgte .footnote { bottom: 0.9cm; right: 1.9cm; }
 
-.page::after{
+.cover .footnote {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    content: ' ';
+    bottom: 1.1cm;
+    left: 10%;
+    width: 80%;
+    column-span: all;
 
-    background-image: url('./styles/footers/elven.png');
-    background-size: contain;
-    background-position: bottom;
-    background-repeat: no-repeat;
+    font-family: 'Overpass', sans-serif;
+    font-size: 16pt;
+    text-align: center;
+    color: white;
 }
 
-.page:nth-child(even)::after {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
+.page:nth-child(even) .footnote {
+    text-align: left;
 }
 
 .page img.cover {
@@ -497,7 +544,7 @@ dt {
 
     border-style: solid;
     border-width: 7px 6px;
-    border-image: url('https://homebrewery.naturalcrit.com/assets/monsterBorderFancy.png') 14 round;
+    border-image: url('./styles/borders/monster-fancy.png') 14 round;
     border-image-outset: 0px 2px;
     box-shadow: 1px 4px 14px #888888;
 }
@@ -593,6 +640,7 @@ dt {
     
     mask-position: bottom left;
     mask-repeat: no-repeat;
+    mask-composite: intersect;
     --wc-scale-x: 1;
     --wc-scale-y: 1;
     --wc-x: 0;
@@ -602,9 +650,23 @@ dt {
     z-index: -2;
 }
 
-.page-preview .watercolor {
-    background-color: #00000088;
+#auto-generated-toc {
+    column-span: all;
+    column-count: 2;
+    column-fill: auto;
+    column-gap: 1cm;
 }
+
+.toc-entry {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    text-decoration: none;
+    color:inherit;
+}
+
+.level2 { margin-left: 1em; }
+.level3 { margin-left: 2em; }
 
 .watercolor > .wc-container {
     width: 100%;

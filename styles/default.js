@@ -38,7 +38,8 @@ const DEFAULT_STYLE = {
         '--item-name-font': 'Zatanna Misdirection',
         
         // TEXT SIZE
-        '--cover-text-size': '60pt',
+        '--cover-title-size': '60pt',
+        '--cover-subtitle-size': '30pt',
         '--text-size': '9.6pt',
         '--h1-size': '24pt',
         '--h2-size': '23pt',
@@ -89,16 +90,17 @@ const DEFAULT_STYLE = {
     ".cover-diamond": {
         'margin': "0 10%",
         'width': '80%',
+        'filter': 'drop-shadow(2px 0px 2px #000000aa)',
     },
 
-    ".splootch": {
+    ".banner": {
         'display': 'flex',
         'flex-flow': 'column nowrap',
         'justify-content': 'center',
         'width': '300px',
         'height': '100px',
 
-        'background-image': "url('./styles/splootch.png')",
+        'background-image': "url('./styles/banner.svg')",
         'background-size': "contain",
         'background-repeat': "no-repeat",
         'background-position': "center left",
@@ -113,7 +115,10 @@ const DEFAULT_STYLE = {
         'font-weight': 'bold',
         'padding-top': '4px',
         'padding-left': '60px',
+        'filter': 'drop-shadow(2px 0px 2px #000000aa)',
     },
+    ".banner.simple": { 'background-image': "url('./styles/banner_simple.svg')" },
+    ".banner.ribbon": { 'background-image': "url('./styles/banner_ribbon.svg')" },
 
     "ul, ol": {
         "padding-left": "1em"
@@ -161,17 +166,22 @@ const DEFAULT_STYLE = {
         '-webkit-text-stroke': '0.012em #cbd0c5',
     },
 
-    ".cover h1": {
+    ".cover h1, .cover h2": {
         'font-family': 'var(--cover-font)',
-        'font-size': 'var(--cover-text-size)',
+        'font-size': 'var(--cover-title-size)',
         'text-align': 'center',
         'letter-spacing': '-0.05em',
         'line-height': '0.9em',
         'text-transform': 'uppercase',
         'text-shadow': '0 0 4px #00000099',
         'color': 'white',
-        '-webkit-text-stroke': '2px black',
+        '-webkit-text-stroke': '0.025em black',
         '-webkit-text-fill-color': 'white',
+    },
+
+    ".cover h2": {
+        'font-size': 'var(--cover-subtitle-size)',
+        'text-transform': 'none',
     },
 
     ".part": {
@@ -184,7 +194,7 @@ const DEFAULT_STYLE = {
         'position': "absolute",
         'top': "0",
         'left': "0",
-        'z-index': "1"
+        'z-index': "-1"
     },
     ".part.dmg": {
         'background-image': "url('./styles/headers/part-rect.png')",
@@ -206,7 +216,7 @@ const DEFAULT_STYLE = {
         'background-repeat': 'no-repeat'
     },
     ".part.brs h2, .part.brs h1": {
-        'font-family': 'var(--title-font)',
+        'font-family': 'var(--h1-font)',
         'font-size': '1cm',
         'font-weight': 'normal',
         'text-shadow': '0 1px 0px #cbd0c5',

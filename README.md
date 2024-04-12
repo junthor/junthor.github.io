@@ -21,7 +21,8 @@ You can take and reuse my code, I don't care. You can also use some images I too
 
 ## Planned
 
-- [ ] Easy Font Customization (similar to what's for the colors)
+- [x] Easy Font Customization (similar to what's for the colors)
+- [ ] Document's Variables
 - [ ] More Preview Features (zoom in / zoom out)
 - [ ] Easy Appearence Customization (Page Background, Footer, maybe other)
 - [ ] Custom CSS Editor 

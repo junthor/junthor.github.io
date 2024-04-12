@@ -227,13 +227,7 @@ class BBEditor {
     for (let i = start_offset; i < text.length - offset; i++) {
       let page = this.pages[first_page + i - start_offset];
       page.innerHTML = `<div class="page-content">${text[i]}</div>`;
-
-      // Check if the footer should be empty
-      if(page.getElementsByClassName('empty').length > 0) {
-        page.classList.add("empty")
-      } else if (page.classList.contains("empty")) {
-        page.classList.remove("empty")
-      }
+      
       // Adding class to Lettrine
       let headings = page.getElementsByTagName("h1")
       for(const h1 of headings) {
@@ -248,10 +242,20 @@ class BBEditor {
       set_columnbreak(columns)
     }
 
-    const toc = document.getElementById('auto-generated-toc')
-    if(!toc) return
-
-    toc.innerHTML = TOC
+    const toc_elt = document.getElementById('auto-generated-toc')
+    if(!toc_elt) return
+    let toc = this.#parser.get_toc().content
+    let toc_html = ''
+    for(let p in toc) {
+      for(let data in toc[p]) {
+        let entry = `<a class="toc-entry" href="#page${p}">
+        <div class="level${toc[p][data][0]}">${toc[p][data][1]}</div>
+        <div class='entry-page'>${parseInt(p)+1}</div>
+        </a>`
+        toc_html += entry
+      }
+    }
+    toc_elt.innerHTML = toc_html
 
   }
 
@@ -387,9 +391,17 @@ function format(str, args) {
 
 function set_columnbreak(columns) {
   for(const column of columns) {
-    let previous = column.previousSibling
-    let bottom = 0
-    if(previous) bottom = previous.offsetTop + previous.offsetHeight + 2
+    let previous = column.previousElementSibling
+    let bottom = column.offsetTop
+    if(previous) {
+      let previous_style = getComputedStyle(previous)
+      while(previous && previous_style.position == "absolute"){
+        previous = previous.previousElementSibling
+        previous_style = getComputedStyle(previous)
+      } 
+    }
+    if(previous) bottom = previous.offsetTop + previous.offsetHeight + parseFloat(previous_style.marginBottom) + 2
+    if(Number.isNaN(bottom)) bottom = column.offsetTop 
 
     // We changed column inside the previous element!
     // Safe to assume we can use the top of column
