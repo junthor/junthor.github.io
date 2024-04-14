@@ -318,6 +318,8 @@ const BBCODE_TAGS = {
 
   monster: {
     tag: 'div',
+    add_start: '\n',
+    add_end: '\n',
     params: DEFAULT_PROPERTIES,
     keywords: {
       wide: ['class', "wide"],
