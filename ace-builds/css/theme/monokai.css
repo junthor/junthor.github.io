@@ -108,6 +108,12 @@
   color: #FD971F
 }
 
+.ace-monokai .ace_line:has(.ace_tag_newpage) {
+  background-color: #FD971Faa!important;
+}
+.ace-monokai .ace_tag_newpage {
+  background-color: #FD971Faa!important;
+}
 .ace-monokai .ace_tag_open, .ace-monokai .ace_tag_close, .ace-monokai .ace_tag_name {
   color: #FD971Faa
 }

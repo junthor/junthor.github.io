@@ -23,6 +23,7 @@ const DEFAULT_STYLE = {
         '--item-name-color': '#766649',
         '--page-background-color': '#ffffff',
         '--page-background-image': 'none',
+        '--lettrine-color': '#231f20',
 
         // FONTS
         '--lettrine-font': 'Solbera Imitation',
@@ -36,6 +37,7 @@ const DEFAULT_STYLE = {
         '--table-font': 'Scaly Sans',
         '--table-title-font': 'Scaly Sans Caps',
         '--item-name-font': 'Zatanna Misdirection',
+        '--quote-font': 'Sedan',
         
         // TEXT SIZE
         '--cover-title-size': '60pt',
@@ -48,22 +50,9 @@ const DEFAULT_STYLE = {
         '--table-title-size': '13pt',
         '--table-text-size': '8pt',
         '--note-text-size': '9pt',
-        '--quote-text-size': '10pt',
+        '--quote-size': '10pt',
         '--lettrine-size': '110pt',
         '--item-name-size': '14pt',
-/*
-        '--cover-text-size': '80px',
-        '--text-size': '0.34cm',
-        '--h1-size': '0.85cm',
-        '--h2-size': '0.80cm',
-        '--h3-size': '0.55cm',
-        '--h4-size': '0.50cm',
-        '--table-title-size': '0.45cm',
-        '--table-text-size': '0.29cm',
-        '--note-text-size': '0.3175cm',
-        '--quote-text-size': '0.37cm',
-        '--lettrine-size': '4cm',
-        '--item-name-size': '0.5cm', */
 
         // SPACES
         '--space-between': '10px',
@@ -74,9 +63,6 @@ const DEFAULT_STYLE = {
         'color': 'var(--text-color)',
         'font-family': 'var(--text-font)',
         'line-height': '1.1',
-        'background-color': 'var(--page-background-color)',
-        'background-image': 'var(--page-background-image)',
-        'background-size': '100% 100%'
     },
 
     "h1, h2, h3, h4, h5": {
@@ -134,12 +120,9 @@ const DEFAULT_STYLE = {
         'float': 'left',
         'font-family': 'var(--lettrine-font)',
         'font-size': 'var(--lettrine-size)',
-        'color': '#222',
+        'color': 'var(--lettrine-color)',
         'line-height': '.8em',
-        'margin': '0 0 0 -0.1em',
     },
-    "p.H:first-letter, p.K:first-letter, p.E:first-letter, p.Q:first-letter, p.J:first-letter": { 'margin': '0 0 0 -0.2em!important' },
-    "p.M:first-letter, p.X:first-letter": { 'margin': '0 0 0 -0.3em!important' },
 
 
     "p + p": {
@@ -162,8 +145,8 @@ const DEFAULT_STYLE = {
         'font-family': 'var(--h1-font)',
         'font-size': 'var(--h1-size)',
         'font-weight': 'normal',
-        'text-shadow': '0 1px 0px #cbd0c5',
-        '-webkit-text-stroke': '0.012em #cbd0c5',
+        'text-shadow': '0 1px 0 #cbd0c5, 1px 1px 0 #cbd0c5, 1px 0 0 #cbd0c5',
+        //'-webkit-text-stroke': '0.012em #cbd0c5',
     },
 
     ".cover h1, .cover h2": {
@@ -201,7 +184,7 @@ const DEFAULT_STYLE = {
     },
 
     ".part.brs": {
-        'background-image': "url('./styles/borders/part.svg')",
+        'background-image': "url('./styles/headers/part-brs.svg')",
         'background-position': "center 1cm",
         'background-size': "90%",
     },
@@ -210,7 +193,7 @@ const DEFAULT_STYLE = {
         'margin-top': '-0.1em!important', 
         'width': '100%',
         'height': '100%',
-        'background-image': "url('./styles/borders/part-bottom.svg')",
+        'background-image': "url('./styles/headers/part-brs-bottom.svg')",
         'background-position': "center 1.1em",
         'background-size': '40%',
         'background-repeat': 'no-repeat'
@@ -342,10 +325,10 @@ const DEFAULT_STYLE = {
 
     // QUOTES
     'blockquote': {
-        'font-family':  "'Mrs Eaves XL', var(--text-font), serif",
+        'font-family':  "var(--quote-font), var(--text-font), serif",
         'font-style':  "italic",
         'margin':  "var(--space-between) 0",
-        'font-size':  "var(--quote-text-size)",
+        'font-size':  "var(--quote-size)",
         'line-height':  "1.4",
         'width':  "100%",
         'box-sizing':  "border-box",

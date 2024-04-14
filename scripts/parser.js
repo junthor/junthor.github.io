@@ -18,7 +18,12 @@ class BBParser {
     }
 
     marked.Renderer.prototype.paragraph = function (text) {
-      text = text.replaceAll(/\n:\n/gi, '<br><br>')
+      console.log(`TEXT: ${text}`)
+      text = text.replaceAll(/^(:+\n*)+/gm, function(match, n) {
+        if(match == text) return '<br>'.repeat(match.length)
+        match = match.replaceAll('\n', '')
+        return '<br>'.repeat(match.length + 1)
+      })
       if (text.includes("::")) {
         text = text.split("\n");
         let res = [];
@@ -70,8 +75,6 @@ class BBParser {
       this.#TOC.content[this.#TOC.page] = []
       text[i] = this.#parse_markdown(text[i]);
     }
-
-    console.log(this.#TOC)
 
     return text;
   }
@@ -296,5 +299,11 @@ class BBParser {
         }
       }
     }
+    // If we are here we did not found the closing tag
+    content.push(text.substring(end, i));
+    content = content.join("");
+    content = tag + content
+    result.push(content)
+    return i
   }
 }

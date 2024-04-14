@@ -1,8 +1,0 @@
-<svg viewBox="0 0 400 30" xmlns="http://www.w3.org/2000/svg" style="--part-decoration-color: #f8e3b5" stroke="var(--part-decoration-color)" stroke-width="2">
-	<path d="M 40 4 H 360" />
-	<path d="M 0 10 H 400" />
-    
-	<path d="M 40 4 A 150 40 0 0 1 200 30 A 150 40 0 0 1 360 4" fill="none"/>
-    <circle cx="40" cy="4" r="1.2" fill="var(--part-decoration-color)" stroke="0"/>
-    <circle cx="360" cy="4" r="1.2" fill="var(--part-decoration-color)" stroke="0"/>
-</svg>

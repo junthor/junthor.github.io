@@ -17,6 +17,10 @@
     margin: 4px 0;
 }
 
+a {
+    color: var(--heading-color);
+}
+
 .full .color-value {
     color: #aaa;
     height: fit-content;
@@ -55,7 +59,8 @@
     display: block;
     flex-flow: column wrap;
     z-index: 100;
-
+    top: 100px;
+    left: 100px;
     position: absolute;
     width: fit-content;
 }
@@ -301,7 +306,7 @@
     flex-flow: row nowrap;
 
     width: 800px;
-    height: 200px;
+    height: 400px;
 
     box-sizing: border-box;
     resize: both;

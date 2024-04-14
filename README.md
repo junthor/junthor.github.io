@@ -9,6 +9,7 @@ This tool was made using:
   -  [Solbera D&D Fonts](https://github.com/jonathonf/solbera-dnd-fonts) for the *free* version of the fonts
   -  [The Homebrewery](https://github.com/naturalcrit/homebrewery) for some images
   -  [Sovngarde Font](https://www.nexusmods.com/skyrimspecialedition/mods/386) for the subtitles of the part. I like this font.
+  -  [Jared Ondricek](https://watercolors.giantsoup.com/) for the watercolors. I took some and transformed them into masks.
 
 
 ## Disclaimer
@@ -24,6 +25,7 @@ You can take and reuse my code, I don't care. You can also use some images I too
 - [x] Easy Font Customization (similar to what's for the colors)
 - [ ] Document's Variables
 - [ ] More Preview Features (zoom in / zoom out)
-- [ ] Easy Appearence Customization (Page Background, Footer, maybe other)
+- [x] Easy Appearence Customization (Page Background, Footer, maybe other)
 - [ ] Custom CSS Editor 
 - [ ] WFRP Theme
+- [ ] Auto Table of Contents (although hyperlinks don't work when saving as PDF...)

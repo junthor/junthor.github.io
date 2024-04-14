@@ -79,13 +79,11 @@ class BBEditor {
   }
 
   save(){
-    console.log(this)
     return this.#file_manager.save()
   }
 
   load(input) {
     let file = input.files[0]
-    console.log(input.files)
     if(file) this.#file_manager.load(file)
   }
 
@@ -210,9 +208,9 @@ class BBEditor {
     let start_offset = 0
 
     if (data) {
-      console.log(data)
       let range = this.#page_manager.get_range(text, data.page, data.updated)
       text = text.substring(range.start, range.end)
+      console.log(text)
       first_page = data.page
       if(range.end) offset = 1
       if(data.page > 0) start_offset = 1
@@ -225,9 +223,10 @@ class BBEditor {
     }
 
     for (let i = start_offset; i < text.length - offset; i++) {
+      console.log(`${first_page + i - start_offset}, ${offset}`)
       let page = this.pages[first_page + i - start_offset];
       page.innerHTML = `<div class="page-content">${text[i]}</div>`;
-      
+
       // Adding class to Lettrine
       let headings = page.getElementsByTagName("h1")
       for(const h1 of headings) {
@@ -393,8 +392,9 @@ function set_columnbreak(columns) {
   for(const column of columns) {
     let previous = column.previousElementSibling
     let bottom = column.offsetTop
+    let previous_style
     if(previous) {
-      let previous_style = getComputedStyle(previous)
+      previous_style = getComputedStyle(previous)
       while(previous && previous_style.position == "absolute"){
         previous = previous.previousElementSibling
         previous_style = getComputedStyle(previous)

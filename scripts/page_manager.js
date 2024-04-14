@@ -80,7 +80,6 @@ class PageManager {
       res.delta++
     }
 
-    console.log(res)
     return res
   }
 
@@ -106,7 +105,6 @@ class PageManager {
     if (position >= 0 && this.#insert_page(position)){
       res.delta++
       res.updated++
-      console.log(this.#positions)
     }
 
     return res
@@ -169,7 +167,6 @@ class PageManager {
       let element = text.substring(start, end+1)
       if(tags.includes(element)) return end
       start += 8
-      console.log(element)
     }
 
     return -1
@@ -207,7 +204,6 @@ class PageManager {
       // check if we deleted part of the next [newpage]
       if(this.#positions[i] - this.#max_distance <= end) {
         let pos = this.#check_around_cursor(text, end, this.#tags, this.#max_distance)
-        console.log(`${this.#positions[i]} ?= ${pos + (end-start)}`)
         return this.#positions[i] != pos + (end-start)
       }
       return false

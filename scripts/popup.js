@@ -70,18 +70,12 @@ class Popup {
 
         this.window.pos = [this.window.offsetLeft, this.window.offsetTop]
         this.window.cursor = [MOUSE_POS.x, MOUSE_POS.y]
-        
-        console.log(this.window.pos)
-        console.log(this.window.cursor)
     }
 
     drag(e) {
         let popup = this.popup_drag_element
         let delta_x = MOUSE_POS.x - popup.cursor[0]
         let delta_y = MOUSE_POS.y - popup.cursor[1]
-
-        console.log(delta_x)
-        console.log(delta_y)
 
         popup.style.left = popup.pos[0] + delta_x + "px"
         popup.style.top = popup.pos[1] + delta_y + "px"

@@ -6,11 +6,12 @@ const COLOR_PICKER_VARIABLES = {
     },
     'Font': {
         'Text': '--text-color',
-        'Heading': '--heading-color',
         'Table Text': '--table-text-color',
+        'Heading': '--heading-color',
         'Table Heading': '--table-heading-color',
+        'Lettrine': '--lettrine-color',
         'Item Name': '--item-name-color',
-        'Monster Stats': '--monster-text-color',
+        'Monster Block': '--monster-text-color',
     },
     'Backgrounds': {
         'Description': '--description-color',
@@ -22,14 +23,41 @@ const COLOR_PICKER_VARIABLES = {
 }
 
 const available_fonts = [
-    'Bookinsanity', 'Dungeon Drop Case', 'Mr Eaves Small Caps', 
-    'Nodesto Caps Condensed', 'Overpass', 'Scaly Sans', 'Scaly Sans Caps', 
-    'Solbera Imitation', 'Sovngarde', 'Zatanna Misdirection'
+    'Bookinsanity', 'Libre Baskerville', 'Martel Sans', 'Mr Eaves Small Caps', 
+    'Nodesto Caps Condensed', 'Overpass', 'Raleway', 'Scaly Sans', 'Scaly Sans Caps',  'Sedan',
+    'Sovngarde', 'Zatanna Misdirection', 
 ]
+
+const lettrine_fonts = [
+    'Heavy Rain', 'Morris Jenson Initialen', 'OPTIBookman',
+    'Solbera Imitation', 'Solbera Imitation Color', 'Zallman'
+]
+
+const lettrine_definition = {
+    'Solbera Imitation': {
+        '0 0 0 -0.1em': ['A', 'B', 'C', 'D', 'F', 'G', 'I', 'L', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z'],
+        '0 0 0 -0.2em': ['H', 'K', 'E', 'Q', 'J'],
+        '0 0 0 -0.3em': ['M', 'X'],
+    },
+    'Solbera Imitation Color': {
+        '0 0 0 -0.1em': ['A', 'B', 'C', 'D', 'F', 'G', 'I', 'L', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z'],
+        '0 0 0 -0.2em': ['H', 'K', 'E', 'Q', 'J'],
+        '0 0 0 -0.3em': ['M', 'X'],
+    },
+    default: { 
+        '0 0 0 -0.1em' : [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ] 
+    } 
+}
+
+const MONSTER_BLOCK_TEXT = "\n\n## Monster Name\n*Medium humanoid, any alignment*\n___\n**Armor Class** :: 10\n**Hit Points** :: 22 (5d8)\n**Speed** :: 30 ft.\n___\n|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |\n|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|\n|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|\n___\n**Senses** :: passive Perception 10\n**Languages** :: —\n**Challenge** :: 1 (200 XP)\n___\n***Feature 1*** Description.\n:\n***Feature 2*** Description. \n\n### Actions\n***Action 1*** Description.\n:\n***Action 2*** Description. \n\n"
 
 const SNIPPETS = {
     Cover: [
-        ['D&D Cover', '[cover]\n\n# [stroke 0.15em #000]Title[/stroke]\n## [stroke 0.15em #000]Subtitle[/stroke]\n[separator diamond]\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[stroke 0.2em #000]Footnote[/stroke]\n[/footer]\n\n[/cover]'],
+        ['D&D Cover', '[cover]\n\n# [s 0.15em]Title[/s]\n## [s 0.15em]Subtitle[/s]\n___\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[s 0.2em]Footnote[/s]\n[/footer]\n\n[/cover]'],
+        ['D&D Back Cover', '[cover back]\n\n## Title\nText \n___\nText\n\n[/cover]'],
         ['Banner (D&D)', '[banner]BANNER[/banner]'],
         ['Banner (Simple)', '[banner simple]BANNER[/banner]'],
         ['Banner (Ribbon)', '[banner ribbon]BANNER[/banner]'],
@@ -85,12 +113,11 @@ const SNIPPETS = {
         ['Quote', '\n\n > Text\n> - Author Name, *Source*', 'block'],
         ['Frame', '[frame]\nText\n[/frame]', 'block'],
         ['Frame (Simple)', '[frame simple]\nText\n[/frame]', 'block'],
-        ['Monster', 
-        "[monster]\n\n## Monster Name\n*Medium humanoid, any alignment*\n___\n**Armor Class** :: 10\n**Hit Points** :: 22 (5d8)\n**Speed** :: 30 ft.\n___\n|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |\n|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|\n|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|\n___\n**Senses** :: passive Perception 10\n**Languages** :: —\n**Challenge** :: 1 (200 XP)\n___\n***Feature 1*** Description. [vspace]\n***Feature 2*** Description. \n\n### Actions\n***Action 1*** Description. [vspace]\n***Action 2*** Description. \n\n[/monster]", 
-        "block"],
-        ['Monster (BRS)', 
-        "[monster brs]\n\n## Monster Name\n*Medium humanoid, any alignment*\n___\n**Armor Class** :: 10\n**Hit Points** :: 22 (5d8)\n**Speed** :: 30 ft.\n___\n|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |\n|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|\n|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|\n___\n**Senses** :: passive Perception 10\n**Languages** :: —\n**Challenge** :: 1 (200 XP)\n___\n***Feature 1*** Description. [vspace]\n***Feature 2*** Description. \n\n### Actions\n***Action 1*** Description. [vspace]\n***Action 2*** Description. \n\n[/monster]",
-        "block"],
+        ['Frame (Small)', '[frame small]\nText\n[/frame]', 'block'],
+        ['Frame (Card)', '[frame card]\nText\n[/frame]', 'block'],
+        ['Monster', `[monster]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
+        ['Monster (BRS)', `[monster brs]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
+        ['Monster (Unframed)', `[monster noframe]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
     ],
     Footer: [
         ['Footer (PHB)', "[footer number phb]FOOTNOTE[/footer]"],
@@ -98,8 +125,28 @@ const SNIPPETS = {
         ['Footer (EE)', "[footer number ee]FOOTNOTE[/footer]"],
         ['Footer (XGtE)', "[footer number xgte]FOOTNOTE[/footer]"],
         ['Footer (MToF)', "[footer number mtof]FOOTNOTE[/footer]"],
+        ['Footer (Draco)', "[footer number draco]FOOTNOTE[/footer]"],
         ['Only Number', "[footer hide number][/footer]"],
         ['Only Footnote', "[footer hide]FOOTNOTE[/footer]"],
+    ],
+    Backgrounds: [
+        ['None', "", "page", "--page-background-image", "none"],
+        ['Player Handbook', "[image link='./styles/backgrounds/PHB.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/PHB.png')"],
+        ['Elemental Evil', "[image link='./styles/backgrounds/EE.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/EE.jpeg')"],
+        ['Genesys', "[image link='./styles/backgrounds/Genesys.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/Genesys.png')"],
+        ['Ice', "[image link='./styles/backgrounds/Ice.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/Ice.png')"],
+        ['Ice 2', "[image link='./styles/backgrounds/Ice2.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/Ice2.png')"],
+        ['Monster Manual', "[image link='./styles/backgrounds/MonsterManual.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/MonsterManual.png')"],
+        ['SwordMeow', "[image link='./styles/backgrounds/White.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/White.png')"],
+        ['XGtE', "[image link='./styles/backgrounds/XGTE.png' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/XGTE.png')"],
     ]
 }
 
@@ -140,6 +187,12 @@ const FONT_BARBER_VARIABLES = {
         size: '--text-size',
         options: available_fonts
     },
+    'quote': {
+        preview: '<span style="font-size: var(--quote-size); font-family: var(--quote-font); color:var(--text-color)">Quote</p>',
+        family: '--quote-font',
+        size: '--quote-size',
+        options: available_fonts
+    },
     'name': {
         preview: '<span style="font-size: var(--item-name-size); font-family: var(--item-name-font); color:var(--item-name-color)">Item Name</p>',
         family: '--item-name-font',
@@ -150,6 +203,6 @@ const FONT_BARBER_VARIABLES = {
         preview: '<span style="font-size: var(--lettrine-size); font-family: var(--lettrine-font); color:var(--text-color)">ABC</p>',
         family: '--lettrine-font',
         size: '--lettrine-size',
-        options: available_fonts
+        options: lettrine_fonts
     },
 }

@@ -89,10 +89,16 @@ const BBCODE_TAGS = {
     full_tag: true,
     regex: {
       "<div style='-webkit-text-stroke:$1 #$3; position:relative'>$4<span class='text-stroke'>$4</span></div>":
-      /\[stroke ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+ #((?:[\d|a-f|A-F]{3}){1,2})\](.*?)\[\/stroke\]/gi,
+      /\[(?:stroke|s) ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+ #((?:[\d|a-f|A-F]{3}){1,2})\](.*?)\[\/(?:stroke|s)\]/gi,
       "<div style='-webkit-text-stroke:$3 #$1; position:relative'>$4<span class='text-stroke'>$4</span></div>":
-      /\[stroke #((?:[\d|a-f|A-F]{3}){1,2}) ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+\](.*?)\[\/stroke\]/gi,
+      /\[(?:stroke|s) #((?:[\d|a-f|A-F]{3}){1,2}) ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+\](.*?)\[\/(?:stroke|s)\]/gi,
+      "<div style='-webkit-text-stroke:$1 #000; position:relative'>$3<span class='text-stroke'>$3</span></div>":
+      /\[(?:stroke|s) ((?:\d+(.\d+)?)(?:px|em|%|pt|rem)\s*)+\]([^\n]*?)\[\/(?:stroke|s)\]/gi,
     }
+  },
+  // Stroke Alias
+  s: {
+    alias: "stroke"
   },
 
   p: {
@@ -207,8 +213,8 @@ const BBCODE_TAGS = {
     add_start: '<div class="wc-container">',
     add_end: '</div>',
     params: {
-      mask: ['style', "mask-image: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png'), linear-gradient(#fff, #fff)"],
-      link: ['style', "mask-image: url('", DEFAULT_REGEX["text"], "')"],
+      mask: ['style', "mask-image: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png'), var(--reverse-mask)"],
+      link: ['style', "mask-image: url('", DEFAULT_REGEX["text"], ")', var(--reverse-mask)"],
       size: ['style', "mask-size:", DEFAULT_REGEX["size"]],
       bg: DEFAULT_PROPERTIES['bg'],
       color: DEFAULT_PROPERTIES['bg'],
@@ -224,7 +230,7 @@ const BBCODE_TAGS = {
       br: ['class', 'right'],
       tr: ['class', 'top right'],
       front: ['style', 'z-index: 2'],
-      reverse: ['style', 'mask-composite:exclude']
+      reverse: ['class', 'reverse']
     },
     auto_params: {
       class: 'watercolor'
@@ -256,6 +262,7 @@ const BBCODE_TAGS = {
 
   note: {
     tag: 'div',
+    add_start: '\n',
     params: {
       size: ['style', 'font-size:', DEFAULT_REGEX['size']],
       color: DEFAULT_PROPERTIES['font-color'],
@@ -271,10 +278,11 @@ const BBCODE_TAGS = {
 
   description: {
     tag: 'div',
+    add_start: '\n',
     params: {
       size: ['style', 'font-size:', DEFAULT_REGEX['size']],
       color: DEFAULT_PROPERTIES['font-color'],
-      bg: DEFAULT_PROPERTIES['bg']
+      bg: ['style', '--description-color:', DEFAULT_REGEX['color']]
     },
     keywords: {
       wide: ['class', "wide"]
@@ -286,6 +294,8 @@ const BBCODE_TAGS = {
 
   frame: {
     tag: 'div',
+    add_start: '\n',
+    add_end: '\n',
     params: DEFAULT_PROPERTIES,
     keywords: {
       left: ['style', 'float: left'],
@@ -295,6 +305,11 @@ const BBCODE_TAGS = {
       wide: ['class', "wide"],
       simple: ['class', "simple"],
       small: ['class', "small"],
+      card: ['class', "card"],
+      decoration: ['class', "decoration"],
+      top: ['class', "top"],
+      bottom: ['class', "bottom"],
+      h: ['class', "horizontal"],
     },
     auto_params: {
       'class': 'frame'
@@ -307,6 +322,8 @@ const BBCODE_TAGS = {
     keywords: {
       wide: ['class', "wide"],
       brs: ['class', "brs"],
+      noframe: ['class', "noframe"],
+      unframe: ['class', "noframe"],
     },
     auto_params: {
       'class': 'monster'
@@ -316,8 +333,9 @@ const BBCODE_TAGS = {
   columns: {
     tag: 'div',
     params: {
-      size: ['style', 'columns:', DEFAULT_REGEX["number"]],
+      n: ['style', 'columns:', DEFAULT_REGEX["number"]],
       gap: ['style', 'column-gap:', DEFAULT_REGEX["size"]],
+      padding: DEFAULT_PROPERTIES['padding']
     },
     keywords: {
       wide: ['class', 'wide'],
@@ -371,9 +389,10 @@ const BBCODE_TAGS = {
   vspace: {
     full_tag: false,
     regex: {
-      "<div style='margin-top:$1'></div>": /\[vspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
+      "<div style='height:$1'></div>": /\[vspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
     }
   },
+  vs: { alias: 'vspace' },
 
   hspace: {
     full_tag: false,
@@ -381,6 +400,7 @@ const BBCODE_TAGS = {
       "<div style='display:inline-block;width:$1'></div>": /\[hspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
     }
   },
+  hs: { alias: 'hspace' },
 
 };
 
@@ -396,6 +416,8 @@ const BBCODE_TAGS_STATIC = {
   "[/h2]": "</h2>",
   "[h3]": "<h3>",
   "[/h3]": "</h3>",
+
+  "[cover back]": "<div class='back-cover'>",
 
   "[wide]": '<div class="wide">',
   "[/wide]": "</div>",
@@ -439,13 +461,15 @@ const BBCODE_TAGS_STATIC = {
   "[quote]": '<blockquote>',
   "[/quote]": "</blockquote>",
 
-  "[note]": "<div class='note'>",
+  "[note]": "<div class='note'>\n",
   "[/note]": "</div>",
-  "[description]": "<div class='description'>",
+  "[description]": "<div class='description'>\n",
   "[/description]": "</div>",
 
   "[separator diamond]": "<img src='./styles/diamond_title.svg' class='cover-diamond' />",
 
   "[hspace]": "<div style='width:1em; display: inline-block'></div>",
-  "[vspace]": "<div style='height:1em;'></div>"
+  "[hs]": "<div style='width:1em; display: inline-block'></div>",
+  "[vspace]": "<div style='height:1em;'></div>",
+  "[vs]": "<div style='height:1em;'></div>",
 };

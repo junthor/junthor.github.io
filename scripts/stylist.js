@@ -10,6 +10,9 @@ class Stylist {
     constructor(style = DEFAULT_STYLE){
         this.#styles = style
 
+        // Triggers the margin
+        this.#apply_lettrine_properties(this.#styles[':root']['--lettrine-font'])
+
         this.#color_variables = COLOR_PICKER_VARIABLES
         this.#font_variables = FONT_BARBER_VARIABLES
         this.#snippets = SNIPPETS
@@ -69,7 +72,9 @@ class Stylist {
                 item_elt.className = 'item'
                 item_elt.innerHTML = item[0]
 
-                item_elt.addEventListener('click', e => { console.log("click"); editor.insert(item[1]) })
+                if(item.length > 3) item_elt.addEventListener('click', e => this.set_root_value(item[3], item[4]))
+                else item_elt.addEventListener('click', e => editor.insert(item[1]))
+            
                 item_elt.addEventListener('mouseenter', e => {
                     if(item[2] == 'block') {
                         block_preview.innerHTML = editor.simple_parse(item[1])
@@ -272,7 +277,22 @@ class Stylist {
         set_columnbreak(document.getElementsByClassName('column-break'))
     }
 
+    #apply_lettrine_properties(font){
+        let definition = lettrine_definition[font]
+        if(!definition) definition = lettrine_definition['default']
+
+        for(let property in definition) {
+            for(let l in definition[property]) {
+                let letter = definition[property][l]
+                this.#styles[':root'][`--lettrine-letter-${letter}`] = property
+            }
+        }
+
+        setTimeout(e => this.hot_load(), 100)
+    }
+
     #change_font(){
+        if(this.id == '--lettrine-font') this.stylist.#apply_lettrine_properties(this.value)
         this.stylist.set_root_value(this.id, this.value)
     }
     #change_font_size(){
@@ -286,6 +306,11 @@ class Stylist {
 
     get_style(){
         return this.#styles
+    }
+
+    get_font(font, from=':root'){
+        if(!this.#styles[from]) return undefined
+        return this.#styles[from][font]
     }
 
     apply_style(style){
@@ -313,6 +338,10 @@ class Stylist {
             size.value = font_size
             size.unit.value = font_unit
         }
+
+        // Triggers the margin
+        this.#apply_lettrine_properties(this.#styles[':root']['--lettrine-font'])
+
         this.hot_load()
     }
 
