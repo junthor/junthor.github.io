@@ -66,18 +66,20 @@ class BBParser {
 
   parse(text, pages, first_page, start_offset, offset) {
 
-    let page_pos = pages[first_page] + 1
-    text = text.replaceAll(/^([ >]*)(#+) (.*)$/gm, function(match, before, level, txt, offset) {
-      txt = txt.trim()
-      level = level.length
-      return `${before}<h${level} onclick='editor.focus(${page_pos+offset+before.length+level+1})'>${txt}</h${level}>\n`
-    })
-
-    text = this.#parse_tags(text);
-
     text = text.split("[newpage]");
 
+
+
     for (let i = start_offset; i < text.length - offset; i++) {
+
+      text[i] = text[i].replaceAll(/^([ >]*)(#+) (.*)$/gm, function(match, before, level, txt, offset) {
+        txt = txt.trim()
+        level = level.length
+        return `${before}<h${level} onclick='editor.focus_page(this, ${offset+before.length+level+1})'>${txt}</h${level}>\n`
+      })
+
+      text[i] = this.#parse_tags(text[i]);
+
       this.#TOC.page = i+first_page-start_offset
       this.#TOC.content[this.#TOC.page] = []
       text[i] = this.#parse_markdown(text[i]);

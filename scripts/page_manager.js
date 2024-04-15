@@ -29,7 +29,7 @@ class PageManager {
   }
 
   on_insert(text, start, end){
-    const res = { page: this.#page_at_cursor(start), updated: 1, delta: 0 }
+    const res = { page: this.page_at_cursor(start), updated: 1, delta: 0 }
 
     // Update all positions after the change
     for(let i = res.page + 1; i < this.#positions.length; i++) {
@@ -92,7 +92,7 @@ class PageManager {
    * @returns [first page to update, number of pages to update, numbers of pages removed]
    */
   on_remove(text, start, end) {
-    const res = { page: this.#page_at_cursor(start), updated: 1, delta: 0}
+    const res = { page: this.page_at_cursor(start), updated: 1, delta: 0}
     let removed = this.#detect_removed(text, start, end)
     for(let i = removed.length - 1; i >= 0; i--) this.#remove_page(removed[i])
     res.delta = 0-removed.length
@@ -115,7 +115,7 @@ class PageManager {
    * @param {*} cursor The position of the cursor
    * @returns The index of the page
    */
-  #page_at_cursor(cursor){
+  page_at_cursor(cursor){
     if (this.#positions.length == 1) return 0
     for(let i = 0; i < this.#positions.length - 1; i++) {
       if(this.#positions[i] < cursor && cursor <= this.#positions[i+1]) return i

@@ -34,6 +34,18 @@ class BBEditor {
     this.separator.addEventListener("mousedown", this.#resize);
     this.separator.className = "splitter";
 
+    let goto_page = document.createElement('div')
+    goto_page.className = 'goto-page'
+    goto_page.title = "Find page at cursor"
+    goto_page.innerHTML = '<i class="fa-solid fa-arrow-right"></i>'
+    goto_page.addEventListener("mousedown", e => { 
+      e.preventDefault(); e.stopImmediatePropagation();
+      this.goto_page()
+    })
+
+    this.separator.appendChild(goto_page)
+    this.separator.style.position = 'relative'
+
     let big_container = document.createElement("div");
     big_container.className = "bbcode-content-container";
     this.right_panel = big_container;
@@ -276,11 +288,24 @@ class BBEditor {
     for (const element of deleted) this.content.removeChild(element);
   }
 
-  focus(index) {
+  focus_page(element, offset = 0) {
+    let page = element
+    while(!page.id.includes("page")) page = page.parentNode
+    page = page.id.substring(4)
+    let index = this.#page_manager.get_positions()[page] + offset + 1
     let position = this.editor.session.getDocument().indexToPosition(index)
-    this.editor.moveCursorToPosition(position)
     this.editor.scrollToLine(position.row, true, true)
+    //this.editor.moveCursorToPosition(position)
+    this.editor.getSelection().moveToPosition(position)
     this.editor.focus();
+  }
+
+  goto_page() {
+    let position = this.editor.getSelectionRange().start;
+    let index = this.editor.session.getDocument().positionToIndex(position)
+    let page_index = this.#page_manager.page_at_cursor(index)
+    let page = document.getElementById(`page${page_index}`)
+    if(page) page.scrollIntoView();
   }
 
   insert(o_tag, c_tag = "", keep_content = true) {
@@ -319,6 +344,7 @@ class BBEditor {
    * @param {*} right Right panel (rendering)
    */
   #resize(e) {
+    console.log(this)
     if(e.stopPropagation) e.stopPropagation();
     if(e.preventDefault) e.preventDefault();
     this.editor.container.addEventListener(
