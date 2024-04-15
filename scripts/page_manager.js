@@ -232,5 +232,8 @@ class PageManager {
     this.#positions.splice(i, 1)
   }
 
+  get_positions(){
+    return this.#positions
+  }
 
 }

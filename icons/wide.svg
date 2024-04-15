@@ -1,4 +1,5 @@
-<svg id="etGWE9JbLUN1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 340 340" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
-	<rect width="120" height="120" rx="20" ry="20" transform="translate(20 20)" fill="none" stroke="currentColor" stroke-width="28" stroke-linejoin="round"/>
-	<rect width="120" height="120" rx="20" ry="20" transform="translate(200 20)" fill="none" stroke="currentColor" stroke-width="28" stroke-linejoin="round"/>
-	<rect width="300" height="120" rx="20" ry="20" transform="translate(20 200)" stroke="currentColor" stroke-width="28"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" stroke-width="28" stroke-linejoin="round" stroke="black" fill="black">
+	<rect x="20" y="20" width="120" height="80" rx="20" ry="20" opacity="0.5" />
+	<rect x="200" y ="20" width="120" height="80" rx="20" ry="20" opacity="0.5" />
+	<rect x="20" y="160" width="300" height="160" rx="20" ry="20" fill="black" />
+</svg>

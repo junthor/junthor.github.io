@@ -164,3 +164,8 @@
     src: 
         url('./Lettrines/OPTIBookmanBoldItaSwashSup.otf');
 }
+@font-face {
+    font-family: "Royal";
+    src: 
+        url('./Lettrines/Royal.ttf');
+}

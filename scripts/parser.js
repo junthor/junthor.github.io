@@ -18,7 +18,6 @@ class BBParser {
     }
 
     marked.Renderer.prototype.paragraph = function (text) {
-      console.log(`TEXT: ${text}`)
       text = text.replaceAll(/^(:+\n*)+/gm, function(match, n) {
         if(match == text) return '<br>'.repeat(match.length)
         match = match.replaceAll('\n', '')
@@ -65,7 +64,15 @@ class BBParser {
     return marked.parse(text);
   }
 
-  parse(text, first_page, start_offset, offset) {
+  parse(text, pages, first_page, start_offset, offset) {
+
+    let page_pos = pages[first_page] + 1
+    text = text.replaceAll(/^([ >]*)(#+) (.*)$/gm, function(match, before, level, txt, offset) {
+      txt = txt.trim()
+      level = level.length
+      return `${before}<h${level} onclick='editor.focus(${page_pos+offset+before.length+level+1})'>${txt}</h${level}>\n`
+    })
+
     text = this.#parse_tags(text);
 
     text = text.split("[newpage]");

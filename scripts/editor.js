@@ -210,20 +210,18 @@ class BBEditor {
     if (data) {
       let range = this.#page_manager.get_range(text, data.page, data.updated)
       text = text.substring(range.start, range.end)
-      console.log(text)
       first_page = data.page
       if(range.end) offset = 1
       if(data.page > 0) start_offset = 1
 
       this.#manage_unchanged_pages(first_page + 1, data.delta)
-      text = this.#parser.parse(text, first_page, start_offset, offset)
+      text = this.#parser.parse(text, this.#page_manager.get_positions(), first_page, start_offset, offset)
     } else {
-      text = this.#parser.parse(text);
+      text = this.#parser.parse(text, this.#page_manager.get_positions());
       this.#set_pages_number(text.length)
     }
 
     for (let i = start_offset; i < text.length - offset; i++) {
-      console.log(`${first_page + i - start_offset}, ${offset}`)
       let page = this.pages[first_page + i - start_offset];
       page.innerHTML = `<div class="page-content">${text[i]}</div>`;
 
@@ -278,6 +276,13 @@ class BBEditor {
     for (const element of deleted) this.content.removeChild(element);
   }
 
+  focus(index) {
+    let position = this.editor.session.getDocument().indexToPosition(index)
+    this.editor.moveCursorToPosition(position)
+    this.editor.scrollToLine(position.row, true, true)
+    this.editor.focus();
+  }
+
   insert(o_tag, c_tag = "", keep_content = true) {
     let range = this.editor.getSelectionRange();
 
@@ -313,7 +318,9 @@ class BBEditor {
    * @param {*} left Left panel (writing)
    * @param {*} right Right panel (rendering)
    */
-  #resize() {
+  #resize(e) {
+    if(e.stopPropagation) e.stopPropagation();
+    if(e.preventDefault) e.preventDefault();
     this.editor.container.addEventListener(
       "mousemove",
       this.editor.resize_drag

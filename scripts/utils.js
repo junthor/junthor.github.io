@@ -391,7 +391,7 @@ const BBCODE_TAGS = {
   vspace: {
     full_tag: false,
     regex: {
-      "<div style='height:$1'></div>": /\[vspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
+      "<div style='height:$1'></div>": /\[(?:vspace|vs) ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
     }
   },
   vs: { alias: 'vspace' },
@@ -399,7 +399,7 @@ const BBCODE_TAGS = {
   hspace: {
     full_tag: false,
     regex: {
-      "<div style='display:inline-block;width:$1'></div>": /\[hspace ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
+      "<div style='display:inline-block;width:$1'></div>": /\[(?:hspace|hs) ((?:\d+(.\d+)?)(?:px|em|%|cm|pt|rem)\s*)+\]/gi,
     }
   },
   hs: { alias: 'hspace' },

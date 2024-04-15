@@ -29,7 +29,7 @@ const available_fonts = [
 ]
 
 const lettrine_fonts = [
-    'Heavy Rain', 'Morris Jenson Initialen', 'OPTIBookman',
+    'Heavy Rain', 'Morris Jenson Initialen', 'OPTIBookman', 'Royal',
     'Solbera Imitation', 'Solbera Imitation Color', 'Zallman'
 ]
 
@@ -43,6 +43,13 @@ const lettrine_definition = {
         '0 0 0 -0.1em': ['A', 'B', 'C', 'D', 'F', 'G', 'I', 'L', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z'],
         '0 0 0 -0.2em': ['H', 'K', 'E', 'Q', 'J'],
         '0 0 0 -0.3em': ['M', 'X'],
+    },
+    'Royal': {
+        '0 0 0 -0.2em' : [ 'D', 'E', 'L', 'M', 'S', 'W', 'X'],
+        '0 0 0 -0.1em' : [
+            'A', 'B', 'C',           'F', 'G', 'H', 'I', 'J', 'K',
+            'N', 'O', 'P', 'Q', 'R',      'T', 'U', 'V',           'Y', 'Z'
+        ] 
     },
     default: { 
         '0 0 0 -0.1em' : [

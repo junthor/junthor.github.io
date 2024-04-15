@@ -122,6 +122,7 @@ const DEFAULT_STYLE = {
         'font-size': 'var(--lettrine-size)',
         'color': 'var(--lettrine-color)',
         'line-height': '.8em',
+        'text-transform': 'uppercase',
     },
 
 

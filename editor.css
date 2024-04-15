@@ -52,7 +52,8 @@ button, label {
 }
 
 button .svg-icon {
-    height: 16px;
+    height: 13px;
+    display: flex;
     filter: invert(74%) sepia(100%) saturate(1%) hue-rotate(26deg) brightness(100%) contrast(93%);
 }
 button:hover .svg-icon {

@@ -1153,6 +1153,9 @@ var MarkdownHighlightRules = function () {
     }, {
         token: "tag_newpage",
         regex: /(\[newpage\])/
+    },  {
+        token: "tag_newcolumn",
+        regex: /(\[newcolumn\])/
     }, {
         token: ["tag_open", "tag_name", "tag_content", "tag_close"],
         regex: /(\[)(\/?\w*)([^\]]*)(\])/
