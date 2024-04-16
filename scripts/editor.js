@@ -88,8 +88,6 @@ class BBEditor {
     this.#create_page()
 
     this.#file_manager = new DocumentSaver(this, this.#stylist)
-
-    this.#file_manager.apply_data(GUIDE_AUTOLOAD)
   }
 
   save(){
@@ -153,11 +151,20 @@ class BBEditor {
     pdf_button.innerHTML = '<i class="bi bi-filetype-pdf"></i>';
     pdf_button.addEventListener("click", PrintDiv);
 
+    
+
+    let guide_button = document.createElement("button");
+    guide_button.className = "guide-button";
+    guide_button.title = "Load Guide";
+    guide_button.innerHTML = '<i class="fa-solid fa-circle-question"></i> Guide';
+    guide_button.addEventListener("click", (e) => this.#file_manager.apply_data(GUIDE_AUTOLOAD));
+
     buttonbar.appendChild(load_button);
     buttonbar.appendChild(load_input);
     buttonbar.appendChild(save_button);
     buttonbar.appendChild(paper_format);
     buttonbar.appendChild(pdf_button);
+    buttonbar.appendChild(guide_button);
 
     return buttonbar;
   }
