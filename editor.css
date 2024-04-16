@@ -914,7 +914,7 @@ p.Z::first-letter { margin: var(--lettrine-letter-Z); }
     column-fill: auto;
     column-gap: 1cm;
 }
-.toc-li::marker {
+.toc li::marker {
     content: '';
 }
 .toc-entry {

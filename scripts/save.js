@@ -29,8 +29,10 @@ class DocumentSaver {
     }
 
     #apply_data(data){
-        data = JSON.parse(data)
-        console.log(data)
+        this.apply_data(JSON.parse(data))
+    }
+
+    apply_data(data) {
         this.#editor.set_text(data['content'])
         this.#stylist.apply_style(data['style'])
     }

@@ -88,6 +88,8 @@ class BBEditor {
     this.#create_page()
 
     this.#file_manager = new DocumentSaver(this, this.#stylist)
+
+    this.#file_manager.apply_data(GUIDE_AUTOLOAD)
   }
 
   save(){
