@@ -885,10 +885,17 @@ p.Z::first-letter { margin: var(--lettrine-letter-Z); }
     height: 100%;
     bottom: 0;
     left: 0;
-    
+
+    --wc-mask: var(--reverse-mask);
+    --wc-size: 100%;
+
+    mask-image: var(--wc-mask);
+    mask-size: var(--wc-size);
     mask-position: bottom left;
     mask-repeat: no-repeat;
     mask-composite: add;
+    -webkit-mask-image: var(--wc-mask);
+    -webkit-mask-size: var(--wc-size);
     -webkit-mask-position: bottom left;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-composite: destination-over;

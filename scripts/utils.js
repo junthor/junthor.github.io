@@ -213,9 +213,9 @@ const BBCODE_TAGS = {
     add_start: '<div class="wc-container">',
     add_end: '</div>',
     params: {
-      mask: ['style', "mask-image: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png'), var(--reverse-mask)"],
-      link: ['style', "mask-image: url('", DEFAULT_REGEX["text"], ")', var(--reverse-mask)"],
-      size: ['style', "mask-size:", DEFAULT_REGEX["size"]],
+      mask: ['style', "--wc-mask: url('https://junthor.github.io/styles/watercolor/", DEFAULT_REGEX["text"], ".png'), var(--reverse-mask)"],
+      link: ['style', "--wc-mask: url('", DEFAULT_REGEX["text"], ")', var(--reverse-mask)"],
+      size: ['style', "--wc-size:", DEFAULT_REGEX["size"]],
       bg: DEFAULT_PROPERTIES['bg'],
       color: DEFAULT_PROPERTIES['bg'],
       x: ['style', "--wc-x:", DEFAULT_REGEX["size"]],
