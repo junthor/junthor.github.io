@@ -141,6 +141,7 @@ class BBEditor {
     load_button.innerHTML = '<i class="bi bi-folder-symlink-fill"></i> Open'
 
     let paper_format = document.createElement("select")
+    paper_format.id = "format-selector"
     paper_format.innerHTML = '<option value="A4">A4</option><option value="Letter">Letter</option>'
     paper_format.addEventListener('change', e => this.#stylist.set_page_format(paper_format))
 
@@ -250,22 +251,6 @@ class BBEditor {
       let columns = page.getElementsByClassName('column-break')
       set_columnbreak(columns)
     }
-
-    const toc_elt = document.getElementById('auto-generated-toc')
-    if(!toc_elt) return
-    let toc = this.#parser.get_toc().content
-    let toc_html = ''
-    for(let p in toc) {
-      for(let data in toc[p]) {
-        let entry = `<a class="toc-entry" href="#page${p}">
-        <div class="level${toc[p][data][0]}">${toc[p][data][1]}</div>
-        <div class='entry-page'>${parseInt(p)+1}</div>
-        </a>`
-        toc_html += entry
-      }
-    }
-    toc_elt.innerHTML = toc_html
-
   }
 
   #create_page() {
@@ -409,6 +394,31 @@ class BBEditor {
     this.editor.content.style.width = page_width * zoom + "px";
     this.editor.content.style.height = page_height * zoom + "px";
   }
+
+  render_toc(){
+    let toc = this.#parser.get_toc()
+    let toc_html = '[toc]\n\n# Table of Content\n\n'
+    let previous_level = 1
+    for(let p in toc) {
+      for(let data in toc[p]) {
+        let level = toc[p][data][0]
+        let heading = toc[p][data][1]
+        let page = parseInt(p) + 1
+
+        let padding = ''
+
+        // Jumping multiple levels
+        if(previous_level < level - 1) {
+          padding += '\t'.repeat(previous_level - 1)
+          padding += '\t-'.repeat(level - previous_level - 1) + '\t'
+        } else padding = '\t'.repeat(level - 1)
+        toc_html += padding + `- ${heading} :: ${page}\n`
+        previous_level = level
+      }
+    }
+    return toc_html + '\n[/toc]'
+  }
+
 }
 
 

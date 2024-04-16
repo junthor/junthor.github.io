@@ -407,7 +407,8 @@ const BBCODE_TAGS = {
 };
 
 const BBCODE_TAGS_STATIC = {
-  "[toc]": "<div id='auto-generated-toc'></div>",
+  "[toc]": "<div class='toc'>",
+  "[/toc]": "</div>",
   "[part]": "<div class='part wide'>",
   "[/part]": "</div>",
   "[cover]": "<div class='cover wide'>",

@@ -152,8 +152,10 @@ const SNIPPETS = {
         "--page-background-image", "url('./styles/backgrounds/MonsterManual.png')"],
         ['SwordMeow', "[image link='./styles/backgrounds/White.png' absolute top=0 left=0 width=100% height=100%]", "page", 
         "--page-background-image", "url('./styles/backgrounds/White.png')"],
-        ['XGtE', "[image link='./styles/backgrounds/XGTE.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/XGTE.png')"],
+        ['XGtE', "[image link='./styles/backgrounds/xgte.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/xgte.jpeg')"],
+        ['DMG', "[image link='./styles/backgrounds/DMG.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/DMG.jpeg')"],
     ]
 }
 

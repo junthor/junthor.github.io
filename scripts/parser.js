@@ -7,14 +7,21 @@ class BBParser {
     this.#COMPLEX_TAGS = tags;
     this.#SIMPLE_TAGS = static_tags;
 
-    let TOC = {page:0, content: []}
-    this.#TOC = TOC
+    this.#TOC = []
 
-    marked.Renderer.prototype.heading = function (text, level, raw) {
-      if (level > 3 || !text.includes('[*]')) return `<h${level}>${text}</h${level}>`
-      text = text.replace('[*]', '').trim()
-      TOC.content[TOC.page].push([level, text])
-      return `<h${level}>${text}</h${level}>`
+    marked.Renderer.prototype.listitem = function (text, task, checked) {
+      // ToC
+      if(text.includes('::')) {
+        text = text.split('::', 2)
+        let h = text[0]
+        console.log(text)
+        text = text[1].split('<ul>')
+        let p = text[0].trim()
+        text[0] = `<span class='toc-page'>${p}</span></a>`
+        text = text.join('<ul>')
+        text = `<a class="toc-entry" href="#page${p}"><span class='toc-heading'>${h}</span>${text}`
+      }
+      return `<li class='toc-li'>${text}</li>\n`
     }
 
     marked.Renderer.prototype.paragraph = function (text) {
@@ -52,7 +59,7 @@ class BBParser {
         }
         return res.join("\n");
       }
-      return `<p>${text}</p>`;
+      return `<p>${text}</p>\n`;
     };
   }
 
@@ -68,20 +75,31 @@ class BBParser {
 
     text = text.split("[newpage]");
 
-
-
     for (let i = start_offset; i < text.length - offset; i++) {
+      const TOC = []
 
+      // Parse Heading Because of (1) TOC and (2) Find on Editor 
       text[i] = text[i].replaceAll(/^([ >]*)(#+) (.*)$/gm, function(match, before, level, txt, offset) {
         txt = txt.trim()
         level = level.length
+        // TOC
+        if (txt.includes('[*]')) {
+          txt = txt.replace('[*]', '').trim()
+        } else if (level <= 3) TOC.push([level, txt])
         return `${before}<h${level} onclick='editor.focus_page(this, ${offset+before.length+level+1})'>${txt}</h${level}>\n`
       })
 
-      text[i] = this.#parse_tags(text[i]);
+      this.#TOC[first_page+i-start_offset] = TOC
 
-      this.#TOC.page = i+first_page-start_offset
-      this.#TOC.content[this.#TOC.page] = []
+      // Special case for sub and sup tags
+      // Using the LaTeX syntax ^{...}
+      text[i] = text[i].replaceAll(/([\^|_])({[^}\n]*})/gi, function(match, symbol, text) {
+        if(text.length > 1) text = text.substring(1, text.length - 1)
+        if (symbol == '^') return `<sup>${text}</sup>`
+        return `<sub>${text}</sub>`
+      })
+
+      text[i] = this.#parse_tags(text[i]);
       text[i] = this.#parse_markdown(text[i]);
     }
 

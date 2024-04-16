@@ -339,6 +339,13 @@ class Stylist {
             size.unit.value = font_unit
         }
 
+        // Load format
+        const format = document.getElementById('format-selector')
+        const width = this.#styles[":root"]["--page-width"]
+        const height = this.#styles[":root"]["--page-height"] 
+        if(width == "215.9mm" && height == "279.4mm") format.value = "Letter"
+        else format.value = "A4"
+
         // Triggers the margin
         this.#apply_lettrine_properties(this.#styles[':root']['--lettrine-font'])
 
