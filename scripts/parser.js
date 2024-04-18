@@ -16,10 +16,10 @@ class BBParser {
         let h = text[0]
         console.log(text)
         text = text[1].split('<ul>')
-        let p = text[0].trim()
+        let p = parseInt(text[0].trim())
         text[0] = `<span class='toc-page'>${p}</span></a>`
         text = text.join('<ul>')
-        text = `<a class="toc-entry" href="#page${p}"><span class='toc-heading'>${h}</span>${text}`
+        text = `<a class="toc-entry" href="#page${p-1}"><span class='toc-heading'>${h}</span>${text}`
       }
       return `<li class='toc-li'>${text}</li>\n`
     }

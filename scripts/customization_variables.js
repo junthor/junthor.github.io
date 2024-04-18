@@ -156,6 +156,8 @@ const SNIPPETS = {
         "--page-background-image", "url('./styles/backgrounds/xgte.jpeg')"],
         ['DMG', "[image link='./styles/backgrounds/DMG.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
         "--page-background-image", "url('./styles/backgrounds/DMG.jpeg')"],
+        ['Curator', "[image link='./styles/backgrounds/curator.jpg' absolute top=0 left=0 width=100% height=100%]", "page", 
+        "--page-background-image", "url('./styles/backgrounds/curator.jpg')"],
     ]
 }
 

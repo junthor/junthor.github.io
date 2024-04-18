@@ -13,6 +13,7 @@ class BBEditor {
   pages;
   
   right_panel;
+  page_zoom;
 
   #parser;
   #stylist;
@@ -20,6 +21,7 @@ class BBEditor {
   #file_manager;
 
   constructor(container) {
+    this.page_zoom = "auto"
     this.#page_manager = new PageManager()
     this.pages = [];
     this.container = document.getElementById(container);
@@ -145,6 +147,16 @@ class BBEditor {
     paper_format.innerHTML = '<option value="A4">A4</option><option value="Letter">Letter</option>'
     paper_format.addEventListener('change', e => this.#stylist.set_page_format(paper_format))
 
+    let zoom = document.createElement("select")
+    zoom.id = "zoom-selector"
+    zoom.innerHTML = '<option value="auto">Auto</option>'
+    const zoom_values = [50, 75, 100, 125, 150, 200, 250]
+    for(const value of zoom_values) {
+      zoom.innerHTML += `<option value="${value / 100.0}">${value}%</option>`
+    }
+    zoom.addEventListener('change', e => this.set_zoom_page(zoom.value))
+
+
     let pdf_button = document.createElement("button");
     pdf_button.className = "print-button";
     pdf_button.title = "Save as PDF";
@@ -163,6 +175,7 @@ class BBEditor {
     buttonbar.appendChild(load_input);
     buttonbar.appendChild(save_button);
     buttonbar.appendChild(paper_format);
+    buttonbar.appendChild(zoom);
     buttonbar.appendChild(pdf_button);
     buttonbar.appendChild(guide_button);
 
@@ -287,9 +300,16 @@ class BBEditor {
     while(!page.id.includes("page")) page = page.parentNode
     page = page.id.substring(4)
     let index = this.#page_manager.get_positions()[page] + offset + 1
+    this.move_cursor_to_index(index)
+  }
+
+  move_cursor_to_index(index) {
     let position = this.editor.session.getDocument().indexToPosition(index)
+    this.move_cursor_to_position(position)
+  }
+
+  move_cursor_to_position(position){
     this.editor.scrollToLine(position.row, true, true)
-    //this.editor.moveCursorToPosition(position)
     this.editor.getSelection().moveToPosition(position)
     this.editor.focus();
   }
@@ -319,7 +339,7 @@ class BBEditor {
       range.end.column += o_tag.length
       this.editor.getSelection().selectToPosition(range.end)
     }
-    this.editor.focus();
+    this.move_cursor_to_position({row: range.start.row, column: range.start.column + o_tag.length})
   }
 
   insert_line(start, end = '', sep = '\n') {
@@ -367,6 +387,7 @@ class BBEditor {
     let page_width = document.getElementById('page0').offsetWidth;
     let left_panel = this.editor.editor.container;
     let right_panel = this.editor.right_panel;
+    let page_zoom = this.editor.page_zoom
 
     // Padding of container * 2 + desired margin
     let magic = 30 * 2 + 30;
@@ -374,34 +395,56 @@ class BBEditor {
     let lw = MOUSE_POS.x - 3;
     let rw = width - lw - 3;
 
-    //let current_scroll = this.editor.content_container.scrollTop / this.editor.content.offsetHeight
-
-    if (rw < page_width + magic) {
-      let zoom_x = (rw - magic) / page_width;
-      let zoom = zoom_x;
+    if (page_zoom == "auto") {
+      let zoom = (rw - magic) / page_width;
       right_panel.style.width = rw + "px";
-      this.editor.content.style.transform = "scale(" + zoom_x + ")";
-      this.editor.content.style.transformOrigin = "top left";
-      this.editor.content.style.width = page_width * zoom + "px";
-      this.editor.content.style.height = page_height * zoom + "px";
-      //this.editor.content_container.scrollTo(0, current_scroll * page_height * zoom)
+      this.editor.#zoom_page(zoom, page_width, page_height)
     } else {
       right_panel.style.width = rw + "px";
-      this.editor.content.style.transform = "";
-      this.editor.content.style.width = "";
-      this.editor.content.style.height = "";
+      this.editor.#zoom_page(page_zoom, page_width, page_height)
     }
     left_panel.style.width = lw + "px";
   }
 
-  #fit_page(container_width, page_width, margin){
-    let zoom_x = (container_width - margin) / page_width;
-    let zoom = zoom_x;
-    right_panel.style.width = rw + "px";
-    this.editor.content.style.transform = "scale(" + zoom_x + ")";
-    this.editor.content.style.transformOrigin = "top left";
-    this.editor.content.style.width = page_width * zoom + "px";
-    this.editor.content.style.height = page_height * zoom + "px";
+  set_zoom_page(value){
+    if(value == "auto") this.#fit_page()
+    else this.#zoom_page(value)
+    this.page_zoom = value
+  }
+
+  #zoom_page(value, width, height){
+    if(!height) height = document.getElementById('page0').offsetHeight;
+    if(!width) width = document.getElementById('page0').offsetWidth;
+
+    console.log(width)
+
+    let w = width * value
+    let h = height * value
+    this.content.style.transformOrigin = "left top";
+    this.content.style.position = "absolute";
+    this.content.style.left = "unset"
+    if(value >= 1) {
+      if(w < this.right_panel.offsetWidth) {
+        this.content.style.transformOrigin = "center top";
+        w = width
+        h = height
+      }
+      else {
+        this.content.style.left = "15px"
+        w = width + 30
+        h = height
+      }
+    }
+    this.content.style.transform = "scale(" + value + ")";
+    this.content.style.width = w + "px";
+    this.content.style.height = h + "px";
+  }
+
+  #fit_page(rw, width, magic = 90){
+    if(!width) width = document.getElementById('page0').offsetWidth;
+    if(!rw) rw = this.right_panel.offsetWidth;
+    let zoom = (rw - magic) / width;
+    this.#zoom_page(zoom, width)
   }
 
   render_toc(){

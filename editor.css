@@ -106,7 +106,7 @@ p {
     background-position: top right;
 }
 
-.page-content :is(h1,h2,h3,h4,h5,h6):hover {
+.bbcode-content .page-content :is(h1,h2,h3,h4,h5,h6):hover {
     cursor: pointer;
     text-shadow: 0 0 14px yellow;
 }
@@ -167,7 +167,7 @@ p {
     width: 150px;
     display: none;
     position: absolute;
-    top: 32px;
+    top: calc(100% - 2px);
     color:black;
     background-color: white;
     border: 1px solid #aaa;
@@ -379,6 +379,9 @@ p + :is(ul, ol) {
 .bbcode-content .page:first-child {
     margin: 0 auto;
 }
+.bbcode-content .page:last-child {
+    margin-bottom: 15px!important;
+}
 
 .page-content {
     margin-top: var(--page-margin-top);
@@ -492,6 +495,7 @@ p + :is(ul, ol) {
     background-position: bottom;
     background-repeat: no-repeat;
     z-index: -1;
+    color: var(--primary-color);
 }
 .footer::after{
     position: absolute;
@@ -499,7 +503,7 @@ p + :is(ul, ol) {
     right: 0.15cm;
     text-align: center;
     content: var(--footer-number);
-    color: var(--primary-color);
+    color:inherit;
     width: 1cm;
 }
 .footer.phb { background-image: url('./styles/footers/phb.png'); }
@@ -510,18 +514,19 @@ p + :is(ul, ol) {
 .footer.phb.teal { background-image: url('./styles/footers/phb-teal.png'); }
 .footer.phb.yellow { background-image: url('./styles/footers/phb-yellow.png'); }
 
-.footer.dmg { background-image: url('./styles/footers/dmg.png'); }
+.footer.dmg { background-image: url('./styles/footers/dmg.png'); color: #a7a7a7; }
 .footer.dmg.blue { background-image: url('./styles/footers/dmg-blue.png'); }
 .footer.dmg.green { background-image: url('./styles/footers/dmg-green.png'); }
 .footer.dmg.purple { background-image: url('./styles/footers/dmg-purple.png'); }
 .footer.dmg.red { background-image: url('./styles/footers/dmg-red.png'); }
 .footer.dmg.teal { background-image: url('./styles/footers/dmg-teal.png'); }
 .footer.dmg.yellow { background-image: url('./styles/footers/dmg-yellow.png'); }
-.footer.ee { background-image: url('./styles/footers/ee.png'); }
+.footer.ee { background-image: url('./styles/footers/ee.png'); color: #dfe4e5; }
 .footer.draco {
     background-image: url('./styles/footers/draco.png');
     background-size: 9.25cm;
     background-position: bottom right;
+    color: #beb19f;
 }
 .footer.draco::after{ right: 0.1cm; bottom: 1.165cm; }
 
@@ -529,14 +534,16 @@ p + :is(ul, ol) {
     background-image: url('./styles/footers/MToF.png');
     background-size: 7.9375cm;
     background-position: bottom -0.37cm right -0.37cm;
+    color:#e1d4b3;
 }
 .footer.mtof::after{ right: 0.07cm; }
 
 .footer.xgte {
     background-image: url('./styles/footers/XgtE.png');
     background-position: bottom -0.5cm right -0.4cm;
+    color: #808080;
 }
-.footer.xgte::after{ right: 0.35cm; bottom: 0.75cm; }
+.footer.xgte::after{ right: 0.35cm; bottom: 0.80cm; }
 
 .page:nth-child(even) .footer, .page:nth-child(even) .footer::after, .page:nth-child(even) .footer > *{
     -moz-transform: scaleX(-1);
@@ -555,7 +562,7 @@ p + :is(ul, ol) {
     font-family: var(--text-font);
     font-size: var(--text-size);
     text-align: right;
-    color: var(--primary-color);
+    color: inherit;
 }
 
 .mtof .footnote { bottom: 1.0cm; right: 1.8cm; }
@@ -569,7 +576,7 @@ p + :is(ul, ol) {
     left: 0;
     width: 55%;
     height: 100%;
-    background: url('./styles/back-cover.png');
+    background: url('./styles/assets/back-cover.png');
     background-position: top left;
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -581,40 +588,38 @@ p + :is(ul, ol) {
 
     font-size: 10pt;
     color:white;
-    font-family: 'Overpass';
+    font-family: 'Overpass', sans-serif;
     box-sizing: border-box;
+}
 
+.back-cover h2 {
+    margin-top: 2cm;
+    font-family: var(--cover-font);
+    color: #ED1C24;
+    text-align: center;
+    font-size: 42pt;
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+}
 
-    h2 {
-        margin-top: 2cm;
-        font-family: var(--cover-font);
-        color: #ED1C24;
-        text-align: center;
-        font-size: 42pt;
-        line-height: 0.9;
-        letter-spacing: -0.025em;
-    }
+.back-cover p {
+    margin: 1cm 0;
+    line-height: 1.6;
+    font-weight: bold;
+}
 
-    p {
-        margin: 1cm 0;
-        line-height: 1.6;
-        font-weight: bold;
-    }
+.back-cover p + p {
+    text-indent: 0;
+}
 
-    p + p {
-        text-indent: 0;
-    }
-
-    hr {
-        width: 100%;
-        background-image: url('./styles/diamond_title.svg');
-        height: 20px;
-        background-position: center;
-        background-size: 80%;
-        background-repeat: no-repeat;
-        border: none;
-    }
-
+.back-cover hr {
+    width: 100%;
+    background-image: url('./styles/assets/diamond_title.svg');
+    height: 20px;
+    background-position: center;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    border: none;
 }
 
 .cover .footnote {
@@ -688,9 +693,29 @@ dt {
 
     border-style: solid;
     border-width: 7px 6px;
-    border-image: url('./styles/borders/monster-fancy.png') 14 round;
+    border-image: url('./styles/borders/monster-fancy.png') 28 round;
     border-image-outset: 0px 2px;
     box-shadow: 1px 4px 14px #888888;
+    background-image: url('./styles/assets/parchment.jpg');
+    background-blend-mode: overlay;
+}
+
+.monster.classic{
+    font-family: var(--table-font);
+    font-size: var(--text-size);
+    display: block;
+    break-inside: avoid;
+    margin: 1em 0;
+    padding: 4px 2px;
+    background-color: #F2E5B5;
+
+    border-style: solid;
+    border-width: 7px 6px;
+    border-image: url('./styles/borders/monster-fancy.png') 28 round;
+    border-image-outset: 0px 2px;
+    box-shadow: 1px 4px 14px #888888;
+    background-image: url('./styles/assets/parchmentBackgroundGrayscale.jpg');
+    background-blend-mode: overlay;
 }
 
 .monster.brs{
@@ -721,8 +746,8 @@ dt {
 }
 
 .monster h2, .monster h3 { color: var(--monster-text-color); }
-.monster h2 { font-size: 26px; }
-.monster h3 { font-family: var(--table-font); border-color: var(--monster-text-color); border-width: 1px; }
+.monster h2 { font-size: 22pt; }
+.monster h3 { font-family: var(--table-title-font); border-color: var(--monster-text-color); border-width: 1px; font-size: 14pt; }
 .monster hr ~ :is(dl, p) { color: var(--monster-text-color); }
 .monster hr:last-of-type ~ :is(dl, p) { color: inherit; }
 .monster hr + table:first-of-type {
@@ -743,7 +768,7 @@ dt {
 
 .monster hr {
     background:var(--monster-separator-color);
-    mask-image: url('https://junthor.github.io/styles/separator.svg');
+    mask-image: url('https://junthor.github.io/styles/assets/separator.svg');
     mask-position: left center;
     mask-repeat: no-repeat;
     width: 100%;

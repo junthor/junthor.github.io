@@ -86,7 +86,7 @@ const DEFAULT_STYLE = {
         'width': '300px',
         'height': '100px',
 
-        'background-image': "url('./styles/banner.svg')",
+        'background-image': "url('./styles/assets/banner.svg')",
         'background-size': "contain",
         'background-repeat': "no-repeat",
         'background-position': "center left",
@@ -103,8 +103,8 @@ const DEFAULT_STYLE = {
         'padding-left': '60px',
         'filter': 'drop-shadow(2px 0px 2px #000000aa)',
     },
-    ".banner.simple": { 'background-image': "url('./styles/banner_simple.svg')" },
-    ".banner.ribbon": { 'background-image': "url('./styles/banner_ribbon.svg')" },
+    ".banner.simple": { 'background-image': "url('./styles/assets/banner_simple.svg')" },
+    ".banner.ribbon": { 'background-image': "url('./styles/assets/banner_ribbon.svg')" },
 
     "ul, ol": {
         "padding-left": "1em"

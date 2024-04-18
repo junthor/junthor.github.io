@@ -24,8 +24,8 @@ You can take and reuse my code, I don't care. You can also use some images I too
 
 - [x] Easy Font Customization (similar to what's for the colors)
 - [ ] Document's Variables
-- [ ] More Preview Features (zoom in / zoom out)
+- [x] More Preview Features (zoom in / zoom out)
 - [x] Easy Appearence Customization (Page Background, Footer, maybe other)
 - [ ] Custom CSS Editor 
 - [ ] WFRP Theme
-- [ ] Auto Table of Contents (although hyperlinks don't work when saving as PDF...)
+- [x] Auto Table of Contents (although hyperlinks don't work when saving as PDF...)
