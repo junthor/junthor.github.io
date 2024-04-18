@@ -324,6 +324,7 @@ const BBCODE_TAGS = {
     keywords: {
       wide: ['class', "wide"],
       brs: ['class', "brs"],
+      classic: ['class', "classic"],
       noframe: ['class', "noframe"],
       unframe: ['class', "noframe"],
     },

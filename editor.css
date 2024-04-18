@@ -696,8 +696,6 @@ dt {
     border-image: url('./styles/borders/monster-fancy.png') 28 round;
     border-image-outset: 0px 2px;
     box-shadow: 1px 4px 14px #888888;
-    background-image: url('./styles/assets/parchment.jpg');
-    background-blend-mode: overlay;
 }
 
 .monster.classic{
@@ -714,7 +712,7 @@ dt {
     border-image: url('./styles/borders/monster-fancy.png') 28 round;
     border-image-outset: 0px 2px;
     box-shadow: 1px 4px 14px #888888;
-    background-image: url('./styles/assets/parchmentBackgroundGrayscale.jpg');
+    background-image: url('./styles/assets/parchment.jpg');
     background-blend-mode: overlay;
 }
 
@@ -746,7 +744,7 @@ dt {
 }
 
 .monster h2, .monster h3 { color: var(--monster-text-color); }
-.monster h2 { font-size: 22pt; }
+.monster h2 { font-size: 20pt; }
 .monster h3 { font-family: var(--table-title-font); border-color: var(--monster-text-color); border-width: 1px; font-size: 14pt; }
 .monster hr ~ :is(dl, p) { color: var(--monster-text-color); }
 .monster hr:last-of-type ~ :is(dl, p) { color: inherit; }
