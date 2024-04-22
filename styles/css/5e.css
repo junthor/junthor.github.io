@@ -10,7 +10,7 @@
     width: 100%;
     height: 100%;
 
-    background-image: url('../styles/footers/phb.png');
+    background-image: url('../footers/phb.png');
     background-size: contain;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -29,7 +29,7 @@
     width: calc(0.0476 * var(--page-width));
 }
 .footer.curator { 
-    background-image: url('../styles/footers/curator.svg'); 
+    background-image: url('../footers/curator.svg'); 
     color: #9f968b; 
     
     background-size: calc(0.8 * var(--page-width));
@@ -41,24 +41,24 @@
     bottom: calc(0.0286 * var(--page-width)); 
     right: calc(0.015 * var(--page-width));
 }
-.footer.phb { background-image: url('../styles/footers/phb.png'); }
-.footer.phb.blue { background-image: url('../styles/footers/phb-blue.png'); }
-.footer.phb.green { background-image: url('../styles/footers/phb-green.png'); }
-.footer.phb.purple { background-image: url('../styles/footers/phb-purple.png'); }
-.footer.phb.red { background-image: url('../styles/footers/phb-red.png'); }
-.footer.phb.teal { background-image: url('../styles/footers/phb-teal.png'); }
-.footer.phb.yellow { background-image: url('../styles/footers/phb-yellow.png'); }
+.footer.phb { background-image: url('../footers/phb.png'); }
+.footer.phb.blue { background-image: url('../footers/phb-blue.png'); }
+.footer.phb.green { background-image: url('../footers/phb-green.png'); }
+.footer.phb.purple { background-image: url('../footers/phb-purple.png'); }
+.footer.phb.red { background-image: url('../footers/phb-red.png'); }
+.footer.phb.teal { background-image: url('../footers/phb-teal.png'); }
+.footer.phb.yellow { background-image: url('../footers/phb-yellow.png'); }
 
-.footer.dmg { background-image: url('../styles/footers/dmg.png'); color: #a7a7a7; }
-.footer.dmg.blue { background-image: url('../styles/footers/dmg-blue.png'); }
-.footer.dmg.green { background-image: url('../styles/footers/dmg-green.png'); }
-.footer.dmg.purple { background-image: url('../styles/footers/dmg-purple.png'); }
-.footer.dmg.red { background-image: url('../styles/footers/dmg-red.png'); }
-.footer.dmg.teal { background-image: url('../styles/footers/dmg-teal.png'); }
-.footer.dmg.yellow { background-image: url('../styles/footers/dmg-yellow.png'); }
-.footer.ee { background-image: url('../styles/footers/ee.png'); color: #dfe4e5; }
+.footer.dmg { background-image: url('../footers/dmg.png'); color: #a7a7a7; }
+.footer.dmg.blue { background-image: url('../footers/dmg-blue.png'); }
+.footer.dmg.green { background-image: url('../footers/dmg-green.png'); }
+.footer.dmg.purple { background-image: url('../footers/dmg-purple.png'); }
+.footer.dmg.red { background-image: url('../footers/dmg-red.png'); }
+.footer.dmg.teal { background-image: url('../footers/dmg-teal.png'); }
+.footer.dmg.yellow { background-image: url('../footers/dmg-yellow.png'); }
+.footer.ee { background-image: url('../footers/ee.png'); color: #dfe4e5; }
 .footer.draco {
-    background-image: url('../styles/footers/draco.png');
+    background-image: url('../footers/draco.png');
     background-size: calc(0.44 * var(--page-width));
     background-position: bottom right;
     color: #beb19f;
@@ -69,7 +69,7 @@
 }
 
 .footer.mtof {
-    background-image: url('../styles/footers/MToF.png');
+    background-image: url('../footers/MToF.png');
     background-size: calc(0.378 * var(--page-width));
     --b: calc(-0.0176 * var(--page-width));
     background-position: bottom var(--b) right var(--b);
@@ -78,7 +78,7 @@
 .footer.mtof::after{ right: calc(0.0033 * var(--page-width)); }
 
 .footer.xgte {
-    background-image: url('../styles/footers/XgtE.png');
+    background-image: url('../footers/XgtE.png');
     --b: calc(-0.0238 * var(--page-width));
     --r: calc(-0.019 * var(--page-width));
     background-position: bottom var(--b) right var(--r);
@@ -137,7 +137,7 @@
     left: 0;
     width: 55%;
     height: 100%;
-    background: url('../styles/assets/back-cover.png');
+    background: url('../assets/back-cover.png');
     background-position: top left;
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -172,7 +172,7 @@
 
 .back-cover hr {
     width: 100%;
-    background-image: url('../styles/assets/diamond_title.svg');
+    background-image: url('../assets/diamond_title.svg');
     height: 20px;
     background-position: center;
     background-size: 80%;
@@ -204,7 +204,7 @@
 }
 
 .cover hr {
-    background-image: url('../styles/assets/diamond_title.svg');
+    background-image: url('../assets/diamond_title.svg');
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
@@ -244,7 +244,7 @@
     width: 38%;
     height: calc(0.126 * var(--page-width));
 
-    background-image: url('../styles/assets/banner.svg');
+    background-image: url('../assets/banner.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center left;
@@ -261,8 +261,8 @@
     padding-left: calc(0.0756 * var(--page-width));
     filter: drop-shadow(2px 0px 2px #000000aa);
 }
-.banner.simple { background-image: url('../styles/assets/banner_simple.svg'); }
-.banner.ribbon { background-image: url('../styles/assets/banner_ribbon.svg'); }
+.banner.simple { background-image: url('../assets/banner_simple.svg'); }
+.banner.ribbon { background-image: url('../assets/banner_ribbon.svg'); }
 
 /********************
     MARK: MONSTER 
@@ -287,7 +287,7 @@
     width: calc(100% + 4px);
     height: 8px;
     background-color: black;
-    background-image: url('../styles/borders/monster-fancy-top.png');
+    background-image: url('../borders/monster-fancy-top.png');
     background-size: cover;
     content: '';
     top: -8px;
@@ -299,7 +299,7 @@
 .monster, .monster.classic{
     border: none;
     background-color: #f6f0d6;
-    background-image: url('../styles/borders/monster-fancy2.png'), url('../styles/assets/parchment.jpg');
+    background-image: url('../borders/monster-fancy2.png'), url('../assets/parchment.jpg');
     background-blend-mode: normal, overlay;
     background-size: 100% auto, auto;
     background-repeat: repeat-y, repeat;
@@ -389,7 +389,7 @@
     border-image-outset: 25px 17px;
     border-image-repeat: stretch;
     border-image-slice: 38%;
-    border-image-source: url('../styles/borders/frame.svg');
+    border-image-source: url('../borders/frame.svg');
     border-image-width: 15;
     background-color: white;
     margin: 42px 17px;
@@ -403,14 +403,14 @@
     border-image-width: 5;
     background-color: transparent;
     margin-bottom: 25px;
-    border-image-source: url('../styles/borders/script.svg');
+    border-image-source: url('../borders/script.svg');
 }
 .frame.small {
     border-image-outset: 10px 10px;
     border-image-width: 10;
     margin-bottom: 25px;
     background-color: transparent;
-    border-image-source: url('../styles/borders/code.svg');
+    border-image-source: url('../borders/code.svg');
 }
 
 * + .frame.card { margin-top: var(--space-between)!important; }
@@ -418,7 +418,7 @@
     border-image-slice: 28% fill;
     border-image-outset: 0;
     border-image-width: 8;
-    border-image-source: url('../styles/borders/box.svg');
+    border-image-source: url('../borders/box.svg');
     padding: 10px 10px;
     box-shadow: 0 0 4px #00000055;
     margin: 0;
@@ -453,7 +453,7 @@
     width: 8cm;
     height: max(calc(100% + 2cm), calc(50% + 4cm));
     content: '';
-    background-image: url('../styles/borders/table-decoration.svg');
+    background-image: url('../borders/table-decoration.svg');
     filter: drop-shadow(0 0 1px #C8C5C080);
     background-repeat: no-repeat;
     background-position: top center;
@@ -467,7 +467,7 @@
     width: 8cm;
     height: max(calc(100% + 2cm), calc(50% + 4cm));
     content: '';
-    background-image: url('../styles/borders/table-decoration.svg');
+    background-image: url('../borders/table-decoration.svg');
     filter: drop-shadow(0 0 1px #C8C5C080);
     background-repeat: no-repeat;
     background-position: bottom center;
@@ -587,7 +587,7 @@ dt {
 .part, .part.phb, .part.dmg, .part.brs {
     width: 100%;
     height: 100%;
-    background-image: url('../styles/headers/part-round.png');
+    background-image: url('../headers/part-round.png');
     background-position: top center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -596,9 +596,9 @@ dt {
     left: 0;
     z-index: -1
 }
-.part.dmg { background-image: url('../styles/headers/part-rect.png'); }
+.part.dmg { background-image: url('../headers/part-rect.png'); }
 .part.brs {
-    background-image: url('../styles/headers/part-brs.svg');
+    background-image: url('../headers/part-brs.svg');
     background-position: center 1cm;
     background-size: 90%;
 }
@@ -628,7 +628,7 @@ dt {
     margin-top: -0.1em!important;
     width: 100%;
     height: 100%;
-    background-image: url('../styles/headers/part-brs-bottom.svg');
+    background-image: url('../headers/part-brs-bottom.svg');
     background-position: center 1.1em;
     background-size: 40%;
     background-repeat: no-repeat
@@ -672,7 +672,7 @@ dt {
     width: 100%;
     content: var(--chapter-number);
     padding-bottom: 0.4em;
-    background-image: url('../styles/assets/xgte-sep.png');
+    background-image: url('../assets/xgte-sep.png');
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: 7cm;
@@ -684,7 +684,7 @@ dt {
     width: 100%;
     height: 100%;
     z-index: -3;
-    background-image: url('../styles/assets/xgte-chapter-top.png');
+    background-image: url('../assets/xgte-chapter-top.png');
     background-repeat: no-repeat;
     background-position: top left;
     background-size: contain;
@@ -734,7 +734,7 @@ td {
     font-family: var(--table-font);
     font-size: var(--note-text-size);
     border-width: 1px;
-    border-image: url('../styles/borders/note.svg') 20% stretch;
+    border-image: url('../borders/note.svg') 20% stretch;
     border-image-width: 11px;
     border-image-outset: 9px 0px;
     box-shadow: 1px 4px 14px #888;
@@ -749,7 +749,7 @@ td {
     font-family: var(--table-font);
     border-style: solid;
     border-width: 7px;
-    border-image: url("../styles/borders/description.svg") 24% 17.5% stretch;
+    border-image: url("../borders/description.svg") 24% 17.5% stretch;
     border-image-outset: 3px;
     box-shadow: 0 0 6px var(--description-color);
 }

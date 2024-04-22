@@ -1,0 +1,176 @@
+@font-face {
+    font-family: "Bookinsanity";
+    src: 
+        url('../../fonts/Bookinsanity/Bookinsanity.otf') format("opentype");
+}
+@font-face {
+    font-family: "Bookinsanity";
+    src: 
+        url('../../fonts/Bookinsanity/Bookinsanity Bold Italic.otf')  format("opentype");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Bookinsanity";
+    src: 
+        url('../../fonts/Bookinsanity/Bookinsanity Bold.otf') format("opentype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Bookinsanity";
+    src: 
+        url('../../fonts/Bookinsanity/Bookinsanity Italic.otf') format("opentype");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Zatanna Misdirection";
+    src: 
+        url('../../fonts/Zatanna Misdirection/Zatanna Misdirection.otf') format("opentype");
+}
+@font-face {
+    font-family: "Zatanna Misdirection";
+    src: 
+        url('../../fonts/Zatanna Misdirection/Zatanna Misdirection Bold Italic.otf') format("opentype");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Zatanna Misdirection";
+    src: 
+        url('../../fonts/Zatanna Misdirection/Zatanna Misdirection Bold.otf') format("opentype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Zatanna Misdirection";
+    src: 
+        url('../../fonts/Zatanna Misdirection/Zatanna Misdirection Italic.otf') format("opentype");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Nodesto Caps Condensed";
+    src: 
+        url('../../fonts/Nodesto Caps Condensed/Nodesto Caps Condensed.otf')  format("opentype");
+}
+@font-face {
+    font-family: "Nodesto Caps Condensed";
+    src: 
+        url('../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Bold Italic.otf') format("opentype");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Nodesto Caps Condensed";
+    src: 
+        url('../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Bold.otf') format("opentype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Nodesto Caps Condensed";
+    src: 
+        url('../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Italic.otf') format("opentype");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Mr Eaves Small Caps";
+    src: 
+        url('../../fonts/Mr Eaves/Mr Eaves Small Caps.otf') format("opentype");
+}
+@font-face {
+    font-family: "Scaly Sans";
+    src: 
+        url('../../fonts/Scaly Sans/Scaly Sans.woff2');
+}
+@font-face {
+    font-family: "Scaly Sans";
+    src: 
+        url('../../fonts/Scaly Sans/Scaly Sans Bold Italic.woff2');
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Scaly Sans";
+    src: 
+        url('../../fonts/Scaly Sans/Scaly Sans Bold.woff2');
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Scaly Sans";
+    src: 
+        url('../../fonts/Scaly Sans/Scaly Sans Italic.woff2');
+    font-style: italic;
+}
+@font-face {
+    font-family: "Scaly Sans Caps";
+    src: 
+        url('../../fonts/Scaly Sans Caps/Scaly Sans Caps.otf') format("opentype");
+}
+@font-face {
+    font-family: "Scaly Sans Caps";
+    src: 
+        url('../../fonts/Scaly Sans Caps/Scaly Sans Caps Bold Italic.otf') format("opentype");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Scaly Sans Caps";
+    src: 
+        url('../../fonts/Scaly Sans Caps/Scaly Sans Caps Bold.otf') format("opentype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Scaly Sans Caps";
+    src: 
+        url('../../fonts/Scaly Sans Caps/Scaly Sans Caps Italic.otf') format("opentype");
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Sovngarde';
+    src: url('../../fonts/Sovngarde/SovngardeLight.otf');
+}
+@font-face {
+    font-family: 'Sovngarde';
+    src: url('../../fonts/Sovngarde/SovngardeBold.otf');
+    font-weight: bold;
+}
+
+
+@font-face {
+    font-family: "Solbera Imitation";
+    src: 
+        url('../../fonts/Solbera Imitation/Solbera Imitation Display.otf') format("opentype");
+}
+@font-face {
+    font-family: "Solbera Imitation Color";
+    src: 
+        url('../../fonts/Solbera Imitation/Solbera Imitation Color.otf') format("opentype");
+}
+@font-face {
+    font-family: "Morris Jenson Initialen";
+    src: 
+        url('../../fonts/Lettrines/Morris Jenson Initialen.ttf');
+}
+@font-face {
+    font-family: "Heavy Rain";
+    src: 
+        url('../../fonts/Lettrines/HeavyRain.ttf');
+}
+@font-face {
+    font-family: "Zallman";
+    src: 
+        url('../../fonts/Lettrines/ZallmanCaps.TTF');
+}
+@font-face {
+    font-family: "OPTIBookman";
+    src: 
+        url('../../fonts/Lettrines/OPTIBookmanBoldItaSwashSup.otf');
+}
+@font-face {
+    font-family: "Royal";
+    src: 
+        url('../../fonts/Lettrines/Royal.ttf');
+}
+@font-face {
+    font-family: "Bookman Swash";
+    src: 
+        url('../../fonts/Lettrines/Bookman\ Swash\ ITC\ Medium.ttf');
+}

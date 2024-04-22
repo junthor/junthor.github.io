@@ -25,7 +25,7 @@ const GUIDE_AUTOLOAD = {
         "--monster-background-color": "#fbf8f4",
         "--item-name-color": "#766649",
         "--page-background-color": "#ffffff",
-        "--page-background-image": "url('./styles/backgrounds/curator.jpg')",
+        "--page-background-image": "url('../backgrounds/curator.jpg')",
         "--lettrine-color": "#231f20",
         "--lettrine-font": "Solbera Imitation",
         "--text-font": "Bookinsanity",

@@ -70,7 +70,7 @@ const CURATOR = {
     style: {
         ":root": {
             // COLORS
-            '--page-background-image': 'url("./styles/backgrounds/curator.jpg")',
+            '--page-background-image': 'url("../backgrounds/curator.jpg")',
             
             // TEXT SIZE
             '--text-size': '9.6pt',
@@ -81,7 +81,7 @@ const CURATOR = {
         },
 
         '.footer': { 
-            'background-image': "url('./styles/footers/curator.svg')", 
+            'background-image': "url('../footers/curator.svg')", 
             'color': "#9f968b", 
             
             'background-size': "calc(0.8 * var(--page-width))",
@@ -111,7 +111,7 @@ const XGTE = {
         ":root": {
             // COLORS
             '--heading-color': '#034957',
-            '--page-background-image': 'url(".styles/backgrounds/xgte.jpeg")',
+            '--page-background-image': 'url("../backgrounds/xgte.jpeg")',
             
             // TEXT SIZE
             '--cover-title-size': '60pt',
@@ -130,7 +130,7 @@ const XGTE = {
         },
 
         '.footer': {
-            'background-image':  "url('./styles/footers/XgtE.png')",
+            'background-image':  "url('../footers/XgtE.png')",
             'background-position':  "bottom -0.5cm right -0.4cm",
             'color':  "#808080",
         },

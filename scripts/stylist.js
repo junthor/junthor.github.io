@@ -19,7 +19,7 @@ class Stylist {
     #delta
     #color_tmp // used to tmp save the color before input (to restore it on undo)
 
-    constructor(style = DND5E){
+    constructor(style = CURATOR){
         this.#templates = style.template
         if(style.load) {
             this.#styles = style.load[0].style
