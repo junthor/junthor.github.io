@@ -503,7 +503,7 @@ class Stylist {
         }
         let sheets = ''
         for(let sheet of this.#templates){
-            sheets += `<link rel="stylesheet" href="styles/${sheet}"></link>`
+            sheets += `<link rel="stylesheet" href="./styles/css/${sheet}"></link>`
         }
         return sheets+'<style>\n'+css.join('')+'</style>\n'
     }
