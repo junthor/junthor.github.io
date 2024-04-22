@@ -70,7 +70,7 @@ const CURATOR = {
     style: {
         ":root": {
             // COLORS
-            '--page-background-image': 'url("./backgrounds/curator.jpg")',
+            '--page-background-image': 'url("./styles/backgrounds/curator.jpg")',
             
             // TEXT SIZE
             '--text-size': '9.6pt',
@@ -111,7 +111,7 @@ const XGTE = {
         ":root": {
             // COLORS
             '--heading-color': '#034957',
-            '--page-background-image': 'url("./backgrounds/xgte.jpeg")',
+            '--page-background-image': 'url(".styles/backgrounds/xgte.jpeg")',
             
             // TEXT SIZE
             '--cover-title-size': '60pt',
