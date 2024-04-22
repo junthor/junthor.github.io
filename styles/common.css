@@ -1,0 +1,246 @@
+.page-content {
+    margin-top: var(--page-margin-top);
+    margin-left: var(--page-margin-left);
+    margin-right: var(--page-margin-right);
+    margin-bottom: var(--page-margin-bottom);
+    box-sizing: border-box;
+
+    column-count: 2;
+    column-fill: auto;
+    column-gap: 1cm;
+
+    width: calc(100% - var(--page-margin-left) - var(--page-margin-right));
+    height: calc(100% - var(--page-margin-top) - var(--page-margin-bottom));
+}
+
+.page {
+    width: var(--page-width);
+    height: var(--page-height);
+
+    position: relative;
+
+    box-sizing: border-box;
+    overflow: hidden;
+    contain: size;
+
+    counter-increment: number-of-page;
+
+    z-index: 10;
+
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.page::before {
+    top: 0;
+    left: 0;
+    content: ' ';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--page-background-color);
+    background-image: var(--page-background-image);
+    background-size: 100% 100%;
+    z-index: -3;
+}
+
+.page:nth-child(even)::before {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.page img {
+    z-index: -2;
+}
+
+.page pre {
+    display: block;
+    word-break: break-all;
+}
+
+.page pre code {
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #ddd;
+    color: #333;
+    border: 1px solid #aaa;
+    display: block;
+}
+
+.page code {
+    padding: 2px 4px;
+    margin: 0;
+    white-space: pre-wrap;
+    display: inline-block;
+    text-indent: 0!important;
+
+    background-color: #ddd;
+    color: #333;
+}
+
+.chapter {
+    column-span: all;
+    counter-increment: number-of-chapter;
+}
+
+.wide {
+    display: block !important;
+    column-span: all;
+    margin-bottom: var(--space-between);
+}
+
+.text-stroke {
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-text-stroke: 0;
+    width: 100%;
+} 
+
+.page:nth-child(even) .footnote {
+    text-align: left;
+}
+
+.page img.cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.note, .description {
+    display: inline-block;
+    width: 100%;
+}
+
+.column-break { display: block; }
+
+.name {
+    font-family: var(--item-name-font);
+    color: var(--item-name-color);
+    font-size: var(--item-name-size);
+    z-index: 10; 
+}
+h1 { column-span: all; }
+p { margin: 0; }
+
+p.A::first-letter { margin: var(--lettrine-letter-A); }
+p.B::first-letter { margin: var(--lettrine-letter-B); }
+p.C::first-letter { margin: var(--lettrine-letter-C); }
+p.D::first-letter { margin: var(--lettrine-letter-D); }
+p.E::first-letter { margin: var(--lettrine-letter-E); }
+p.F::first-letter { margin: var(--lettrine-letter-F); }
+p.G::first-letter { margin: var(--lettrine-letter-G); }
+p.H::first-letter { margin: var(--lettrine-letter-H); }
+p.I::first-letter { margin: var(--lettrine-letter-I); }
+p.J::first-letter { margin: var(--lettrine-letter-J); }
+p.K::first-letter { margin: var(--lettrine-letter-K); }
+p.L::first-letter { margin: var(--lettrine-letter-L); }
+p.M::first-letter { margin: var(--lettrine-letter-M); }
+p.N::first-letter { margin: var(--lettrine-letter-N); }
+p.O::first-letter { margin: var(--lettrine-letter-O); }
+p.P::first-letter { margin: var(--lettrine-letter-P); }
+p.Q::first-letter { margin: var(--lettrine-letter-Q); }
+p.R::first-letter { margin: var(--lettrine-letter-R); }
+p.S::first-letter { margin: var(--lettrine-letter-S); }
+p.T::first-letter { margin: var(--lettrine-letter-T); }
+p.U::first-letter { margin: var(--lettrine-letter-U); }
+p.V::first-letter { margin: var(--lettrine-letter-V); }
+p.W::first-letter { margin: var(--lettrine-letter-W); }
+p.X::first-letter { margin: var(--lettrine-letter-X); }
+p.Y::first-letter { margin: var(--lettrine-letter-Y); }
+p.Z::first-letter { margin: var(--lettrine-letter-Z); }
+
+/*******************
+   MARK: WATERCOLOR
+*******************/
+.watercolor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+
+    --wc-mask: var(--reverse-mask);
+    --wc-size: 100%;
+
+    mask-image: var(--wc-mask);
+    mask-size: var(--wc-size);
+    mask-position: bottom left;
+    mask-repeat: no-repeat;
+    mask-composite: add;
+    -webkit-mask-image: var(--wc-mask);
+    -webkit-mask-size: var(--wc-size);
+    -webkit-mask-position: bottom left;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: destination-over;
+    --wc-scale-x: 1;
+    --wc-scale-y: 1;
+    --wc-x: 0;
+    --wc-y: 0;
+
+    transform: scale(var(--wc-scale-x), var(--wc-scale-y)) translate(var(--wc-x), var(--wc-y));
+    z-index: -2;
+}
+.watercolor.reverse{
+    --reverse-mask: linear-gradient(#fff, #fff);
+    mask-composite:exclude;
+    -webkit-mask-composite: destination-out;
+}
+.watercolor > .wc-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform: scale(var(--wc-scale-x), var(--wc-scale-y));
+}
+
+.watercolor.right{
+    --wc-scale-x: -1;
+    filter: FlipH;
+}
+.watercolor.top { --wc-scale-y: -1; }
+
+
+/*******************
+   MARK: TOC
+*******************/
+.toc-entry {
+    list-style: none;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    text-decoration: none;
+    color:inherit;
+    box-sizing: border-box;
+    align-items: flex-end;
+}
+.toc-heading { flex-grow: 1; display: flex; }
+.toc-heading::after {
+    flex-grow: 1;
+    content: ' ';
+    border-bottom: 1px dotted black;
+    margin: 3px;
+    box-sizing: border-box;
+}
+.toc li::marker { content: ''; }
+.toc h1 { text-align: center; }
+.toc > ul, .toc > ul > li > ul { padding-left: 0; }
+.toc > ul > li { margin-bottom: 1em; }
+.toc > ul > li > a { border-bottom: 2px solid var(--primary-color); }
+.toc > ul > li > a .toc-heading {
+    color: var(--heading-color);
+    font-size: 150%;
+    font-family: var(--h1-font);
+}
+.toc > ul > li > ul > li > a .toc-heading { 
+    font-size: 135%; 
+    font-family: var(--h2-font); 
+    color: var(--heading-color); 
+}
+.toc > ul > li > ul > li { margin: 1em 0; }
+.toc > ul > li > a > .toc-heading::after { border: none; }

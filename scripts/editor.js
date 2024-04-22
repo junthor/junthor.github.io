@@ -75,6 +75,7 @@ class BBEditor {
       wrapBehavioursEnabled: true,
       wrap: true,
       wrapMethod: "auto",
+      autoScrollEditorIntoView: true,  
     });
 
     this.editor = ace_editor;
@@ -100,6 +101,9 @@ class BBEditor {
     let file = input.files[0]
     if(file) this.#file_manager.load(file)
   }
+
+  undo() { this.#stylist.undo() }
+  redo() { this.#stylist.redo() }
 
   key_down(e) {
     let text = this.get_text()
@@ -144,8 +148,12 @@ class BBEditor {
 
     let paper_format = document.createElement("select")
     paper_format.id = "format-selector"
-    paper_format.innerHTML = '<option value="A4">A4</option><option value="Letter">Letter</option>'
-    paper_format.addEventListener('change', e => this.#stylist.set_page_format(paper_format))
+    paper_format.innerHTML  = '<option value="A4">A4</option>'
+    paper_format.innerHTML += '<option value="A5">A5</option>'
+    paper_format.innerHTML += '<option value="Letter">Letter</option>'
+    paper_format.addEventListener('change', e => 
+      this.#stylist.set_page_format(paper_format, this)
+    )
 
     let zoom = document.createElement("select")
     zoom.id = "zoom-selector"
@@ -406,6 +414,10 @@ class BBEditor {
     left_panel.style.width = lw + "px";
   }
 
+  update_page_zoom(){
+    this.set_zoom_page(this.page_zoom)
+  }
+
   set_zoom_page(value){
     if(value == "auto") this.#fit_page()
     else this.#zoom_page(value)
@@ -415,8 +427,6 @@ class BBEditor {
   #zoom_page(value, width, height){
     if(!height) height = document.getElementById('page0').offsetHeight;
     if(!width) width = document.getElementById('page0').offsetWidth;
-
-    console.log(width)
 
     let w = width * value
     let h = height * value
@@ -452,6 +462,7 @@ class BBEditor {
     let toc_html = '[toc]\n\n# Table of Content\n\n'
     let previous_level = 1
     for(let p in toc) {
+      if(p >= this.pages.length) continue
       for(let data in toc[p]) {
         let level = toc[p][data][0]
         let heading = toc[p][data][1]

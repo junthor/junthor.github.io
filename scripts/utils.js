@@ -34,7 +34,8 @@ const DEFAULT_PROPERTIES = {
   'font-color': ['style', 'color:', DEFAULT_REGEX["color"]],
   'font-size': ['style', 'font-size:', DEFAULT_REGEX["size"]],
   'font-family': ['style', 'font-family:', DEFAULT_REGEX["text"]],
-  'text-align': ['style', 'text-align:', DEFAULT_REGEX["align"]],
+  ff: ['style', 'font-family:', DEFAULT_REGEX["text"]],
+  'text-align': ['style', 'text-align:', DEFAULT_REGEX["text_align"]],
   
   // POSITIONING
   align: ['style', 'float:', DEFAULT_REGEX["align"]],
@@ -49,12 +50,20 @@ const DEFAULT_PROPERTIES = {
   'margin-bottom': ['style', 'margin-bottom:', DEFAULT_REGEX["size"]],
   'margin-left': ['style', 'margin-left:', DEFAULT_REGEX["size"]],
   'margin-right': ['style', 'margin-right:', DEFAULT_REGEX["size"]],
+  mt: ['style', 'margin-top:', DEFAULT_REGEX["size"]],
+  mb: ['style', 'margin-bottom:', DEFAULT_REGEX["size"]],
+  ml: ['style', 'margin-left:', DEFAULT_REGEX["size"]],
+  mr: ['style', 'margin-right:', DEFAULT_REGEX["size"]],
 
   padding: ['style', 'padding:', DEFAULT_REGEX["size"]],
   'padding-top': ['style', 'padding-top:', DEFAULT_REGEX["size"]],
   'padding-bottom': ['style', 'padding-bottom:', DEFAULT_REGEX["size"]],
   'padding-left': ['style', 'padding-left:', DEFAULT_REGEX["size"]],
   'padding-right': ['style', 'padding-right:', DEFAULT_REGEX["size"]],
+  pd: ['style', 'padding-top:', DEFAULT_REGEX["size"]],
+  pb: ['style', 'padding-bottom:', DEFAULT_REGEX["size"]],
+  pl: ['style', 'padding-left:', DEFAULT_REGEX["size"]],
+  pr: ['style', 'padding-right:', DEFAULT_REGEX["size"]],
 }
 
 const SEPARATOR = {
@@ -84,6 +93,32 @@ const BBCODE_TAGS = {
       class: 'part wide'
     }
   }, 
+
+  chapter: {
+    tag: 'div',
+    params: {
+      title: ['style', '--chapter-number:\'', DEFAULT_REGEX["text"], '\''],
+
+      margin: ['style', 'margin:', DEFAULT_REGEX["size"]],
+      'margin-top': ['style', 'margin-top:', DEFAULT_REGEX["size"]],
+      'margin-bottom': ['style', 'margin-bottom:', DEFAULT_REGEX["size"]],
+      'margin-left': ['style', 'margin-left:', DEFAULT_REGEX["size"]],
+      'margin-right': ['style', 'margin-right:', DEFAULT_REGEX["size"]],
+      mt: ['style', 'margin-top:', DEFAULT_REGEX["size"]],
+      mb: ['style', 'margin-bottom:', DEFAULT_REGEX["size"]],
+      ml: ['style', 'margin-left:', DEFAULT_REGEX["size"]],
+      mr: ['style', 'margin-right:', DEFAULT_REGEX["size"]],
+    },
+    keywords: {
+      witch: ['class', 'witch'],
+      xgte: ['class', 'xgte'],
+      decoration: ['class', 'decoration'],
+    },
+    auto_params: {
+      class: 'chapter wide',
+      style: `--chapter-number: 'Chapter ' counter(number-of-chapter)`
+    }
+  },
 
   stroke: {
     full_tag: true,
@@ -335,10 +370,15 @@ const BBCODE_TAGS = {
 
   columns: {
     tag: 'div',
+    add_start: '\n',
+    add_end: '\n',
     params: {
       n: ['style', 'columns:', DEFAULT_REGEX["number"]],
       gap: ['style', 'column-gap:', DEFAULT_REGEX["size"]],
-      padding: DEFAULT_PROPERTIES['padding']
+      padding: DEFAULT_PROPERTIES['padding'],
+      size: DEFAULT_PROPERTIES['font-size'],
+      font: DEFAULT_PROPERTIES['font-family'],
+      ff: DEFAULT_PROPERTIES['font-family']
     },
     keywords: {
       wide: ['class', 'wide'],
@@ -378,6 +418,7 @@ const BBCODE_TAGS = {
       ee: ['class', 'ee'],
       mtof: ['class', 'mtof'],
       dmg: ['class', 'dmg'],
+      curator: ['class', 'curator'],
       // Variants
       blue: ['class', 'blue'],
       green: ['class', 'green'],
@@ -453,7 +494,7 @@ const BBCODE_TAGS_STATIC = {
 
   "[big]": '<span style="font-size: 125%">',
   "[/big]": "</span>",
-  "[small]": '<span style="font-size: 75%">',
+  "[small]": '<span style="font-size: 80%">',
   "[/small]": "</span>",
 
   "[code]": "<code>",

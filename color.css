@@ -423,3 +423,7 @@ a {
     padding: 8px;
     background-color: white;
 }
+
+.block-preview .frame {
+    margin-top: 42px;
+}

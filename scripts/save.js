@@ -13,9 +13,11 @@ class DocumentSaver {
     save() {
         let data = {}
         data['content'] = this.#editor.get_text()
-        data['style'] = this.#stylist.get_style()
+        data['style'] = {
+            template: this.#stylist.get_templates(),
+            style: this.#stylist.get_style()
+        }
         let json = JSON.stringify(data)
-        console.log(json)
         let a = document.createElement("a");
         let file = new Blob([json], {type: "text/plain;charset=utf-8"});
         a.href = URL.createObjectURL(file);

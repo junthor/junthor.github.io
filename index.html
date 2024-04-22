@@ -69,34 +69,78 @@
 
 <body>
     <div id="options">
+        <div class="button-container" id="editor-buttons">
+            <div class="widgets">
+                <button id="undo-button" class="disabled" title='Undo' onclick="editor.undo()"><i class="fa-solid fa-rotate-left"></i></button>
+                <button id="redo-button" class="disabled" title='Redo' onclick="editor.redo()"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+            
+            <div class="widgets">
+            	<button title="Color Captain" onclick="toggle_visibility('color-picker-container')"><i class="fa-solid fa-palette"></i></button>
+            	<button title="Text Tailor" onclick="toggle_visibility('text-barber-container')"><i class="fa-solid fa-pen-nib"></i></button>
+            	<button title="Snippets Sailor" onclick="toggle_visibility('snippets-selector-container')" style="position: relative;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </button>
+            	<button title="Quick Snippets" style="position: relative;">
+                    <i class="fa-solid fa-bolt"></i>
+                    
+                    <div class="dropdown">
+                        <div title="Cover" onclick="editor.insert('[cover]\n\n# [s 0.15em]Title[/s]\n## [s 0.15em]Subtitle[/s]\n___\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[s 0.2em]Footnote[/s]\n[/footer]\n\n[/cover]')"><i class="fa-solid fa-book"></i> Cover Page</div>
+                        <div title="Part" onclick="editor.insert('[part]\n\n# PART 1\n## Subtitle\n\n[/part]')"><i class="fa-solid fa-bookmark"></i> Part Page</div>
+                        <div title="Footer" onclick="editor.insert('[footer show number]', '[/footer]')"><i class="fa-solid fa-asterisk"></i> Footer</div>
+                        <div title="Note" onclick="editor.insert('[note]\n\n##### Note\n', '\n\n[/note]')"><i class="bi bi-sticky-fill"></i> Note</div>
+                        <div title="Description" onclick="editor.insert('[description]\n\n##### Description', '\n\n[/description]')"><i class="bi bi-card-text"></i> Description</div>
+                        <div title="Quote" onclick="editor.insert('\n> ', '\n> - Author\n')"><i class="bi bi-quote"></i> Quote</div>
+                        <div title="Monster Stats" onclick="editor.insert(`[monster]${MONSTER_BLOCK_TEXT}[/monster]`)"><i class="fa-solid fa-skull"></i> Monster Stats</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
         <!-- Editor buttons -->
         <div class="button-container">
-            <div class="widgets">
-                <button title='Align Left' onclick="editor.insert_line('[left]', '[/left]', '\n\n')"><i class="fa-solid fa-align-left"></i></button>
-                <button title='Align Center' onclick="editor.insert_line('[center]', '[/center]', '\n\n')"><i class="fa-solid fa-align-center"></i></button>
-                <button title='Align Right' onclick="editor.insert_line('[right]', '[/right]', '\n\n')"><i class="fa-solid fa-align-right"></i></button>
-                <button title='Align Justify' onclick="editor.insert_line('[justify]', '[/justify]', '\n\n')"><i class="fa-solid fa-align-justify"></i></button>
-            </div>
 
             <div class="widgets">
+                
+                <button title='Text Align' style="position: relative;"><i class="fa-solid fa-align-left"></i>
+                    <div class="dropdown">
+                        <div title='Align Left' onclick="editor.insert_line('[left]', '[/left]', '\n\n')"><i class="fa-solid fa-align-left"></i> Align Left</div>
+                        <div title='Align Center' onclick="editor.insert_line('[center]', '[/center]', '\n\n')"><i class="fa-solid fa-align-center"></i> Align Center</div>
+                        <div title='Align Right' onclick="editor.insert_line('[right]', '[/right]', '\n\n')"><i class="fa-solid fa-align-right"></i> Align Right</div>
+                        <div title='Align Justify' onclick="editor.insert_line('[justify]', '[/justify]', '\n\n')"><i class="fa-solid fa-align-justify"></i> Justify</div>
+                    </div>
+                </button>
                 <button title='Heading' style="position: relative;">
                     <i class="fa-solid fa-heading"></i>
                     <div class="dropdown">
-                        <div title="Page Title" onclick="editor.insert('# ')"><i class="bi bi-type-h1"></i> Page Title</div>
-                        <div title="Section Title" onclick="editor.insert('## ')"><i class="bi bi-type-h2"></i> Section Title</div>
-                        <div title="Subsection Title" onclick="editor.insert('### ')"><i class="bi bi-type-h3"></i> Subsection Title</div>
-                        <div title="Paragraph Title" onclick="editor.insert('#### ')"><i class="bi bi-type-h4"></i> Paragraph Title</div>
-                        <div title="Table Title" onclick="editor.insert('##### ')"><i class="bi bi-type-h5"></i> Table Title</div>
+                        <div onclick="editor.insert('# ')"><i class="bi bi-type-h1"></i> Page Title</div>
+                        <div onclick="editor.insert('## ')"><i class="bi bi-type-h2"></i> Section Title</div>
+                        <div onclick="editor.insert('### ')"><i class="bi bi-type-h3"></i> Subsection Title</div>
+                        <div onclick="editor.insert('#### ')"><i class="bi bi-type-h4"></i> Paragraph Title</div>
+                        <div onclick="editor.insert('##### ')"><i class="bi bi-type-h5"></i> Table Title</div>
                     </div>
                 </button>
                 <button title='Font' style="position: relative;">
                     <i class="fa-solid fa-font"></i>
                     <div class="dropdown" id="font-family-dropdown"></div>
                 </button>
+                <button title='Font Size' style="position: relative;">
+                    <i class="fa-solid fa-text-height"></i>
+                    <div class="dropdown">
+                        <div onclick="editor.insert('[small]', '[/small]')" style="font-size: 80%;">Small</div>
+                        <div onclick="editor.insert('[big]', '[/big]')" style="font-size: 125%;">Big</div>
+                        <div onclick="editor.insert('[t size=100%]', '[/t]')">Custom</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="widgets">
                 <button title='Bold' onclick="editor.insert_line('**', '**', '  \n\n')"><i class="fa-solid fa-bold"></i></button>
                 <button title='Italic' onclick="editor.insert('*', '*')"><i class="fa-solid fa-italic"></i></button>
                 <button title='Underline' onclick="editor.insert('[u]', '[/u]')"><i class="fa-solid fa-underline"></i></button>
                 <button title='Strikethrough' onclick="editor.insert('~', '~')"><i class="fa-solid fa-strikethrough"></i></button>
+                <button title='Subscript' onclick="editor.insert('_{', '}')"><i class="fa-solid fa-subscript"></i></button>
+                <button title='Superscript' onclick="editor.insert('^{', '}')"><i class="fa-solid fa-superscript"></i></button>
             </div>
             
             <div class="widgets">
@@ -125,29 +169,8 @@
             	<button title="Horizontal Space" onclick="editor.insert('[hspace 1', 'em]')"><i class="fa-solid fa-left-right"></i></button>
             	<button title="Vertical Space" onclick="editor.insert('[vspace 1', 'em]\n')"><i class="fa-solid fa-up-down"></i></i></button>
 			</div>
-
-            
-            <div class="widgets">
-            	<button title="Color Captain" onclick="toggle_visibility('color-picker-container')"><i class="fa-solid fa-palette"></i></button>
-            	<button title="Text Tailor" onclick="toggle_visibility('text-barber-container')"><i class="fa-solid fa-pen-nib"></i></button>
-            	<button title="Snippets Sailor" onclick="toggle_visibility('snippets-selector-container')" style="position: relative;">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </button>
-            	<button title="Quick Snippets" style="position: relative;">
-                    <i class="fa-solid fa-bolt"></i>
-                    
-                    <div class="dropdown">
-                        <div title="Cover" onclick="editor.insert('[cover]\n\n# [s 0.15em]Title[/s]\n## [s 0.15em]Subtitle[/s]\n___\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[s 0.2em]Footnote[/s]\n[/footer]\n\n[/cover]')"><i class="fa-solid fa-book"></i> Cover Page</div>
-                        <div title="Part" onclick="editor.insert('[part]\n\n# PART 1\n## Subtitle\n\n[/part]')"><i class="fa-solid fa-bookmark"></i> Part Page</div>
-                        <div title="Footer" onclick="editor.insert('[footer show number]', '[/footer]')"><i class="fa-solid fa-asterisk"></i> Footer</div>
-                        <div title="Note" onclick="editor.insert('[note]\n\n##### Note\n', '\n\n[/note]')"><i class="bi bi-sticky-fill"></i> Note</div>
-                        <div title="Description" onclick="editor.insert('[description]\n\n##### Description', '\n\n[/description]')"><i class="bi bi-card-text"></i> Description</div>
-                        <div title="Quote" onclick="editor.insert('\n> ', '\n> - Author\n')"><i class="bi bi-quote"></i> Quote</div>
-                        <div title="Monster Stats" onclick="editor.insert(`[monster]${MONSTER_BLOCK_TEXT}[/monster]`)"><i class="fa-solid fa-skull"></i> Monster Stats</div>
-                    </div>
-                </button>
-            </div>
         </div>
+
     </div>
 
     <div id="editor-container">

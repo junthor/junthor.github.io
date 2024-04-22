@@ -29,7 +29,7 @@ const available_fonts = [
 ]
 
 const lettrine_fonts = [
-    'Heavy Rain', 'Morris Jenson Initialen', 'OPTIBookman', 'Royal',
+    'Heavy Rain', 'Morris Jenson Initialen', 'OPTIBookman', 'Bookman Swash', 'Royal',
     'Solbera Imitation', 'Solbera Imitation Color', 'Zallman'
 ]
 
@@ -56,6 +56,13 @@ const lettrine_definition = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
         ] 
+    } ,
+    'Bookman Swash': { 
+        '0 0 0 -0.1em' : [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',      'Z'
+        ],
+        '-0.18em 0 0 -0.1em' : [ 'Y' ],
     } 
 }
 
@@ -133,31 +140,32 @@ const SNIPPETS = {
         ['Footer (XGtE)', "[footer number xgte]FOOTNOTE[/footer]"],
         ['Footer (MToF)', "[footer number mtof]FOOTNOTE[/footer]"],
         ['Footer (Draco)', "[footer number draco]FOOTNOTE[/footer]"],
+        ['Footer (Curator)', "[footer number curator]FOOTNOTE[/footer]"],
         ['Only Number', "[footer hide number][/footer]"],
         ['Only Footnote', "[footer hide]FOOTNOTE[/footer]"],
     ],
     Backgrounds: [
         ['None', "", "page", "--page-background-image", "none"],
         ['Player Handbook', "[image link='./styles/backgrounds/PHB.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/PHB.png')"],
+        "--page-background-image", "url('./backgrounds/PHB.png')"],
         ['Elemental Evil', "[image link='./styles/backgrounds/EE.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/EE.jpeg')"],
+        "--page-background-image", "url('./backgrounds/EE.jpeg')"],
         ['Genesys', "[image link='./styles/backgrounds/Genesys.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/Genesys.png')"],
+        "--page-background-image", "url('./backgrounds/Genesys.png')"],
         ['Ice', "[image link='./styles/backgrounds/Ice.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/Ice.png')"],
+        "--page-background-image", "url('./backgrounds/Ice.png')"],
         ['Ice 2', "[image link='./styles/backgrounds/Ice2.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/Ice2.png')"],
+        "--page-background-image", "url('./backgrounds/Ice2.png')"],
         ['Monster Manual', "[image link='./styles/backgrounds/MonsterManual.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/MonsterManual.png')"],
+        "--page-background-image", "url('./backgrounds/MonsterManual.png')"],
         ['SwordMeow', "[image link='./styles/backgrounds/White.png' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/White.png')"],
+        "--page-background-image", "url('./backgrounds/White.png')"],
         ['XGtE', "[image link='./styles/backgrounds/xgte.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/xgte.jpeg')"],
+        "--page-background-image", "url('./backgrounds/xgte.jpeg')"],
         ['DMG', "[image link='./styles/backgrounds/DMG.jpeg' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/DMG.jpeg')"],
+        "--page-background-image", "url('./backgrounds/DMG.jpeg')"],
         ['Curator', "[image link='./styles/backgrounds/curator.jpg' absolute top=0 left=0 width=100% height=100%]", "page", 
-        "--page-background-image", "url('./styles/backgrounds/curator.jpg')"],
+        "--page-background-image", "url('./backgrounds/curator.jpg')"],
     ]
 }
 
@@ -188,8 +196,14 @@ const FONT_BARBER_VARIABLES = {
     }, 
     'H5': {
         preview: '<h5>Table Title</h5>',
-        family: '--table-font',
+        family: '--table-title-font',
         size: '--table-title-size',
+        options: available_fonts
+    },
+    'Table': {
+        preview: '<span style="font-size: var(--table-text-size); font-family: var(--table-font); color:var(--table-text-color)">Table Text</p>',
+        family: '--table-font',
+        size: '--table-text-size',
         options: available_fonts
     },
     'P': {

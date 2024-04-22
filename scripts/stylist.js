@@ -1,3 +1,9 @@
+const PAPER = {
+    Letter: { width: "215.9mm", height: "279.4mm"   },
+    A4:     { width: "210mm",   height: "297mm"     },
+    A5:     { width: "148mm",   height: "210mm"     },
+}
+
 class Stylist {
 
     #styles
@@ -6,9 +12,20 @@ class Stylist {
     #color_variables
     #font_variables
     #snippets
+    #templates
 
-    constructor(style = DEFAULT_STYLE){
-        this.#styles = style
+    #undo
+    #redo
+    #delta
+    #color_tmp // used to tmp save the color before input (to restore it on undo)
+
+    constructor(style = DND5E){
+        this.#templates = style.template
+        if(style.load) {
+            this.#styles = style.load[0].style
+            for(let i = 1; i < style.load.length; i++) this.merge_style(style.load[i].style)
+            this.merge_style(style.style)
+        } else this.#styles = style.style
 
         // Triggers the margin
         this.#apply_lettrine_properties(this.#styles[':root']['--lettrine-font'])
@@ -20,6 +37,9 @@ class Stylist {
         document.body.appendChild(this.create_color_picker())
         document.body.appendChild(this.create_text_customizer())
         document.body.appendChild(this.create_snippets_selector())
+
+        this.#undo = []
+        this.#redo = []
     }
 
     create_snippets_selector(){
@@ -72,7 +92,9 @@ class Stylist {
                 item_elt.className = 'item'
                 item_elt.innerHTML = item[0]
 
-                if(item.length > 3) item_elt.addEventListener('click', e => this.set_root_value(item[3], item[4]))
+                if(item.length > 3) item_elt.addEventListener('click', e =>
+                    this.set_root_value(item[3], item[4])
+                )
                 else item_elt.addEventListener('click', e => editor.insert(item[1]))
             
                 item_elt.addEventListener('mouseenter', e => {
@@ -168,7 +190,6 @@ class Stylist {
             size.value = font_size
             size.id = var_name
             size.name = var_name
-            size.addEventListener('input', this.#change_font_size)
 
             let font_name = document.createElement('div')
             font_name.className = 'font-preview'
@@ -186,6 +207,7 @@ class Stylist {
             units.unit = units
             size.stylist = this
             units.stylist = this
+            size.addEventListener('change', this.#change_font_size)
             units.addEventListener('change', this.#change_font_size)
 
             let row = document.createElement('tr')
@@ -234,6 +256,7 @@ class Stylist {
                 picker.value = value
                 picker.setAttribute('data-coloris', '')
                 picker.addEventListener('input', this.#change_color)
+                picker.addEventListener('change', this.#change_color_delta)
 
                 let name = document.createElement('div')
                 name.className = 'color-name'
@@ -258,16 +281,90 @@ class Stylist {
         return popup.get_window()
     }
 
-    set_root_value(key, value) {
+    #do(delta, mode) {
+        for(let action of delta) {
+            let nature = action.action
+            let value = mode == 'undo' ? action.old_value : action.new_value
+            if(nature == 'font') {
+                if(action.property == '--lettrine-font') this.#apply_lettrine_properties(value, false)
+                let family = document.getElementById(action.property)
+                family.value = value
+            } else if (nature == 'color') {
+                let elt = document.getElementById(action.property)
+                elt.value = value
+                elt.value_div.innerHTML = value
+                elt.parentElement.style.color = value
+            } else if (nature == 'font_size') {
+                let size = document.getElementById(action.property)
+                let font_size = value
+                let font_unit = font_size.replaceAll(/[\d.]/gi, '')
+                font_size = parseFloat(font_size)
+                size.value = font_size
+                size.unit.value = font_unit
+            }
+            this.set_root_value(action.property, value, false)
+        }
+        if(mode == 'undo') this.#redo.push(delta)
+        else this.#undo.push(delta)
+
+        let undo_button = document.getElementById('undo-button')
+        let redo_button = document.getElementById('redo-button')
+        if(this.#undo.length == 0) undo_button.className = 'disabled'
+        else undo_button.className = ''
+        if(this.#redo.length == 0) redo_button.className = 'disabled'
+        else redo_button.className = ''
+
+    }
+
+    undo(){
+        if (this.#undo.length == 0) return
+        let delta = this.#undo.pop()
+        this.#do(delta, 'undo')
+    }
+
+    redo(){
+        if(this.#redo.length == 0) return
+        let delta = this.#redo.pop()
+        this.#do(delta, 'redo')
+    }
+
+    #new_delta(){ this.#delta = [] }
+    #save_delta(){
+        this.#undo.push(this.#delta);
+        this.#redo = []
+        this.#delta = undefined
+        document.getElementById('undo-button').className = ''
+        document.getElementById('redo-button').className = 'disabled'
+    }
+
+    #add_to_delta(section, property, new_value, action){
+        if(!this.#delta) return
+        let old_value = this.#styles[section][property]
+        this.#delta.push({
+                action: action,
+                section: section, property: property,
+                old_value: old_value, new_value: new_value
+            }
+        )
+    }
+
+    set_root_value(key, value, delta = 'root_value') {
+        if(delta) {
+            if(!this.#delta) {
+                this.#new_delta()
+                this.#add_to_delta(':root', key, value, delta)
+                this.#save_delta()
+            } else this.#add_to_delta(':root', key, value, delta)
+        }
         this.#styles[':root'][key] = value
         this.hot_load()
         set_columnbreak(document.getElementsByClassName('column-break'))
     }
 
-    set_page_format(input){
-        if (input.value == "Letter") {
-            this.#styles[":root"]["--page-width"] = "215.9mm"
-            this.#styles[":root"]["--page-height"] = "279.4mm"
+    set_page_format(input, editor){
+        if (PAPER[input.value]) {
+            this.#styles[':root']['--page-width'] = PAPER[input.value].width
+            this.#styles[':root']['--page-height'] = PAPER[input.value].height
         } else {
             // A4 is default
             this.#styles[":root"]["--page-width"] = "210mm"
@@ -275,6 +372,7 @@ class Stylist {
         }
         this.hot_load()
         set_columnbreak(document.getElementsByClassName('column-break'))
+        if(editor) editor.update_page_zoom()
     }
 
     #apply_lettrine_properties(font){
@@ -284,7 +382,8 @@ class Stylist {
         for(let property in definition) {
             for(let l in definition[property]) {
                 let letter = definition[property][l]
-                this.#styles[':root'][`--lettrine-letter-${letter}`] = property
+                let key = `--lettrine-letter-${letter}`
+                this.#styles[':root'][key] = property
             }
         }
 
@@ -292,20 +391,39 @@ class Stylist {
     }
 
     #change_font(){
+        this.stylist.#new_delta()
         if(this.id == '--lettrine-font') this.stylist.#apply_lettrine_properties(this.value)
-        this.stylist.set_root_value(this.id, this.value)
+        this.stylist.set_root_value(this.id, this.value, 'font')
+        this.stylist.#save_delta()
     }
     #change_font_size(){
-        this.stylist.set_root_value(this.name, this.font_size.value + this.unit.value)
+        this.stylist.#new_delta()
+        this.stylist.set_root_value(this.name, this.font_size.value + this.unit.value, 'font_size')
+        this.stylist.#save_delta()
     }
 
     #change_color(){
-        this.stylist.set_root_value(this.id, this.value)
+        if(!this.stylist.#color_tmp) {
+            this.stylist.#color_tmp = this.stylist.#styles[':root'][this.id]
+        }
+        this.stylist.set_root_value(this.id, this.value, false)
         this.value_div.innerHTML = this.value
+    }
+
+    #change_color_delta(){
+        this.stylist.#new_delta()
+        this.stylist.#styles[':root'][this.id] = this.stylist.#color_tmp
+        this.stylist.set_root_value(this.id, this.value, 'color')
+        this.stylist.#save_delta()
+        this.stylist.#color_tmp = undefined
     }
 
     get_style(){
         return this.#styles
+    }
+
+    get_templates(){
+        return this.#templates
     }
 
     get_font(font, from=':root'){
@@ -314,7 +432,14 @@ class Stylist {
     }
 
     apply_style(style){
-        this.#styles = style
+
+        this.#templates = style.template
+        if(style.load) {
+            this.#styles = style.load[0].style
+            for(let i = 1; i < style.load.length; i++) this.merge_style(style.load[i].style)
+            this.merge_style(style.style)
+        } else this.#styles = style.style
+
         // Load colors
         for(const category in this.#color_variables) {
             for(let [name, color] of Object.entries(this.#color_variables[category])) {
@@ -327,14 +452,16 @@ class Stylist {
         // Load fonts
         for(const font in this.#font_variables) {
             let data = this.#font_variables[font]
-            let family = document.getElementById(data.family)
-            let size = document.getElementById(data.size)
-
-            let font_size = this.#styles[':root'][data.size]
+            let ff = data.family
+            let fs = data.size
+            let family = document.getElementById(ff)
+            let size = document.getElementById(fs)
+    
+            let font_size = this.#styles[':root'][fs]
             let font_unit = font_size.replaceAll(/[\d.]/gi, '')
             font_size = parseFloat(font_size)
-
-            family.value = this.#styles[':root'][data.family]
+    
+            family.value = this.#styles[':root'][ff]
             size.value = font_size
             size.unit.value = font_unit
         }
@@ -343,17 +470,21 @@ class Stylist {
         const format = document.getElementById('format-selector')
         const width = this.#styles[":root"]["--page-width"]
         const height = this.#styles[":root"]["--page-height"] 
-        if(width == "215.9mm" && height == "279.4mm") format.value = "Letter"
-        else format.value = "A4"
+
+        for(const size in PAPER) {
+            let dim = PAPER[size]
+            if (width == dim.width && height == dim.height) format.value = size
+        }
 
         // Triggers the margin
         this.#apply_lettrine_properties(this.#styles[':root']['--lettrine-font'])
-
         this.hot_load()
+        set_columnbreak(document.getElementsByClassName('column-break'))
     }
 
     merge_style(style){
         for(let [key, properties] of Object.entries(style)) {
+            if(!this.#styles[key]) this.#styles[key] = {}
             for(let [property, value] of Object.entries(properties)) {
                 this.#styles[key][property] = value
             }
@@ -370,8 +501,11 @@ class Stylist {
             }
             css.push(style.join('\n') + '}\n')    
         }
-
-        return '<style>\n'+css.join('')+'</style>\n'
+        let sheets = ''
+        for(let sheet of this.#templates){
+            sheets += `<link rel="stylesheet" href="styles/${sheet}"></link>`
+        }
+        return sheets+'<style>\n'+css.join('')+'</style>\n'
     }
 
     hot_load(){

@@ -169,3 +169,8 @@
     src: 
         url('./Lettrines/Royal.ttf');
 }
+@font-face {
+    font-family: "Bookman Swash";
+    src: 
+        url('./Lettrines/Bookman\ Swash\ ITC\ Medium.ttf');
+}
