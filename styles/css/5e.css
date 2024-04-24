@@ -2,7 +2,8 @@
     MARK: FOOTER 
 *********************/
 .footer, .footer.phb, .footer.dmg, .footer.curator,
-.footer.xgte, footer.mtof, .footer.ee, .footer.draco {
+.footer.xgte, .footer.mtof, .footer.ee, .footer.draco,
+.footer .toa, .footer .tcoe {
     all:unset;
     position: absolute;
     bottom: 0;
@@ -19,7 +20,8 @@
 }
 
 .footer::after, .footer.phb::after, .footer.dmg::after, .footer.curator::after,
-.footer.xgte::after, .footer.mtof::after, .footer.ee::after, .footer.draco::after {
+.footer.xgte::after, .footer.mtof::after, .footer.ee::after, .footer.draco::after,
+.footer.toa::after, .footer.tcoe::after {
     position: absolute;
     bottom: calc(0.04 * var(--page-width));
     right: calc(0.007 * var(--page-width));
@@ -28,6 +30,16 @@
     color:inherit;
     width: calc(0.0476 * var(--page-width));
 }
+
+.footer.tcoe { 
+    background-image: url('../footers/TCoE.png'); 
+    background-size: calc(0.5 * var(--page-width));
+    background-position: bottom right;
+    mix-blend-mode: multiply;
+    color: #47446a;
+}
+.footer.tcoe::after { right: calc(0.03 * var(--page-width)); }
+
 .footer.curator { 
     background-image: url('../footers/curator.svg'); 
     color: #9f968b; 
@@ -99,7 +111,8 @@
 }
 
 .footnote, .mtof .footnote, .phb .footnote, .draco .footnote,
-.xfte .footnote, .dmg .footnote, .curator .footnote {
+.xfte .footnote, .dmg .footnote, .curator .footnote,
+.footnote .toa, .footnote .tcoe {
     position: absolute;
     bottom: calc(0.05 * var(--page-width));
     right: calc(0.1 * var(--page-width));
@@ -498,7 +511,8 @@ ul, ol {
 }
 
 /* SPACES */
-p + * { margin-top: 0.325cm; }
+p + h1, p + h2, p + h3, p + h4, p + h5, p + h6,
+p + ul, p + ol { margin-top: 0.325cm; }
 :is(ul, ol) + p { margin-top: 0.325cm; }
 :is(ul, ol) + div + p { text-indent: 1em; }
 p + p { text-indent: 1em; margin-top: 0;}
@@ -646,10 +660,24 @@ dt {
    MARK: CHAPTER
 ********************/
 
+.chapter.decoration::before{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: contain;
+    content: '';
+}
 
 .chapter h1::before { content: var(--chapter-number) ': '; }
+.chapter.notitle h1::before { content: ''!important; }
 
 .chapter.witch h1::before { 
+    all:unset;
     display: block;
     width: 100%;
     content: var(--chapter-number);
@@ -666,29 +694,26 @@ dt {
     font-size: 30pt;
     margin-bottom: 0.5em;
 }
+.chapter.witch.decoration::before   { background-image: url('../assets/Witchlight/witch-chapter-1.png'); }
+.chapter.witch.decoration.v2::before{ background-image: url('../assets/Witchlight/witch-chapter-2.png'); }
+.chapter.witch.decoration.v3::before{ background-image: url('../assets/Witchlight/witch-chapter-3.png'); }
+.chapter.witch.decoration.v4::before{ background-image: url('../assets/Witchlight/witch-chapter-4.png'); }
+.chapter.witch.decoration.v5::before{ background-image: url('../assets/Witchlight/witch-chapter-5.png'); }
+.chapter.witch.decoration.v6::before{ background-image: url('../assets/Witchlight/witch-chapter-6.png'); }
+.chapter.witch.decoration.v7::before{ background-image: url('../assets/Witchlight/witch-chapter-7.png'); }
+.chapter.witch.decoration.v8::before{ background-image: url('../assets/Witchlight/witch-chapter-8.png'); }
+.chapter.witch.decoration.v9::before{ background-image: url('../assets/Witchlight/witch-chapter-9.png'); }
+
 
 .chapter.xgte h1::before { 
     display: block;
     width: 100%;
     content: var(--chapter-number);
     padding-bottom: 0.4em;
-    background-image: url('../assets/xgte-sep.png');
+    background-image: url('../assets/XGtE/xgte-sep.png');
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: 7cm;
-}
-.chapter.xgte.decoration::before{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -3;
-    background-image: url('../assets/xgte-chapter-top.png');
-    background-repeat: no-repeat;
-    background-position: top left;
-    background-size: contain;
-    content: '';
 }
 .chapter.xgte h1{
     text-align: center;
@@ -697,6 +722,75 @@ dt {
     margin-bottom: 0.5em;
     text-shadow: none;
 }
+.chapter.xgte.decoration::before{ background-image: url('../assets/XGtE/xgte-chapter-top.png'); }
+
+.chapter.tcoe h1::before { 
+    all:unset;
+    display: block;
+    width: 100%;
+    content: var(--chapter-number);
+    font-size: 22pt;
+    letter-spacing: 0.05em;
+    text-shadow: none;
+    color: var(--heading-color);
+    text-transform: lowercase;
+    margin-bottom: 0.3em;
+    margin-left: 1.5em;
+}
+.chapter.tcoe h1{
+    text-align: left;
+    font-size: 30pt;
+    margin-bottom: 0em;
+    text-shadow: none;
+}
+.chapter.tcoe.decoration h1 {
+    margin-top: calc(var(--page-width) * 0.12 - var(--page-margin-top));
+    margin-left: calc(var(--page-width) * 0.15 - var(--page-margin-left));
+}
+.chapter.tcoe.decoration.notitle h1 {
+    margin-top: 0;
+    margin-left: 0;
+}
+.chapter.tcoe.decoration.notitle::before { background-image: url('../assets/TCoE/tcoe-chapter-0.png'); }
+.chapter.tcoe.decoration::before   { background-image: url('../assets/TCoE/tcoe-chapter-1.png'); }
+.chapter.tcoe.decoration.v2::before{ background-image: url('../assets/TCoE/tcoe-chapter-2.png'); }
+.chapter.tcoe.decoration.v3::before{ background-image: url('../assets/TCoE/tcoe-chapter-3.png'); }
+.chapter.tcoe.decoration.v4::before{ background-image: url('../assets/TCoE/tcoe-chapter-4.png'); }
+
+
+.chapter.wmm, .chapter.wdh {
+    position: relative;
+    width: fit-content;
+    display: flex!important;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1cm 0;
+    vertical-align: center;
+}
+.chapter.wmm h1, .chapter.wdh h1 {
+    width: fit-content;
+    margin: 0;
+    text-shadow: none;
+}
+.chapter.wmm::before, .chapter.wdh::before {
+    content: '';
+    right: -2cm;
+    position: absolute;
+    width: calc(2.5cm + var(--page-width));
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: contain;
+    z-index: -1;
+    filter: drop-shadow(0 0 5px #808080);
+}
+.chapter.wmm::before { background-image: url('../assets/Waterdeep/chapter-background-wmm.png'); }
+.chapter.wdh::before   { 
+    right: -2.5cm;
+    background-image: url('../assets/Waterdeep/chapter-background-wdh.png');
+}
+
 
 
 /********************

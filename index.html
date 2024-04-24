@@ -9,28 +9,54 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="./styles/css/editor.css">
     <link rel="stylesheet" href="./ace-builds/css/theme/monokai.css">
-    <script src="./scripts/config/tags.js" type='text/javascript'></script>
-    <script src="./scripts/config/properties.js" type='text/javascript'></script>
-    <script src="./scripts/config/guide.js" type='text/javascript'></script>
-    <script src="./scripts/classes/Editor.js" type='text/javascript'></script>
-    <script src="./scripts/classes/PageManager.js" type='text/javascript'></script>
-    <script src="./scripts/classes/Parser.js" type='text/javascript'></script>
-    <script src="./scripts/classes/DocumentSaver.js" type='text/javascript'></script>
-    <script src="./scripts/classes/Stylist.js" type='text/javascript'></script>
-    <script src="./scripts/classes/Popup.js" type='text/javascript'></script>
-    <script src="./scripts/themes/DnD.js" type='text/javascript'></script>
 
     <!-- Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.2/markdown-it.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/UmemotoCtrl/mdpjs@0.1.4/js/mdp.js"></script>
 
+
+    <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+    <script src="./public/main.js" type='module'></script>
 </head>
 
 <script type="text/javascript">
+    function toggle_visibility(id) {
+        let element = document.getElementById(id)
+        if (!element) return
+        if (element.style.visibility == "hidden") {
+            element.style.visibility = "visible"
+        } else {
+            element.style.visibility = "hidden"
+        }
+        element.click()
+    }
 
+    Coloris({
+        el: ".coloris",
+        swatches: [
+            "#264653",
+            "#2a9d8f",
+            "#e9c46a",
+            "#f4a261",
+            "#e76f51",
+            "#d62828",
+            "#023e8a",
+            "#0077b6",
+            "#0096c7",
+            "#00b4d8",
+            "#48cae4",
+        ],
+    });
+
+    /** Instances **/
+
+    Coloris.setInstance(".color-selector", {
+        closeButton: true,
+        closeLabel: "Done",
+    });
 </script>
 
 <div id="quick-style">
@@ -62,7 +88,8 @@
                     <div class="dropdown">
                         <div title="Cover"
                             onclick="editor.insert('[cover]\n\n# [s 0.15em]Title[/s]\n## [s 0.15em]Subtitle[/s]\n___\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[s 0.2em]Footnote[/s]\n[/footer]\n\n[/cover]')">
-                            <i class="fa-solid fa-book"></i> Cover Page</div>
+                            <i class="fa-solid fa-book"></i> Cover Page
+                        </div>
                         <div title="Part" onclick="editor.insert('[part]\n\n# PART 1\n## Subtitle\n\n[/part]')"><i
                                 class="fa-solid fa-bookmark"></i> Part Page</div>
                         <div title="Footer" onclick="editor.insert('[footer show number]', '[/footer]')"><i
@@ -75,9 +102,17 @@
                         <div title="Quote" onclick="editor.insert('\n> ', '\n> - Author\n')"><i class="bi bi-quote"></i>
                             Quote</div>
                         <div title="Monster Stats" onclick="editor.insert(`[monster]${MONSTER_BLOCK_TEXT}[/monster]`)">
-                            <i class="fa-solid fa-skull"></i> Monster Stats</div>
+                            <i class="fa-solid fa-skull"></i> Monster Stats
+                        </div>
                     </div>
                 </button>
+            </div>
+
+            <div class="widgets">
+                <button id="text-editor-button" class="disabled" title='Text Editor'  onclick="editor.set_text_session()">
+                    <i class="fa-solid fa-book"></i></button>
+                <button id="css-editor-button"  title='Style Editor' onclick="editor.set_css_session()">
+                    <i class="fa-solid fa-paintbrush"></i></button>
             </div>
         </div>
 
@@ -160,20 +195,20 @@
                                 class="fa-solid fa-images"></i> Background Image</div>
                     </div>
                 </button>
-                <button title="Wide Block" onclick="editor.insert('[wide]', '[/wide]')"><img class="svg-icon"
-                        src='./icons/wide.svg' /></button>
+                <button title="Wide Block" onclick="editor.insert('[wide]', '[/wide]')">
+                    <img alt="wide" class="svg-icon" src='./icons/wide.svg' /></button>
             </div>
 
 
             <div class="widgets">
-                <button title="Column Break" onclick="editor.insert('[newcolumn]')"><img class="svg-icon"
-                        src='./icons/column-break2.svg' /></button>
-                <button title="Page Break" onclick="editor.insert('[newpage]')"><img class="svg-icon"
-                        src='./icons/page-break.svg' /></button>
-                <button title="Horizontal Space" onclick="editor.insert('[hspace 1', 'em]')"><i
-                        class="fa-solid fa-left-right"></i></button>
-                <button title="Vertical Space" onclick="editor.insert('[vspace 1', 'em]\n')"><i
-                        class="fa-solid fa-up-down"></i></i></button>
+                <button title="Column Break" onclick="editor.insert('[newcolumn]')">
+                    <img alt="column-break" class="svg-icon" src='./icons/column-break2.svg' /></button>
+                <button title="Page Break" onclick="editor.insert('[newpage]')">
+                    <img alt="page-break" class="svg-icon" src='./icons/page-break.svg' /></button>
+                <button title="Horizontal Space" onclick="editor.insert('[hspace 1', 'em]')">
+                    <i class="fa-solid fa-left-right"></i></button>
+                <button title="Vertical Space" onclick="editor.insert('[vspace 1', 'em]\n')">
+                    <i class="fa-solid fa-up-down"></i></i></button>
             </div>
         </div>
 
@@ -183,52 +218,5 @@
 
     </div>
 </body>
-
-<script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-    let editor = new Editor("editor-container")
-
-    let ace_editor = ace.edit("bbcode-editor");
-    ace_editor.setTheme("ace/theme/monokai");
-    ace_editor.session.setMode("ace/mode/markdown");
-    ace_editor.className += "bbcode-editor";
-    ace_editor.setOptions({
-        wrapBehavioursEnabled: true,
-        wrap: true,
-        wrapMethod: "auto",
-        autoScrollEditorIntoView: true,
-    });
-
-    editor.set_editor(ace_editor)
-
-    Coloris({
-        el: '.coloris',
-        swatches: [
-            '#264653',
-            '#2a9d8f',
-            '#e9c46a',
-            '#f4a261',
-            '#e76f51',
-            '#d62828',
-            '#023e8a',
-            '#0077b6',
-            '#0096c7',
-            '#00b4d8',
-            '#48cae4'
-        ]
-    });
-
-    /** Instances **/
-
-    Coloris.setInstance('.color-selector', {
-        closeButton: true,
-        closeLabel: 'Done',
-    });
-
-    let ffd = document.getElementById('font-family-dropdown')
-    for (const ff of available_fonts) {
-        ffd.innerHTML += `<div title="${ff}" style="font-family:${ff}, Lato, sans-serif" onclick="editor.insert('[t font=\\'${ff}\\']', '[/t]')">${ff}</div>`
-    }
-</script>
 
 </html>
