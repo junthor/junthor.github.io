@@ -151,12 +151,12 @@ export class Editor {
         paper_format.addEventListener('change', e => this.stylist.set_page_format(paper_format, this));
         let zoom = document.createElement("select");
         zoom.id = "zoom-selector";
-        zoom.innerHTML = '<option value="auto">Auto</option>';
+        zoom.innerHTML = '<option value="0">Auto</option>';
         const zoom_values = [50, 75, 100, 125, 150, 200, 250];
         for (const value of zoom_values) {
             zoom.innerHTML += `<option value="${value / 100.0}">${value}%</option>`;
         }
-        zoom.addEventListener('change', e => this.set_zoom(parseInt(zoom.value)));
+        zoom.addEventListener('change', e => this.set_zoom(parseFloat(zoom.value)));
         let pdf_button = document.createElement("button");
         pdf_button.className = "print-button";
         pdf_button.title = "Save as PDF";
@@ -447,9 +447,8 @@ function resize_drag() {
     let lw = MOUSE_POS.x - 3;
     let rw = width - lw - 3;
     if (page_zoom == 0) {
-        let zoom = (rw - magic) / page_width;
         right_panel.style.width = rw + "px";
-        this.editor.set_zoom(zoom);
+        this.editor.fit_page(rw, page_width, magic);
     }
     else {
         right_panel.style.width = rw + "px";
