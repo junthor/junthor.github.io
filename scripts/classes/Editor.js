@@ -5,7 +5,7 @@ document.onmousemove = function (e) {
   MOUSE_POS.y = e.pageY;
 };
 
-class BBEditor {
+class Editor {
   container;
   editor;
   content;
@@ -63,34 +63,23 @@ class BBEditor {
     this.content_container.appendChild(this.content);
     this.container.appendChild(big_container);
 
-    this.#parser = new BBParser();
+    this.#parser = new Parser();
     this.#stylist = new Stylist();
     this.#stylist.hot_load();
-
-    let ace_editor = ace.edit("bbcode-editor");
-    ace_editor.setTheme("ace/theme/monokai");
-    ace_editor.session.setMode("ace/mode/markdown");
-    ace_editor.className += "bbcode-editor";
-    ace_editor.setOptions({
-      wrapBehavioursEnabled: true,
-      wrap: true,
-      wrapMethod: "auto",
-      autoScrollEditorIntoView: true,  
-    });
-
-    this.editor = ace_editor;
 
     this.separator.editor = this;
     this.container.editor = this;
 
     //document.getElementsByClassName('ace_text-input')[0].addEventListener('keydown', e => this.key_down(e))
-
-    this.editor.addEventListener("change", (e) => this.key_down(e));
-
-    this.editor.setShowPrintMargin(false);
     this.#create_page()
 
     this.#file_manager = new DocumentSaver(this, this.#stylist)
+  }
+
+  set_editor(editor){
+    this.editor = editor
+    this.editor.addEventListener("change", (e) => this.key_down(e));
+    this.editor.setShowPrintMargin(false);
   }
 
   save(){
@@ -169,7 +158,7 @@ class BBEditor {
     pdf_button.className = "print-button";
     pdf_button.title = "Save as PDF";
     pdf_button.innerHTML = '<i class="bi bi-filetype-pdf"></i>';
-    pdf_button.addEventListener("click", PrintDiv);
+    pdf_button.addEventListener("click", print_document);
 
     
 
@@ -459,6 +448,7 @@ class BBEditor {
 
   render_toc(){
     let toc = this.#parser.get_toc()
+    console.log(toc)
     let toc_html = '[toc]\n\n# Table of Content\n\n'
     let previous_level = 1
     for(let p in toc) {
@@ -481,9 +471,7 @@ class BBEditor {
     }
     return toc_html + '\n[/toc]'
   }
-
 }
-
 
 function format(str, args) {
   let formatted = str;
@@ -516,4 +504,26 @@ function set_columnbreak(columns) {
 
     column.style.height = `calc(var(--page-height) - var(--page-margin-bottom) - ${bottom}px)`
   }
+}
+
+
+function print_document(id) {
+  var data = document.getElementById('page-container').innerHTML;
+  var myWindow = window.open('', 'Tales', 'fullscreen=1');
+  myWindow.document.write('<html><head><title>Tales</title>');
+  myWindow.document.write('<link rel="preconnect" href="https://fonts.googleapis.com">');
+  myWindow.document.write('<link rel="stylesheet" href="./styles/css/editor.css" type="text/css" />');
+  myWindow.document.write('</head>');
+  myWindow.document.write(editor.style_css());
+  myWindow.document.write('<body>');
+  myWindow.document.write(data);
+
+  myWindow.document.write('</body></html>');
+  myWindow.document.close(); // necessary for IE >= 10
+
+  myWindow.onload = function () { // necessary if the div contain images
+      myWindow.focus(); // necessary for IE >= 10
+      myWindow.print();
+      //myWindow.close();
+  };
 }

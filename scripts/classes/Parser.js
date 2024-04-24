@@ -1,4 +1,4 @@
-class BBParser {
+class Parser {
   #COMPLEX_TAGS;
   #SIMPLE_TAGS;
   #TOC;
@@ -248,6 +248,7 @@ class BBParser {
         } else spans[current_row].push(undefined)
         if (tag) cell_content = this.#parse_tags(cell_content)
         tag = false
+        cell_content = this.#parse_markdown(cell_content)
 
         table[current_row].push(cell_content)
         cell_start = i + 1
@@ -264,6 +265,7 @@ class BBParser {
         } else spans[current_row].push(undefined)
         if (tag) cell_content = this.#parse_tags(cell_content)
         tag = false
+        cell_content = this.#parse_markdown(cell_content)
 
         table[current_row].push(cell_content)
         cell_start = i + 1
@@ -276,6 +278,7 @@ class BBParser {
         if (i+6 < text.length && text.substring(i, i+8) == '[/table]') {
           let cell_content = text.substring(cell_start, i).trim()
           if (tag) cell_content = this.#parse_tags(cell_content)
+          cell_content = this.#parse_markdown(cell_content)
           table[current_row].push(cell_content)
           if(!mode) {
             let max = 0

@@ -19,7 +19,7 @@ class Stylist {
     #delta
     #color_tmp // used to tmp save the color before input (to restore it on undo)
 
-    constructor(style = CURATOR){
+    constructor(style = BRS){
         this.#templates = style.template
         if(style.load) {
             this.#styles = style.load[0].style
@@ -37,6 +37,15 @@ class Stylist {
         document.body.appendChild(this.create_color_picker())
         document.body.appendChild(this.create_text_customizer())
         document.body.appendChild(this.create_snippets_selector())
+        
+        // Load format
+        const format = document.getElementById('format-selector')
+        const width = this.#styles[":root"]["--page-width"]
+        const height = this.#styles[":root"]["--page-height"] 
+        for(const size in PAPER) {
+            let dim = PAPER[size]
+            if (width == dim.width && height == dim.height) format.value = size
+        }
 
         this.#undo = []
         this.#redo = []

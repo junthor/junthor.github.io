@@ -507,7 +507,7 @@ h1 + h2, h1 + h3, h1 + h4, h1 + h5 { margin-top: 0!important; }
 .wide + h2, .wide + h3, .wide + h4, .wide + h5 { margin-top: 0!important; }
 
 /*  LETTRINES */
-.page h1 + p::first-line {
+.page h1 + p::first-line, .page .chapter + p::first-line {
     font-family: var(--h1-font);
     font-size: 125%;
     line-height: 0.8;

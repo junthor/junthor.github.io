@@ -1,3 +1,31 @@
+const DRAG_WINDOWS = []
+
+function go_front(){
+    let n = DRAG_WINDOWS.length - 1
+    let last = DRAG_WINDOWS[n]
+    if (last != this) {
+        let idx = DRAG_WINDOWS.indexOf(this)
+        for(let i = idx; i < n; i++) {
+            DRAG_WINDOWS[i] = DRAG_WINDOWS[i+1]
+            DRAG_WINDOWS[i].style.zIndex = `${100 + i}`
+        }
+        DRAG_WINDOWS[n] = this
+        DRAG_WINDOWS[n].style.zIndex = `${100 + n}`
+    }
+}
+
+
+
+function toggle_visibility(id) {
+    let element = document.getElementById(id)
+    console.log(element.style.visibility)
+    if (element.style.visibility == "hidden") {
+        element.style.visibility = "visible"
+    } else {
+        element.style.visibility = "hidden"
+    }
+}
+
 class Popup {
 
     #window
@@ -9,6 +37,8 @@ class Popup {
         this.#window.drag = this.drag
         this.#window.drag_end = this.drag_end
         this.#window.className = 'window-popup'
+
+        this.#window.addEventListener('click', go_front)
 
         this.#window.style.visibility = "hidden"
 
@@ -34,6 +64,7 @@ class Popup {
 
         this.#window.appendChild(header)
         this.#window.appendChild(this.#content)
+        DRAG_WINDOWS.push(this.#window)
     }
 
     get_window(){
@@ -62,10 +93,13 @@ class Popup {
     }
 
     drag_start(e) {
-        if (e.target != this && e.target != this.title) return
+        if (e.target != this && e.target != this.title) {
+            return
+        }
         e.preventDefault()
         document.addEventListener('mouseup', this.window.drag_end)
         document.addEventListener('mousemove', this.window.drag)
+        this.window.click()
         document.popup_drag_element = this.window
 
         this.window.pos = [this.window.offsetLeft, this.window.offsetTop]

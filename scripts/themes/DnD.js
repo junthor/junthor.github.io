@@ -138,3 +138,38 @@ const XGTE = {
 
     }
 }
+
+const BRS = {
+    template: [ '5e.css' ],
+    load: [ DND5E ],
+    style: {
+        ":root": {
+            '--page-width': '215.9mm',
+            '--page-height': '279.4mm',
+            // COLORS
+            '--page-background-image': 'none',
+            '--page-background-color': '#ffffff',
+            '--page-margin-left': '2cm',
+            '--page-margin-right': '2cm',
+            '--page-margin-top': '1.4cm',
+            '--page-margin-bottom': '1.6cm',
+            '--secondary-color': '#efede5',
+            
+            // TEXT SIZE
+            '--cover-title-size': '60pt',
+            '--cover-subtitle-size': '30pt',
+            '--h1-size': '24pt',
+            '--h2-size': '23pt',
+            '--h3-size': '16pt',
+            '--h4-size': '14pt',
+            '--table-title-size': '12pt',
+            '--table-text-size': '9pt',
+            '--text-size': '9.2pt',
+            '--note-text-size': '9.5pt',
+            '--quote-size': '11pt',
+        },
+        'p': {
+            'line-height': '1.2',
+        }
+    }
+}

@@ -117,7 +117,7 @@
     width: 100%;
 }
 
-.column-break { display: block; }
+.column-break { display: block; margin: 0!important; }
 
 .name {
     font-family: var(--item-name-font);
@@ -126,7 +126,7 @@
     z-index: 10; 
 }
 h1 { column-span: all; }
-p { margin: 0; }
+p { margin: 0; hyphens: auto; }
 
 p.A::first-letter { margin: var(--lettrine-letter-A); }
 p.B::first-letter { margin: var(--lettrine-letter-B); }
