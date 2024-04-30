@@ -197,7 +197,7 @@ a { color: var(--heading-color); }
     filter: drop-shadow(2px 0 2px #000000aa);
 }
 
-.cover h1 { font-weight: bold; }
+.cover h1 { font-weight: bold; margin-bottom: 0.2em!important; }
 .cover h1, .cover h2 {
     font-family: var(--cover-font);
     font-size: var(--cover-title-size);
@@ -498,23 +498,6 @@ h1 + h2, h1 + h3, h1 + h4, h1 + h5 { margin-top: 0!important; }
     font-family: var(--h1-font);
     font-size: 125%;
     line-height: 1;
-}
-.page h1 + p::first-letter, .page .chapter + p::first-letter{
-    float: left;
-    font-family: var(--lettrine-font);
-    font-size: var(--lettrine-size);
-    color: var(--lettrine-color);
-    initial-letter-align: top;
-    text-transform: uppercase;
-}
-
-p.webkit::first-letter {
-    margin-top: -0.15em !important;
-    margin-bottom: -0.1em !important;
-}
-
-.cover h1 {
-    margin-bottom: 0.2em!important;
 }
 
 .font-preview h1 {

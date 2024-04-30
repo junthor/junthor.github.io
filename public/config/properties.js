@@ -27,7 +27,7 @@ export const available_fonts = [
     'Sovngarde', 'Zatanna Misdirection',
 ];
 export const lettrine_fonts = [
-    'Heavy Rain', 'Morris Jenson Initialen', 'OPTIBookman', 'Bookman Swash', 'Royal',
+    'Heavy Rain', 'Morris Jenson Initialen', 'Bookman Swash', 'Royal',
     'Solbera Imitation', 'Solbera Imitation Color', 'Zallman'
 ];
 export const lettrine_definition = {
@@ -42,20 +42,20 @@ export const lettrine_definition = {
         '0 0 0 -0.3em': ['M', 'X'],
     },
     'Royal': {
-        '0 0 0 -0.2em': ['D', 'E', 'L', 'M', 'S', 'W', 'X'],
-        '0 0 0 -0.1em': [
+        '0.15em 0 0 -0.2em': ['D', 'E', 'L', 'M', 'S', 'W', 'X'],
+        '0.15em 0 0 -0.1em': [
             'A', 'B', 'C', 'F', 'G', 'H', 'I', 'J', 'K',
             'N', 'O', 'P', 'Q', 'R', 'T', 'U', 'V', 'Y', 'Z'
         ]
     },
     'Bookman Swash': {
-        '0.05em 0.05em 0 -0.5em': [
-            'A', 'B', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        '0.08em 0.05em -0.05em -0.5em': [
+            'A', 'B', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'P', 'R', 'U', 'V', 'W', 'X', 'Y',
         ],
-        '0.05em 0.05em 0 -0.1em': [
-            'C', 'O', 'S', 'Q', 'Z', 'T'
-        ]
+        '0.1em 0.05em 0.1em -0.1em': ['C', 'S', 'Q', 'Z'],
+        '0.1em 0.05em 0.1em -0.5em': ['G'],
+        '0.1em 0.05em -0.05em -0.1em': ['T', 'O']
     },
     'OPTIBookman': {
         '0 0.1em 0 -0.5em': [
@@ -64,6 +64,24 @@ export const lettrine_definition = {
         ],
         '0 0.1em 0 -0.1em': [
             'C', 'G', 'O', 'S', 'Q', 'Z'
+        ]
+    },
+    'Zallman': {
+        '-0.05em 0 0.1em -0.1em': [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ]
+    },
+    'Heavy Rain': {
+        '0.2em 0 0.26em -0.1em': [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ]
+    },
+    'Morris Jenson Initialen': {
+        '0.15em 0 0.05em -0.1em': [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
         ]
     },
     default: {

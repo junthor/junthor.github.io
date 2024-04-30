@@ -147,32 +147,42 @@
 h1 { column-span: all; }
 p { margin: 0; hyphens: auto; }
 
-p.A::first-letter { margin: var(--lettrine-letter-A); }
-p.B::first-letter { margin: var(--lettrine-letter-B); }
-p.C::first-letter { margin: var(--lettrine-letter-C); }
-p.D::first-letter { margin: var(--lettrine-letter-D); }
-p.E::first-letter { margin: var(--lettrine-letter-E); }
-p.F::first-letter { margin: var(--lettrine-letter-F); }
-p.G::first-letter { margin: var(--lettrine-letter-G); }
-p.H::first-letter { margin: var(--lettrine-letter-H); }
-p.I::first-letter { margin: var(--lettrine-letter-I); }
-p.J::first-letter { margin: var(--lettrine-letter-J); }
-p.K::first-letter { margin: var(--lettrine-letter-K); }
-p.L::first-letter { margin: var(--lettrine-letter-L); }
-p.M::first-letter { margin: var(--lettrine-letter-M); }
-p.N::first-letter { margin: var(--lettrine-letter-N); }
-p.O::first-letter { margin: var(--lettrine-letter-O); }
-p.P::first-letter { margin: var(--lettrine-letter-P); }
-p.Q::first-letter { margin: var(--lettrine-letter-Q); }
-p.R::first-letter { margin: var(--lettrine-letter-R); }
-p.S::first-letter { margin: var(--lettrine-letter-S); }
-p.T::first-letter { margin: var(--lettrine-letter-T); }
-p.U::first-letter { margin: var(--lettrine-letter-U); }
-p.V::first-letter { margin: var(--lettrine-letter-V); }
-p.W::first-letter { margin: var(--lettrine-letter-W); }
-p.X::first-letter { margin: var(--lettrine-letter-X); }
-p.Y::first-letter { margin: var(--lettrine-letter-Y); }
-p.Z::first-letter { margin: var(--lettrine-letter-Z); }
+.lettrine {
+    float: left;
+    left: 0;
+    top: 0;
+    font-family: var(--lettrine-font);
+    font-size: var(--lettrine-size);
+    line-height: 0.7;
+    text-anchor: start;
+}
+
+span.A { margin: var(--lettrine-letter-A); }
+span.B { margin: var(--lettrine-letter-B); }
+span.C { margin: var(--lettrine-letter-C); }
+span.D { margin: var(--lettrine-letter-D); }
+span.E { margin: var(--lettrine-letter-E); }
+span.F { margin: var(--lettrine-letter-F); }
+span.G { margin: var(--lettrine-letter-G); }
+span.H { margin: var(--lettrine-letter-H); }
+span.I { margin: var(--lettrine-letter-I); }
+span.J { margin: var(--lettrine-letter-J); }
+span.K { margin: var(--lettrine-letter-K); }
+span.L { margin: var(--lettrine-letter-L); }
+span.M { margin: var(--lettrine-letter-M); }
+span.N { margin: var(--lettrine-letter-N); }
+span.O { margin: var(--lettrine-letter-O); }
+span.P { margin: var(--lettrine-letter-P); }
+span.Q { margin: var(--lettrine-letter-Q); }
+span.R { margin: var(--lettrine-letter-R); }
+span.S { margin: var(--lettrine-letter-S); }
+span.T { margin: var(--lettrine-letter-T); }
+span.U { margin: var(--lettrine-letter-U); }
+span.V { margin: var(--lettrine-letter-V); }
+span.W { margin: var(--lettrine-letter-W); }
+span.X { margin: var(--lettrine-letter-X); }
+span.Y { margin: var(--lettrine-letter-Y); }
+span.Z { margin: var(--lettrine-letter-Z); }
 
 /*******************
    MARK: WATERCOLOR

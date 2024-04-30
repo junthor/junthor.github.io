@@ -267,7 +267,13 @@ the guide by clicking on the guide button on the right side of the preview's bar
                     }
                 }
                 if (next && next instanceof HTMLParagraphElement) {
-                    next.classList.add(next.innerText[0].toUpperCase());
+                    let lettrine = document.createElement('span');
+                    let letter = next.innerText[0].toUpperCase();
+                    lettrine.innerHTML = letter;
+                    lettrine.className = `${letter} lettrine`;
+                    next.style.position = 'relative';
+                    next.innerHTML = lettrine.outerHTML + next.innerHTML.substring(1);
+                    //next.classList.add(next.innerText[0].toUpperCase())
                     if (webkit)
                         next.classList.add('webkit');
                 }
