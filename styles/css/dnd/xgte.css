@@ -3,17 +3,25 @@
 ********************/
 .chapter.xgte h1 {
     text-align: center;
+    font-size: 32pt;
+    margin-top: calc(0.01 * var(--page-width));
+    padding-bottom: 0.5cm;
 }
 
 .chapter.xgte h1::before { 
     display: block;
     width: 100%;
     content: var(--chapter-number);
-    padding-bottom: 0.4em;
+    padding-bottom: 0.3em;
     background-image: url('../../assets/XGtE/xgte-sep.png');
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: 7cm;
+    margin-bottom: 0.1em;
+}
+
+.chapter.xgte.notitle h1::before {
+    all: unset;
 }
 
 .chapter.xgte.decoration::before {
@@ -27,6 +35,23 @@
 .chapter.xgte.v3 h1::before { background-image: url('../../assets/XGtE/xgte-sep-3.png'); }
 .chapter.xgte.v4 h1::before { background-image: url('../../assets/XGtE/xgte-sep-4.png'); }
 
+.chapter.xgte + p > .lettrine::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -.2em;
+    z-index: -1;
+    width: 133%;
+    height: 133%;
+    background-image: url('../../assets/XGtE/lettrine-bg.png');
+    background-repeat: no-repeat;
+    background-position: top right 0.05em;
+    background-size: contain;
+}
+
+.chapter.xgte + p > .lettrine {
+    filter: drop-shadow(0 0 2px #fff);
+}
 
 /********************
    MARK: FOOTER

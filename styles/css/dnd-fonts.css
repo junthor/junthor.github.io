@@ -133,11 +133,15 @@
     font-weight: bold;
 }
 
+@font-face {
+    font-family: "Ivory Swashes";
+    src: url('./../../fonts/Lettrines/IvorySwashes.otf') format("opentype");
+}
 
 @font-face {
     font-family: "Solbera Imitation";
     src: 
-        url('./../../fonts/Solbera Imitation/Solbera Imitation Display.woff2') format("opentype");
+        url('./../../fonts/Solbera Imitation/Solbera Imitation Display.woff2') format("woff2");
 }
 @font-face {
     font-family: "Solbera Imitation Color";

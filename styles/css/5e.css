@@ -541,7 +541,7 @@ h5, h6 {
     letter-spacing: 0.05em
 }
 
-dl { margin: 0 0 0 1em; }
+dl { margin: var(--space-between) 0 var(--space-between) 1em; }
 dd {
     display: inline;
     width: fit-content;

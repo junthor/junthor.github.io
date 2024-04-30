@@ -32,6 +32,18 @@
 
 
 
+.chapter.witch + p > .lettrine::before {
+    font-family: "Ivory Swashes", sans-serif;
+    content: attr(title);
+    position: absolute;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: -0.025em;
+    right: 0;
+    z-index: -1;
+    color: #cfb987;
+}
+
 /********************
    MARK: FOOTER
 ********************/

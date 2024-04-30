@@ -269,6 +269,7 @@ the guide by clicking on the guide button on the right side of the preview's bar
                 if (next && next instanceof HTMLParagraphElement) {
                     let lettrine = document.createElement('span');
                     let letter = next.innerText[0].toUpperCase();
+                    lettrine.title = letter;
                     lettrine.innerHTML = letter;
                     lettrine.className = `${letter} lettrine`;
                     next.style.position = 'relative';

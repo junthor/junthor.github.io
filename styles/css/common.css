@@ -148,13 +148,19 @@ h1 { column-span: all; }
 p { margin: 0; hyphens: auto; }
 
 .lettrine {
+    position: relative;
     float: left;
     left: 0;
     top: 0;
     font-family: var(--lettrine-font);
     font-size: var(--lettrine-size);
+    color: var(--lettrine-color);
+    box-sizing: border-box;
     line-height: 0.7;
     text-anchor: start;
+}
+.lettrine::before {
+    padding: inherit;
 }
 
 span.A { margin: var(--lettrine-letter-A); }
