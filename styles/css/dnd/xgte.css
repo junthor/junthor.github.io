@@ -1,0 +1,50 @@
+/********************
+   MARK: CHAPTER
+********************/
+.chapter.xgte h1 {
+    text-align: center;
+}
+
+.chapter.xgte h1::before { 
+    display: block;
+    width: 100%;
+    content: var(--chapter-number);
+    padding-bottom: 0.4em;
+    background-image: url('../../assets/XGtE/xgte-sep.png');
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: 7cm;
+}
+
+.chapter.xgte.decoration::before {
+    background-image: url('../../assets/XGtE/xgte-chapter-top.png');
+}
+.chapter.xgte.decoration.v2::before{ background-image: url('../../assets/XGtE/xgte-chapter-top-2.png'); }
+.chapter.xgte.decoration.v3::before{ background-image: url('../../assets/XGtE/xgte-chapter-top-3.png'); }
+.chapter.xgte.decoration.v4::before{ background-image: url('../../assets/XGtE/xgte-chapter-top-4.png'); }
+
+.chapter.xgte.v2 h1::before { background-image: url('../../assets/XGtE/xgte-sep-2.png'); }
+.chapter.xgte.v3 h1::before { background-image: url('../../assets/XGtE/xgte-sep-3.png'); }
+.chapter.xgte.v4 h1::before { background-image: url('../../assets/XGtE/xgte-sep-4.png'); }
+
+
+/********************
+   MARK: FOOTER
+********************/
+.footer.xgte {
+    background-image: url('../../assets/XGtE/xgte-footer.png');
+    --b: calc(-0.015 * var(--page-width));
+    --r: calc(-0.019 * var(--page-width));
+    background-position: bottom var(--b) right 0;
+    color: #808080;
+}
+
+.footer.xgte::after {
+    right: calc(0.01666 * var(--page-width)); 
+    bottom: calc(0.0381 * var(--page-width));
+}
+
+.xgte .footnote {
+    bottom: calc(0.0428 * var(--page-width));
+    right: calc(0.0905 * var(--page-width));
+}

@@ -1,4 +1,4 @@
-export const DND5E = {
+const DND5E = {
     template: ['5e.css'],
     style: {
         ":root": {
@@ -8,11 +8,12 @@ export const DND5E = {
             '--page-margin-right': '1.4cm',
             '--page-margin-top': '1.4cm',
             '--page-margin-bottom': '1.6cm',
+            '--column-count': '2',
             // COLORS
-            '--text-color': '#231f20',
+            '--text-color': '#000000',
             '--heading-color': '#58180D',
-            '--table-heading-color': '#231f20',
-            '--table-text-color': '#231f20',
+            '--table-heading-color': '#000000',
+            '--table-text-color': '#000000',
             '--primary-color': '#C9AD6A',
             '--secondary-color': '#E0E5C1',
             '--table-color': '#ffffff00',
@@ -21,10 +22,10 @@ export const DND5E = {
             '--monster-text-color': '#58180D',
             '--monster-separator-color': '#9c2b1b',
             '--monster-background-color': '#fbf8f4',
-            '--item-name-color': '#766649',
+            '--legend-color': '#766649',
             '--page-background-color': '#ffffff',
             '--page-background-image': 'none',
-            '--lettrine-color': '#231f20',
+            '--lettrine-color': '#000000',
             // FONTS
             '--lettrine-font': 'Solbera Imitation',
             '--text-font': 'Bookinsanity',
@@ -37,7 +38,7 @@ export const DND5E = {
             '--h4-font': 'Mr Eaves Small Caps',
             '--table-font': 'Scaly Sans',
             '--table-title-font': 'Scaly Sans Caps',
-            '--item-name-font': 'Zatanna Misdirection',
+            '--legend-font': 'Zatanna Misdirection',
             '--quote-font': 'Sedan',
             // TEXT SIZE
             '--cover-title-size': '60pt',
@@ -52,16 +53,28 @@ export const DND5E = {
             '--note-text-size': '9pt',
             '--quote-size': '10pt',
             '--lettrine-size': '95pt',
-            '--item-name-size': '14pt',
+            '--legend-size': '14pt',
             // SPACES
             '--space-between': '10px',
             '--space-after-heading': '4px',
         }
     }
 };
-export const CURATOR = {
+const PHB = {
+    template: ['5e.css'],
+    keyword: "phb",
+    load: [DND5E],
+    style: {
+        ":root": {
+            // COLORS
+            '--page-background-image': 'url("../backgrounds/phb.png")',
+        },
+    }
+};
+const CURATOR = {
     template: ['5e.css'],
     load: [DND5E],
+    keyword: 'curator',
     style: {
         ":root": {
             // COLORS
@@ -72,62 +85,78 @@ export const CURATOR = {
             '--lettrine-font': 'Zallman',
             '--lettrine-color': '#9c693f',
             '--heading-color': '#9c693f',
+            '--column-count': '3',
         },
-        '.footer': {
-            'background-image': "url('../footers/curator.svg')",
-            'color': "#9f968b",
-            'background-size': "calc(0.8 * var(--page-width))",
-            '--b': "calc(0.0119 * var(--page-width))",
-            'background-position': "bottom var(--b) right var(--b)",
-            'filter': "drop-shadow(0 0 2px white)",
-        },
-        '.footer::after': {
-            'bottom': "calc(0.0286 * var(--page-width))",
-            'right': "calc(0.015 * var(--page-width))",
-        },
-        '.footnote': {
-            'bottom': "calc(0.0428 * var(--page-width))",
-            'right': "calc(0.0905 * var(--page-width))",
-        },
-        '.cover .footer': {
-            'filter': "unset",
-        }
     }
 };
-export const XGTE = {
+const XGTE = {
     template: ['5e.css'],
+    keyword: "xgte",
     load: [DND5E],
     style: {
         ":root": {
             // COLORS
-            '--heading-color': '#034957',
             '--page-background-image': 'url("../backgrounds/xgte.jpeg")',
-            // TEXT SIZE
-            '--cover-title-size': '60pt',
-            '--cover-subtitle-size': '30pt',
-            '--text-size': '9.6pt',
-            '--h1-size': '24pt',
-            '--h2-size': '23pt',
-            '--h3-size': '16pt',
-            '--h4-size': '14pt',
-            '--table-title-size': '13pt',
-            '--table-text-size': '8pt',
-            '--note-text-size': '9pt',
-            '--quote-size': '10pt',
-            '--lettrine-size': '110pt',
-            '--item-name-size': '14pt',
+            '--secondary-color': '#dbdbe1',
+            '--note-background': '#f2e5ba',
         },
-        '.footer': {
-            'background-image': "url('../footers/XgtE.png')",
-            'background-position': "bottom -0.5cm right -0.4cm",
-            'color': "#808080",
-        },
-        '.footer::after': { 'right': "0.35cm", 'bottom': "0.80cm" }
     }
 };
-export const BRS = {
+const TCOE = {
+    template: ['5e.css'],
+    keyword: "tcoe",
+    load: [DND5E],
+    style: {
+        ":root": {
+            // COLORS
+            '--page-background-image': 'url("../backgrounds/tcoe.jpeg")',
+            '--lettrine-font': 'Bookman Swash',
+            '--lettrine-size': '55pt',
+            '--lettrine-color': '#3e3a64',
+            '--note-color': '#dbc4e3',
+            '--description-color': '#e4dbeb',
+            '--secondary-color': '#c5d7e8',
+            '--quote-font': "'Delicious Handrawn', cursive",
+            '--quote-size': "13pt"
+        },
+        '.chapter + p::first-letter, h1 + p::first-letter': {
+            'text-shadow': '0 0 2px #d1d7cb'
+        },
+        'blockquote': {
+            'position': "relative",
+            'background-image': "url('./styles/assets/TCoE/desc-bg.jpeg')",
+            'background-size': "cover",
+            'box-shadow': "3px 2px 3px #ababab",
+            'margin-left': "-8px",
+            'width': "calc(100% + 16px)",
+            'font-style': "normal",
+            'padding': "18px 10px 18px 36px",
+            'overflow': "hidden"
+        },
+        'blockquote::before': {
+            'background-image': "url('./styles/assets/TCoE/tasha-icon.png')",
+            'background-repeat': "no-repeat",
+            'background-size': "contain",
+            'position': "absolute",
+            'top': "0",
+            'left': "0",
+            'opacity': "10%",
+            'width': "46px",
+            'height': "70px",
+            'content': "''",
+        },
+        'blockquote li': {
+            'font-family': "var(--quote-font)",
+            'font-weight': "bold",
+            'text-transform': "uppercase",
+        },
+        'blockquote li::before': { 'content': "''" },
+    }
+};
+const BRS = {
     template: ['5e.css'],
     load: [DND5E],
+    keyword: 'brs',
     style: {
         ":root": {
             '--page-width': '215.9mm',
@@ -135,11 +164,15 @@ export const BRS = {
             // COLORS
             '--page-background-image': 'none',
             '--page-background-color': '#ffffff',
-            '--page-margin-left': '2cm',
-            '--page-margin-right': '2cm',
+            '--page-margin-left': '1.8cm',
+            '--page-margin-right': '1.8cm',
             '--page-margin-top': '1.4cm',
             '--page-margin-bottom': '1.6cm',
             '--secondary-color': '#efede5',
+            '--table-heading-color': '#231f20',
+            '--table-text-color': '#231f20',
+            '--text-color': '#231f20',
+            '--lettrine-color': '#231f20',
             // TEXT SIZE
             '--cover-title-size': '60pt',
             '--cover-subtitle-size': '30pt',
@@ -157,4 +190,11 @@ export const BRS = {
             'line-height': '1.2',
         }
     }
+};
+export const THEMES = {
+    DND5E: ["(D&D 5e) Default", DND5E],
+    PHB: ["(D&D 5e) Player's Handbook", PHB],
+    XGtE: ["(D&D 5e) Xanathar's Guide to Everything", XGTE],
+    TCoE: ["(D&D 5e) Tasha's Cauldron of Everything", TCOE],
+    BRS: ["(D&D 5e) Basic Rules", BRS],
 };

@@ -1,0 +1,39 @@
+
+
+/********************
+   MARK: CHAPTER
+********************/
+.chapter.wdh, .chapter.wmm {
+    position: relative;
+    width: fit-content;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1cm 0;
+}
+
+.chapter.wdh h1, .chapter.wmm h1 {
+    width: fit-content;
+    margin: 0;
+}
+
+.chapter.wdh::before, .chapter.wmm::before {
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: ''; 
+    
+    left: unset;
+    right: -2cm;
+    width: calc(2.5cm + var(--page-width));
+    height: 100%;
+    background-position: center right;
+}
+.chapter.wdh::before { background-image: url('../../assets/Waterdeep/chapter-background-wdh.png'); right: -2.3cm; }
+.chapter.wmm::before { background-image: url('../../assets/Waterdeep/chapter-background-wmm.png'); }
+
+
+
+/********************
+   MARK: FOOTER
+********************/

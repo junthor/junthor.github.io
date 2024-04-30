@@ -1,10 +1,15 @@
+@import url(dnd/tcoe.css);
+@import url(dnd/witch.css);
+@import url(dnd/waterdeep.css);
+@import url(dnd/phb.css);
+@import url(dnd/xgte.css);
+
+a { color: var(--heading-color); }
+
 /********************
     MARK: FOOTER 
 *********************/
-.footer, .footer.phb, .footer.dmg, .footer.curator,
-.footer.xgte, .footer.mtof, .footer.ee, .footer.draco,
-.footer .toa, .footer .tcoe {
-    all:unset;
+.footer {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -15,30 +20,17 @@
     background-size: contain;
     background-position: bottom;
     background-repeat: no-repeat;
-    z-index: -1;
-    color: var(--primary-color);
+    z-index: -2;
 }
 
-.footer::after, .footer.phb::after, .footer.dmg::after, .footer.curator::after,
-.footer.xgte::after, .footer.mtof::after, .footer.ee::after, .footer.draco::after,
-.footer.toa::after, .footer.tcoe::after {
+.footer::after {
     position: absolute;
     bottom: calc(0.04 * var(--page-width));
     right: calc(0.007 * var(--page-width));
     text-align: center;
     content: var(--footer-number);
-    color:inherit;
     width: calc(0.0476 * var(--page-width));
 }
-
-.footer.tcoe { 
-    background-image: url('../footers/TCoE.png'); 
-    background-size: calc(0.5 * var(--page-width));
-    background-position: bottom right;
-    mix-blend-mode: multiply;
-    color: #47446a;
-}
-.footer.tcoe::after { right: calc(0.03 * var(--page-width)); }
 
 .footer.curator { 
     background-image: url('../footers/curator.svg'); 
@@ -53,21 +45,6 @@
     bottom: calc(0.0286 * var(--page-width)); 
     right: calc(0.015 * var(--page-width));
 }
-.footer.phb { background-image: url('../footers/phb.png'); }
-.footer.phb.blue { background-image: url('../footers/phb-blue.png'); }
-.footer.phb.green { background-image: url('../footers/phb-green.png'); }
-.footer.phb.purple { background-image: url('../footers/phb-purple.png'); }
-.footer.phb.red { background-image: url('../footers/phb-red.png'); }
-.footer.phb.teal { background-image: url('../footers/phb-teal.png'); }
-.footer.phb.yellow { background-image: url('../footers/phb-yellow.png'); }
-
-.footer.dmg { background-image: url('../footers/dmg.png'); color: #a7a7a7; }
-.footer.dmg.blue { background-image: url('../footers/dmg-blue.png'); }
-.footer.dmg.green { background-image: url('../footers/dmg-green.png'); }
-.footer.dmg.purple { background-image: url('../footers/dmg-purple.png'); }
-.footer.dmg.red { background-image: url('../footers/dmg-red.png'); }
-.footer.dmg.teal { background-image: url('../footers/dmg-teal.png'); }
-.footer.dmg.yellow { background-image: url('../footers/dmg-yellow.png'); }
 .footer.ee { background-image: url('../footers/ee.png'); color: #dfe4e5; }
 .footer.draco {
     background-image: url('../footers/draco.png');
@@ -89,18 +66,6 @@
 }
 .footer.mtof::after{ right: calc(0.0033 * var(--page-width)); }
 
-.footer.xgte {
-    background-image: url('../footers/XgtE.png');
-    --b: calc(-0.0238 * var(--page-width));
-    --r: calc(-0.019 * var(--page-width));
-    background-position: bottom var(--b) right var(--r);
-    color: #808080;
-}
-.footer.xgte::after{ 
-    right: calc(0.01666 * var(--page-width)); 
-    bottom: calc(0.0381 * var(--page-width));
-}
-
 .page:nth-child(even) .footer, .page:nth-child(even) .footer::after, .page:nth-child(even) .footer > *{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -110,9 +75,7 @@
     -ms-filter: "FlipH";
 }
 
-.footnote, .mtof .footnote, .phb .footnote, .draco .footnote,
-.xfte .footnote, .dmg .footnote, .curator .footnote,
-.footnote .toa, .footnote .tcoe {
+.footnote {
     position: absolute;
     bottom: calc(0.05 * var(--page-width));
     right: calc(0.1 * var(--page-width));
@@ -120,8 +83,8 @@
     font-family: var(--text-font);
     font-size: var(--text-size);
     text-align: right;
-    color: inherit;
 }
+
 .mtof .footnote { 
     bottom: calc(0.048 * var(--page-width));
     right: calc(0.0857 * var(--page-width));
@@ -129,10 +92,6 @@
 .draco .footnote { 
     bottom: calc(0.0333 * var(--page-width));
     right: calc(0.0857 * var(--page-width));
-}
-.xgte .footnote { 
-    bottom: calc(0.0428 * var(--page-width));
-    right: calc(0.0905 * var(--page-width));
 }
 .curator .footnote { 
     bottom: calc(0.0428 * var(--page-width));
@@ -143,6 +102,17 @@
 /********************
     MARK: COVER 
 *********************/
+
+.cover.inside h1, .cover.inside h2{
+    color: var(--heading-color);
+    text-shadow: none;
+    stroke: none;
+    -webkit-text-stroke: unset;
+    -webkit-text-fill-color: unset;
+}
+.cover.inside hr, .cover.inside .banner{
+    filter: none;
+}
 
 .back-cover {
     position: absolute;
@@ -196,14 +166,15 @@
 .cover sup {
     vertical-align: unset;
     position: relative;
-    bottom: 0.25em;
-    font-size: 60%;
+    bottom: 0.10em;
+    font-size: 75%;
     text-transform: uppercase;
 }
 .cover .footer {
-    all: unset;
+    all: unset!important;
 }
 .cover .footnote {
+    text-transform: none;
     position: absolute;
     bottom: 1.1cm;
     left: 10%;
@@ -226,11 +197,11 @@
     filter: drop-shadow(2px 0 2px #000000aa);
 }
 
+.cover h1 { font-weight: bold; }
 .cover h1, .cover h2 {
     font-family: var(--cover-font);
     font-size: var(--cover-title-size);
     text-align: center;
-    letter-spacing: -0.05em;
     line-height: 0.9em;
     text-shadow: 0 0 4px #00000099;
     color: white;
@@ -239,6 +210,7 @@
 }
 
 .cover h2 {
+    letter-spacing: -0.05em;
     font-family: var(--cover-subtitle-font);
     font-weight: bold;
     font-size: var(--cover-subtitle-size);
@@ -268,9 +240,8 @@
 
     font-family: var(--cover-font);
     color: white;
-    font-size: 16.5pt;
+    font-size: 22pt;
     font-weight: bold;
-    padding-top: 4px;
     padding-left: calc(0.0756 * var(--page-width));
     filter: drop-shadow(2px 0px 2px #000000aa);
 }
@@ -392,42 +363,45 @@
 /********************
     MARK: FRAME 
 *********************/
-
-* + .frame { margin-top: 25px!important; }
+* + .frame {
+    margin-top: var(--space-between) !important;
+}
 .frame {
     position: relative;
     font-family: var(--text-font);
     font-size: var(--text-size);
     border-style: solid;
-    border-image-outset: 25px 17px;
+    border-image-outset: 0 17px;
     border-image-repeat: stretch;
     border-image-slice: 38%;
     border-image-source: url('../borders/frame.svg');
     border-image-width: 15;
-    background-color: white;
-    margin: 42px 17px;
-    margin-top: 0;
+    background: linear-gradient(transparent 20px, white 20px, white calc(100% - 20px), transparent calc(100% - 20px));
+    padding: 25px 0;
+    margin: 0px 17px;
 
     break-inside: avoid;
 }
 .frame.simple {
     border-image-slice: 20%;
-    border-image-outset: 8px 8px;
+    border-image-outset: 0 8px;
+    padding: 8px 0;
     border-image-width: 5;
-    background-color: transparent;
-    margin-bottom: 25px;
+    background: none;
+    margin: 0 8px;
     border-image-source: url('../borders/script.svg');
 }
 .frame.small {
-    border-image-outset: 10px 10px;
+    border-image-outset: 0 10px;
+    padding: 10px 0;
     border-image-width: 10;
-    margin-bottom: 25px;
-    background-color: transparent;
+    margin: 0 10px;
+    background: none;
     border-image-source: url('../borders/code.svg');
 }
 
-* + .frame.card { margin-top: var(--space-between)!important; }
 .frame.card {
+    background: white;
     border-image-slice: 28% fill;
     border-image-outset: 0;
     border-image-width: 8;
@@ -435,7 +409,6 @@
     padding: 10px 10px;
     box-shadow: 0 0 4px #00000055;
     margin: 0;
-    margin-bottom: var(--space-between);
 }
 
 .frame.simple.decoration::after, .frame.simple.decoration::before { display: none; }
@@ -524,15 +497,20 @@ h1 + h2, h1 + h3, h1 + h4, h1 + h5 { margin-top: 0!important; }
 .page h1 + p::first-line, .page .chapter + p::first-line {
     font-family: var(--h1-font);
     font-size: 125%;
-    line-height: 0.8;
+    line-height: 1;
 }
 .page h1 + p::first-letter, .page .chapter + p::first-letter{
     float: left;
     font-family: var(--lettrine-font);
     font-size: var(--lettrine-size);
     color: var(--lettrine-color);
-    line-height: .8em;
+    initial-letter-align: top;
     text-transform: uppercase;
+}
+
+p.webkit::first-letter {
+    margin-top: -0.15em !important;
+    margin-bottom: -0.1em !important;
 }
 
 .cover h1 {
@@ -599,9 +577,9 @@ dt {
 ********************/
 
 .part, .part.phb, .part.dmg, .part.brs {
+    all: unset;
     width: 100%;
     height: 100%;
-    background-image: url('../headers/part-round.png');
     background-position: top center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -610,6 +588,8 @@ dt {
     left: 0;
     z-index: -1
 }
+
+.part, .part.phb { background-image: url('../headers/part-round.png'); }
 .part.dmg { background-image: url('../headers/part-rect.png'); }
 .part.brs {
     background-image: url('../headers/part-brs.svg');
@@ -617,17 +597,19 @@ dt {
     background-size: 90%;
 }
 
-
 .part h1, .part.dmg h1, .part.brs h1, .part.phb h1 {
-    margin-top: 0px;
+    all:unset;
+    color: var(--heading-color);
     font-family: var(--cover-font);
     font-size: calc(0.11 * var(--page-width));
     text-align: center;
-    letter-spacing: -0.05em;
-    text-shadow: none;
-    -webkit-text-stroke: 0;
+    font-weight: bold;
+    
+    column-span: all;
+    width: 100%;
+    display: inline-block;
 }
-.part.brs h1 { margin-top: calc(var(--page-width) * 0.8 + 1cm);}
+.part.brs h1 { margin-top: calc(var(--page-width) * 0.8 + 1cm); font-weight: normal;}
 
 .part h2, .part.dmg h2, .part.brs h2, .part.phb h2 {
     font-family: 'Sovngarde', sans-serif;
@@ -636,7 +618,7 @@ dt {
     text-align: center;
     font-weight: bold;
     width: calc(0.3 * var(--page-width));
-    margin: 0cm auto 0!important
+    margin: 0cm auto 0!important;
 }
 .part.brs h2 { 
     margin-top: -0.1em!important;
@@ -660,7 +642,7 @@ dt {
    MARK: CHAPTER
 ********************/
 
-.chapter.decoration::before{
+.chapter::before {
     position: absolute;
     top: 0;
     left: 0;
@@ -675,122 +657,6 @@ dt {
 
 .chapter h1::before { content: var(--chapter-number) ': '; }
 .chapter.notitle h1::before { content: ''!important; }
-
-.chapter.witch h1::before { 
-    all:unset;
-    display: block;
-    width: 100%;
-    content: var(--chapter-number);
-    font-size: 14pt;
-    letter-spacing: 0.2em;
-    text-shadow: none;
-    color: var(--primary-color);
-    text-transform: uppercase;
-    margin-bottom: 0.5em;
-}
-.chapter.witch h1{
-    text-align: center;
-    width: 100%;
-    font-size: 30pt;
-    margin-bottom: 0.5em;
-}
-.chapter.witch.decoration::before   { background-image: url('../assets/Witchlight/witch-chapter-1.png'); }
-.chapter.witch.decoration.v2::before{ background-image: url('../assets/Witchlight/witch-chapter-2.png'); }
-.chapter.witch.decoration.v3::before{ background-image: url('../assets/Witchlight/witch-chapter-3.png'); }
-.chapter.witch.decoration.v4::before{ background-image: url('../assets/Witchlight/witch-chapter-4.png'); }
-.chapter.witch.decoration.v5::before{ background-image: url('../assets/Witchlight/witch-chapter-5.png'); }
-.chapter.witch.decoration.v6::before{ background-image: url('../assets/Witchlight/witch-chapter-6.png'); }
-.chapter.witch.decoration.v7::before{ background-image: url('../assets/Witchlight/witch-chapter-7.png'); }
-.chapter.witch.decoration.v8::before{ background-image: url('../assets/Witchlight/witch-chapter-8.png'); }
-.chapter.witch.decoration.v9::before{ background-image: url('../assets/Witchlight/witch-chapter-9.png'); }
-
-
-.chapter.xgte h1::before { 
-    display: block;
-    width: 100%;
-    content: var(--chapter-number);
-    padding-bottom: 0.4em;
-    background-image: url('../assets/XGtE/xgte-sep.png');
-    background-position: bottom;
-    background-repeat: no-repeat;
-    background-size: 7cm;
-}
-.chapter.xgte h1{
-    text-align: center;
-    width: 100%;
-    font-size: 30pt;
-    margin-bottom: 0.5em;
-    text-shadow: none;
-}
-.chapter.xgte.decoration::before{ background-image: url('../assets/XGtE/xgte-chapter-top.png'); }
-
-.chapter.tcoe h1::before { 
-    all:unset;
-    display: block;
-    width: 100%;
-    content: var(--chapter-number);
-    font-size: 22pt;
-    letter-spacing: 0.05em;
-    text-shadow: none;
-    color: var(--heading-color);
-    text-transform: lowercase;
-    margin-bottom: 0.3em;
-    margin-left: 1.5em;
-}
-.chapter.tcoe h1{
-    text-align: left;
-    font-size: 30pt;
-    margin-bottom: 0em;
-    text-shadow: none;
-}
-.chapter.tcoe.decoration h1 {
-    margin-top: calc(var(--page-width) * 0.12 - var(--page-margin-top));
-    margin-left: calc(var(--page-width) * 0.15 - var(--page-margin-left));
-}
-.chapter.tcoe.decoration.notitle h1 {
-    margin-top: 0;
-    margin-left: 0;
-}
-.chapter.tcoe.decoration.notitle::before { background-image: url('../assets/TCoE/tcoe-chapter-0.png'); }
-.chapter.tcoe.decoration::before   { background-image: url('../assets/TCoE/tcoe-chapter-1.png'); }
-.chapter.tcoe.decoration.v2::before{ background-image: url('../assets/TCoE/tcoe-chapter-2.png'); }
-.chapter.tcoe.decoration.v3::before{ background-image: url('../assets/TCoE/tcoe-chapter-3.png'); }
-.chapter.tcoe.decoration.v4::before{ background-image: url('../assets/TCoE/tcoe-chapter-4.png'); }
-
-
-.chapter.wmm, .chapter.wdh {
-    position: relative;
-    width: fit-content;
-    display: flex!important;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-    padding: 1cm 0;
-    vertical-align: center;
-}
-.chapter.wmm h1, .chapter.wdh h1 {
-    width: fit-content;
-    margin: 0;
-    text-shadow: none;
-}
-.chapter.wmm::before, .chapter.wdh::before {
-    content: '';
-    right: -2cm;
-    position: absolute;
-    width: calc(2.5cm + var(--page-width));
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center right;
-    background-size: contain;
-    z-index: -1;
-    filter: drop-shadow(0 0 5px #808080);
-}
-.chapter.wmm::before { background-image: url('../assets/Waterdeep/chapter-background-wmm.png'); }
-.chapter.wdh::before   { 
-    right: -2.5cm;
-    background-image: url('../assets/Waterdeep/chapter-background-wdh.png');
-}
-
 
 
 /********************
@@ -828,9 +694,9 @@ td {
     font-family: var(--table-font);
     font-size: var(--note-text-size);
     border-width: 1px;
-    border-image: url('../borders/note.svg') 20% stretch;
+    border-image: url('../borders/note.svg') 22% stretch;
     border-image-width: 11px;
-    border-image-outset: 9px 0px;
+    border-image-outset: 8px 0px;
     box-shadow: 1px 4px 14px #888;
 }
 

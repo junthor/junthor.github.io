@@ -49,25 +49,25 @@
 @font-face {
     font-family: "Nodesto Caps Condensed";
     src: 
-        url('./../../fonts/Nodesto Caps Condensed/Nodesto Caps Condensed.otf')  format("opentype");
+        url('./../../fonts/Nodesto Caps Condensed/Nodesto Caps Condensed.woff2')  format("opentype");
 }
 @font-face {
     font-family: "Nodesto Caps Condensed";
     src: 
-        url('./../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Bold Italic.otf') format("opentype");
+        url('./../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Bold Italic.woff2') format("opentype");
     font-weight: bold;
     font-style: italic;
 }
 @font-face {
     font-family: "Nodesto Caps Condensed";
     src: 
-        url('./../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Bold.otf') format("opentype");
+        url('./../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Bold.woff2') format("opentype");
     font-weight: bold;
 }
 @font-face {
     font-family: "Nodesto Caps Condensed";
     src: 
-        url('./../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Italic.otf') format("opentype");
+        url('./../../fonts/Nodesto Caps Condensed/NodestoCapsCondensed-Italic.woff2') format("opentype");
     font-style: italic;
 }
 @font-face {
@@ -172,5 +172,5 @@
 @font-face {
     font-family: "Bookman Swash";
     src: 
-        url('./../../fonts/Lettrines/Bookman\ Swash\ ITC\ Medium.ttf');
+        url('./../../fonts/Lettrines/BookmanSwash.woff2');
 }

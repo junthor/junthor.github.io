@@ -8,8 +8,10 @@ export class DocumentSaver {
         let data = {
             content: this.editor.get_text(),
             css: this.editor.get_css(),
+            title: this.stylist.get_document_title(),
             style: {
                 template: this.stylist.get_templates(),
+                keyword: this.stylist.get_keyword(),
                 style: this.stylist.get_style()
             }
         };
@@ -34,9 +36,11 @@ export class DocumentSaver {
     apply_data(data) {
         if (data['css'])
             this.editor.set_css(data['css']);
-        if (data['content'])
-            this.editor.set_text(data['content']);
         if (data['style'])
             this.stylist.apply(data['style'], true);
+        if (data['content'])
+            this.editor.set_text(data['content']);
+        if (data['title'])
+            this.stylist.set_document_title(data['title']);
     }
 }

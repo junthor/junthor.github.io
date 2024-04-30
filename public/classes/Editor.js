@@ -3,7 +3,7 @@ import { PageManager } from "./PageManager.js";
 import { EditorParser } from "./EditorParser.js";
 import { Stylist } from "./Stylist.js";
 import { Guide } from '../config/guide.js';
-import { format, set_columnbreak, MOUSE_POS, print_document } from "../Utils.js";
+import { format, set_columnbreak, MOUSE_POS, print_document, isWebkit } from "../Utils.js";
 export class Editor {
     constructor(container_id) {
         this.page_zoom = 0;
@@ -73,6 +73,9 @@ export class Editor {
         this.editor = ace_editor;
         this.editor.setShowPrintMargin(false);
         this.file_manager = new DocumentSaver(this, this.stylist);
+        this.insert(`### Welcome
+If this is your first time using the editor, don't to hesitate to check 
+the guide by clicking on the guide button on the right side of the preview's bar!`);
     }
     save() {
         this.file_manager.save();
@@ -161,7 +164,7 @@ export class Editor {
         pdf_button.className = "print-button";
         pdf_button.title = "Save as PDF";
         pdf_button.innerHTML = '<i class="bi bi-filetype-pdf"></i>';
-        pdf_button.addEventListener("click", () => print_document(this.style_css()));
+        pdf_button.addEventListener("click", () => print_document(this.style_css(), this.stylist.get_document_title()));
         let guide_button = document.createElement("button");
         guide_button.className = "guide-button";
         guide_button.title = "Load Guide";
@@ -233,6 +236,7 @@ export class Editor {
         let offset = 0;
         let start_offset = 0;
         let texts;
+        let substitutions = this.stylist.get_substitutions();
         if (data) {
             let range = this.page_manager.get_range(text, data.page, data.updated);
             text = text.substring(range.start, range.end);
@@ -242,12 +246,13 @@ export class Editor {
             if (data.page > 0)
                 start_offset = 1;
             this.manage_unchanged_pages(first_page + 1, data.delta);
-            texts = this.parser.parse(text, first_page, start_offset, offset);
+            texts = this.parser.parse(text, first_page, start_offset, offset, substitutions);
         }
         else {
-            texts = this.parser.parse(text);
+            texts = this.parser.parse(text, 0, 0, 0, substitutions);
             this.set_pages_number(texts.length);
         }
+        let webkit = isWebkit();
         for (let i = start_offset; i < texts.length - offset; i++) {
             let page = this.pages[first_page + i - start_offset];
             page.innerHTML = `<div class="page-content">${texts[i]}</div>`;
@@ -263,8 +268,11 @@ export class Editor {
                 }
                 if (next && next instanceof HTMLParagraphElement) {
                     next.classList.add(next.innerText[0].toUpperCase());
+                    if (webkit)
+                        next.classList.add('webkit');
                 }
             }
+            this.stylist.apply_theme_keyword(page);
             // Adapt the column break to the new page
             let columns = page.getElementsByClassName('column-break');
             set_columnbreak(columns);

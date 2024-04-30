@@ -5,12 +5,17 @@
     margin-bottom: var(--page-margin-bottom);
     box-sizing: border-box;
 
-    column-count: 2;
+    column-count: var(--column-count);
     column-fill: auto;
     column-gap: 1cm;
 
     width: calc(100% - var(--page-margin-left) - var(--page-margin-right));
     height: calc(100% - var(--page-margin-top) - var(--page-margin-bottom));
+}
+
+.page:nth-child(even) .page-content {
+    margin-left: var(--page-margin-right);
+    margin-right: var(--page-margin-left);
 }
 
 .page {
@@ -29,6 +34,11 @@
 
     flex-shrink: 0;
     flex-grow: 0;
+    margin: auto;
+}
+
+.column-break + * {
+    margin-top: 0!important;
 }
 
 .page::before {
@@ -55,6 +65,7 @@
 }
 
 .page img {
+    position: relative;
     z-index: -2;
 }
 
@@ -70,6 +81,7 @@
     color: #333;
     border: 1px solid #aaa;
     display: block;
+    break-inside: avoid;
 }
 
 .page code {
@@ -81,6 +93,7 @@
 
     background-color: #ddd;
     color: #333;
+    break-inside: avoid;
 }
 
 .chapter {
@@ -117,12 +130,18 @@
     width: 100%;
 }
 
-.column-break { display: block; margin: 0!important; }
+.column-break { 
+    display: block; 
+    margin: 0!important;
+    break-after: column;
+    width: 0;
+    height: 0;
+}
 
-.name {
-    font-family: var(--item-name-font);
-    color: var(--item-name-color);
-    font-size: var(--item-name-size);
+.caption {
+    font-family: var(--legend-font);
+    color: var(--legend-color);
+    font-size: var(--legend-size);
     z-index: 10; 
 }
 h1 { column-span: all; }
@@ -208,6 +227,10 @@ p.Z::first-letter { margin: var(--lettrine-letter-Z); }
 /*******************
    MARK: TOC
 *******************/
+.toc {
+    column-span: all;
+    column-count: 2;
+}
 .toc-entry {
     list-style: none;
     position: relative;

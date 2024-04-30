@@ -10,7 +10,8 @@ This tool was made using:
   -  [The Homebrewery](https://github.com/naturalcrit/homebrewery) for some images
   -  [Sovngarde Font](https://www.nexusmods.com/skyrimspecialedition/mods/386) for the subtitles of the part. I like this font.
   -  [Jared Ondricek](https://watercolors.giantsoup.com/) for the watercolors. I took some and transformed them into masks.
-
+  -  [Kaiburr](https://www.reddit.com/user/Kaiburr_Kath-Hound/) for its work on D&D themes.
+  
 
 ## Disclaimer
 I took some inspiration concerning the syntax from [The Homebrewery](https://github.com/naturalcrit/homebrewery) and [GMBinder](https://www.gmbinder.com/).  
@@ -26,6 +27,6 @@ You can take and reuse my code, I don't care. You can also use some images I too
 - [ ] Document's Variables
 - [x] More Preview Features (zoom in / zoom out)
 - [x] Easy Appearence Customization (Page Background, Footer, maybe other)
-- [ ] Custom CSS Editor 
+- [x] Custom CSS Editor 
 - [ ] WFRP Theme
 - [x] Auto Table of Contents (although hyperlinks don't work when saving as PDF...)

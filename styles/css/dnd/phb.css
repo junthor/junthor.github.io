@@ -1,0 +1,62 @@
+/********************
+   MARK: CHAPTER
+********************/
+
+.chapter.phb.decoration::before {
+    background-image: url('../../assets/PHB/chapter-top.png');
+}
+
+.chapter.colored + p {
+    --color: var(--lettrine-color);
+}
+.chapter.colored + p::first-letter {
+    --color-dark: color-mix(in srgb, var(--color) 60%, black);
+    background-image: linear-gradient(-65deg, var(--color-dark), var(--color-dark), var(--color), var(--color-dark), var(--color-dark));
+    background-clip: text;
+    color: transparent!important;
+    filter: drop-shadow(0 0 2px black);
+}
+
+.chapter.yellow + p { --color: #cbb680; }
+.chapter.blue   + p { --color: #80b19d; }
+.chapter.green  + p { --color: #a5b270; }
+.chapter.purple + p { --color: #be89b7; }
+
+/********************
+   MARK: FOOTER
+********************/
+
+.footer.phb::after, .footer.dmg::after {
+    bottom: calc(0.04 * var(--page-width));
+    right: calc(0.007 * var(--page-width));
+    text-align: center;
+}
+
+.phb .footnote, .dmg .footnote {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    bottom: calc(0.055 * var(--page-width));
+    right: calc(0.1 * var(--page-width));
+}
+
+.footer.phb {
+    color: #af9060;
+    background-image: url('../../footers/phb.png');
+}
+.footer.phb.blue { background-image: url('../../footers/phb-blue.png'); }
+.footer.phb.green { background-image: url('../../footers/phb-green.png'); }
+.footer.phb.purple { background-image: url('../../footers/phb-purple.png'); }
+.footer.phb.red { background-image: url('../../footers/phb-red.png'); }
+.footer.phb.teal { background-image: url('../../footers/phb-teal.png'); }
+.footer.phb.yellow { background-image: url('../../footers/phb-yellow.png'); }
+
+.footer.dmg { 
+    color: #a7a7a7; 
+    background-image: url('../../footers/dmg.png'); 
+}
+.footer.dmg.blue { background-image: url('../../footers/dmg-blue.png'); }
+.footer.dmg.green { background-image: url('../../footers/dmg-green.png'); }
+.footer.dmg.purple { background-image: url('../../footers/dmg-purple.png'); }
+.footer.dmg.red { background-image: url('../../footers/dmg-red.png'); }
+.footer.dmg.teal { background-image: url('../../footers/dmg-teal.png'); }
+.footer.dmg.yellow { background-image: url('../../footers/dmg-yellow.png'); }

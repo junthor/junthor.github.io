@@ -1,0 +1,37 @@
+/********************
+   MARK: CHAPTER
+********************/
+.chapter.witch h1 {
+    text-align: center;
+    font-size: 30pt;
+    margin-bottom: 0.5em;
+}
+.chapter.witch h1::before{ 
+    display: block;
+    width: 100%;
+    content: var(--chapter-number);
+    font-size: 14pt;
+    letter-spacing: 0.2em;
+    text-shadow: none;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+
+}
+.chapter.witch.decoration::before {
+    background-image: url('../../assets/Witchlight/witch-chapter-1.png');
+}
+.chapter.witch.decoration.v2::before{ background-image: url('../../assets/Witchlight/witch-chapter-2.png'); }
+.chapter.witch.decoration.v3::before{ background-image: url('../../assets/Witchlight/witch-chapter-3.png'); }
+.chapter.witch.decoration.v4::before{ background-image: url('../../assets/Witchlight/witch-chapter-4.png'); }
+.chapter.witch.decoration.v5::before{ background-image: url('../../assets/Witchlight/witch-chapter-5.png'); }
+.chapter.witch.decoration.v6::before{ background-image: url('../../assets/Witchlight/witch-chapter-6.png'); }
+.chapter.witch.decoration.v7::before{ background-image: url('../../assets/Witchlight/witch-chapter-7.png'); }
+.chapter.witch.decoration.v8::before{ background-image: url('../../assets/Witchlight/witch-chapter-8.png'); }
+.chapter.witch.decoration.v9::before{ background-image: url('../../assets/Witchlight/witch-chapter-9.png'); }
+
+
+
+/********************
+   MARK: FOOTER
+********************/

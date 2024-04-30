@@ -74,13 +74,11 @@
             </div>
 
             <div class="widgets">
-                <button title="Color Captain" onclick="toggle_visibility('color-picker-container')"><i
-                        class="fa-solid fa-palette"></i></button>
-                <button title="Text Tailor" onclick="toggle_visibility('text-barber-container')"><i
-                        class="fa-solid fa-pen-nib"></i></button>
-                <button title="Snippets Sailor" onclick="toggle_visibility('snippets-selector-container')"
-                    style="position: relative;">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <button id="config-app-button"></button>
+                <button id="color-app-button"></button>
+                <button id="text-app-button"></button>
+                <button id="snippets-app-button"></button>
+                    
                 </button>
                 <button title="Quick Snippets" style="position: relative;">
                     <i class="fa-solid fa-bolt"></i>
@@ -176,7 +174,7 @@
                         class="fa-solid fa-list-ul"></i></button>
                 <button title='Ordered List' onclick="editor.insert_line('{0}. ')"><i
                         class="fa-solid fa-list-ol"></i></button>
-                <button title='Table of Contents' onclick="editor.insert(editor.render_toc())"><i
+                <button title='Table of Contents' onclick="editor.insert(editor.generate_toc())"><i
                         class="bi bi-list-columns"></i></button>
             </div>
 

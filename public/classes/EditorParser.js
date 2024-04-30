@@ -15,7 +15,6 @@ export class EditorParser {
             if (text.includes('::')) {
                 text = text.split('::', 2);
                 let h = text[0];
-                console.log(text);
                 text = text[1].split('<ul>');
                 let p = parseInt(text[0].trim());
                 text[0] = `<span class='toc-page'>${p}</span></a>`;
@@ -25,12 +24,6 @@ export class EditorParser {
             return `<li class='toc-li'>${text}</li>\n`;
         };
         marked.Renderer.prototype.paragraph = function (text) {
-            text = text.replaceAll(/^(:+\n*)+/gm, function (match) {
-                if (match == text)
-                    return '<br>'.repeat(match.length);
-                match = match.replaceAll('\n', '');
-                return '<br>'.repeat(match.length);
-            });
             if (text.includes("::")) {
                 text = text.split("\n");
                 let res = [];
@@ -66,6 +59,9 @@ export class EditorParser {
     }
     get_toc() {
         return this.TOC;
+    }
+    parse_markdown_inline(text) {
+        return marked.parseInline(text);
     }
     parse_markdown(text) {
         return marked.parse(text);
@@ -103,6 +99,7 @@ export class EditorParser {
                 while (i + 1 < text.length && text[i + 1] != '\n')
                     i++;
                 let txt = text.substring(offset + level, i + 1).trim();
+                txt = this.parse_markdown_inline(txt);
                 // TOC
                 if (txt.includes('[*]')) {
                     txt = txt.replace('[*]', '').trim();
@@ -123,7 +120,21 @@ export class EditorParser {
         let open = 0;
         let close = 0;
         let s = 0;
+        let inside = 0;
         for (let i = 0; i < text.length; i++) {
+            if (text[i] == '`') {
+                let cpt = 1;
+                while (text[++i] == '`')
+                    cpt++;
+                if (inside > 0 && cpt >= inside)
+                    inside = 0;
+                else if (inside == 0)
+                    inside = cpt;
+            }
+            else if (inside == 1 && text[i] == '\n')
+                inside = 0;
+            if (inside > 0)
+                continue;
             // Lookahead
             if (text[i] == '^' || text[i] == '_') {
                 if (text[i + 1] == '{') {
@@ -157,12 +168,25 @@ export class EditorParser {
         res += text.substring(s);
         return res;
     }
-    parse(text, page = 0, start = 0, offset = 0) {
+    parse(text, page = 0, start = 0, offset = 0, substitutions) {
         let texts = text.split("[newpage]");
         for (let i = start; i < texts.length - offset; i++) {
             const TOC = [];
             // Parse Heading Because of (1) TOC and (2) Find on Editor 
             texts[i] = this.parse_headings(texts[i], TOC);
+            texts[i] = texts[i].replaceAll(/^(:*\s*):(\s*)$/gm, function (match, g1, g2) {
+                if (g1 !== g2)
+                    g1 = g1.replaceAll(/\s/g, '');
+                return '<br>'.repeat(g1.length + 1) + g2;
+            });
+            if (substitutions) {
+                for (let s in substitutions) {
+                    let sub = substitutions[s];
+                    let value = sub[0] ? sub[2] : sub[1];
+                    let regex = new RegExp(`${sub[1].replaceAll(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&')}`, 'g');
+                    texts[i] = texts[i].replaceAll(regex, `<span class='substitute-${s}'>${value}</span>`);
+                }
+            }
             this.TOC[page + i - start] = TOC;
             // Special case for sub and sup tags
             // Using the LaTeX syntax ^{...}
@@ -324,9 +348,11 @@ export class EditorParser {
         let inside;
         let key;
         let value;
+        let keywords = [];
         while (i < tag.length && tag[i] != " " && tag[i] != "]")
             i++;
-        let decomposition = { name: tag.substring(start, i) };
+        let name = tag.substring(start, i);
+        let decomposition = { name: name };
         i++;
         start = i;
         while (++i < tag.length) {
@@ -350,14 +376,40 @@ export class EditorParser {
                     decomposition[key.trim()] = value;
                     key = undefined;
                 }
-                else if (value != '')
+                else if (value != '') {
                     decomposition[value] = undefined;
+                    keywords.push(value);
+                }
                 start = i + 1;
                 continue;
             }
             if (c == "=") {
                 key = tag.substring(start, i);
                 start = i + 1;
+            }
+        }
+        // If it's a complex tag, check if there are exclusions
+        let complex = this.COMPLEX_TAGS[name];
+        if (complex && complex.exclusive_keywords) {
+            let exclusions = complex.exclusive_keywords;
+            let found;
+            for (let groups of exclusions) {
+                let kws = groups.keywords;
+                // Check the keywords found against the kws in the exclusive field
+                for (let i = 0; i < keywords.length; i++) {
+                    for (let j = 0; j < kws.length; j++) {
+                        // If we found one, we remove the other
+                        if (kws[j] == keywords[i] && kws[j] != found) {
+                            if (found)
+                                delete decomposition[kws[j]];
+                            else
+                                found = kws[j];
+                        }
+                    }
+                }
+                // Add the default keywords if we did not find any
+                if (!found && groups.default)
+                    decomposition[groups.default] = undefined;
             }
         }
         return decomposition;

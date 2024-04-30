@@ -17,7 +17,7 @@ const DEFAULT_PROPERTIES = {
     width: ["style", "width:", DEFAULT_REGEX["size"]],
     size: ["style", "width:", DEFAULT_REGEX["size"]],
     height: ["style", "height:", DEFAULT_REGEX["size"]],
-    "z-index": ["style", "z-index:", /\d+/],
+    zIndex: ["style", "z-index:", /\d+/],
     // STYLING
     bg: ["style", "background-color:", DEFAULT_REGEX["color"]],
     color: ["style", "background-color:", DEFAULT_REGEX["color"]],
@@ -57,9 +57,22 @@ const DEFAULT_PROPERTIES = {
     pl: ["style", "padding-left:", DEFAULT_REGEX["size"]],
     pr: ["style", "padding-right:", DEFAULT_REGEX["size"]],
 };
+const theme_keywords = [
+    'phb', 'dmg', 'witch', 'xgte', 'tcoe', 'dia', 'toa', 'wmm', 'wdh', 'ee',
+    'mtof', 'draco', 'curator', 'brs'
+];
+export const SP_KEYWORDS = {
+    theme: '--theme-keyword'
+};
+const exclusive_themes = {
+    keywords: theme_keywords,
+    default: SP_KEYWORDS.theme
+};
 export const BBCODE_TAGS = {
     part: {
         tag: "div",
+        exclusive_keywords: [exclusive_themes],
+        keywords: {},
         params: {
             margin: DEFAULT_PROPERTIES["margin"],
             "margin-top": DEFAULT_PROPERTIES["margin-top"],
@@ -67,20 +80,19 @@ export const BBCODE_TAGS = {
             "margin-left": DEFAULT_PROPERTIES["margin-left"],
             "margin-right": DEFAULT_PROPERTIES["margin-right"],
         },
-        keywords: {
-            dmg: ["class", "dmg"],
-            phb: ["class", "phb"],
-            brs: ["class", "brs"],
-        },
         auto_params: {
             class: "part wide",
         },
     },
     chapter: {
         tag: "div",
+        add_start: '\n',
+        add_end: '\n',
+        exclusive_keywords: [exclusive_themes],
         params: {
             title: ["style", "--chapter-number:'", DEFAULT_REGEX["text"], "'"],
             prefix: ["style", "--chapter-number:'", DEFAULT_REGEX["text"], " ' counter(number-of-chapter)"],
+            decoration: ["class", "decoration v", DEFAULT_REGEX["text"]],
             margin: DEFAULT_PROPERTIES["margin"],
             "margin-top": DEFAULT_PROPERTIES["margin-top"],
             "margin-bottom": DEFAULT_PROPERTIES["margin-bottom"],
@@ -174,6 +186,10 @@ export const BBCODE_TAGS = {
             "<span style='color:#$1'>": /\[color #([\da-f]+)\]/gi,
         },
     },
+    i: {
+        tag: 'i',
+        keywords: {}
+    },
     image: {
         tag: "img",
         self_closing: true,
@@ -191,7 +207,7 @@ export const BBCODE_TAGS = {
             left: DEFAULT_PROPERTIES["left"],
             right: DEFAULT_PROPERTIES["right"],
             class: DEFAULT_PROPERTIES["class"],
-            "z-index": DEFAULT_PROPERTIES["z-index"],
+            zIndex: DEFAULT_PROPERTIES["z-index"],
             padding: DEFAULT_PROPERTIES["padding"],
             "padding-top": DEFAULT_PROPERTIES["padding-top"],
             "padding-bottom": DEFAULT_PROPERTIES["padding-bottom"],
@@ -233,7 +249,7 @@ export const BBCODE_TAGS = {
             color: DEFAULT_PROPERTIES["bg"],
             x: ["style", "--wc-x:", DEFAULT_REGEX["size"]],
             y: ["style", "--wc-y: calc(-1 * ", DEFAULT_REGEX["size"], ")"],
-            "z-index": DEFAULT_PROPERTIES["z-index"],
+            zIndex: DEFAULT_PROPERTIES["z-index"],
             opacity: ["style", "opacity:", DEFAULT_REGEX["float"]],
         },
         keywords: {
@@ -249,14 +265,14 @@ export const BBCODE_TAGS = {
             class: "watercolor",
         },
     },
-    name: {
+    caption: {
         tag: "div",
         params: DEFAULT_PROPERTIES,
         keywords: {
             absolute: ["style", "position:absolute"],
         },
         auto_params: {
-            class: "name",
+            class: "caption",
         },
     },
     block: {
@@ -274,8 +290,8 @@ export const BBCODE_TAGS = {
         tag: "div",
         add_start: "\n",
         params: {
-            size: ["style", "font-size:", DEFAULT_REGEX["size"]],
-            color: DEFAULT_PROPERTIES["font-color"],
+            fs: ["style", "font-size:", DEFAULT_REGEX["size"]],
+            fg: DEFAULT_PROPERTIES["font-color"],
             bg: DEFAULT_PROPERTIES["bg"],
         },
         keywords: {
@@ -289,8 +305,8 @@ export const BBCODE_TAGS = {
         tag: "div",
         add_start: "\n",
         params: {
-            size: ["style", "font-size:", DEFAULT_REGEX["size"]],
-            color: DEFAULT_PROPERTIES["font-color"],
+            fs: ["style", "font-size:", DEFAULT_REGEX["size"]],
+            fg: DEFAULT_PROPERTIES["font-color"],
             bg: ["style", "--description-color:", DEFAULT_REGEX["color"]],
         },
         keywords: {
@@ -389,10 +405,11 @@ export const BBCODE_TAGS = {
     },
     footer: {
         tag: "div",
+        exclusive_keywords: [exclusive_themes],
         add_start: '<div class="footnote">',
         add_end: "</div>",
         params: {
-            color: DEFAULT_PROPERTIES["fg"],
+            fg: DEFAULT_PROPERTIES["fg"],
             number: ["style", "--footer-number: '", /\d+/, "'"],
         },
         keywords: {
@@ -422,14 +439,26 @@ export const BBCODE_TAGS = {
         },
     },
     hs: { alias: "hspace" },
+    toc: {
+        tag: 'div',
+        keywords: {
+            1: ['style', "column-count: 1"],
+            2: ['style', "column-count: 2"],
+            3: ['style', "column-count: 3"],
+            4: ['style', "column-count: 4"],
+            5: ['style', "column-count: 5"],
+        },
+        auto_params: {
+            'class': 'toc'
+        }
+    }
 };
 export const BBCODE_TAGS_STATIC = {
     "[toc]": "<div class='toc'>",
     "[/toc]": "</div>",
-    "[part]": "<div class='part wide'>",
-    "[/part]": "</div>",
     "[cover]": "<div class='cover wide'>",
     "[/cover]": "</div>",
+    "[cover inside]": "<div class='cover wide inside'>",
     "[h1]": "<h1>",
     "[/h1]": "</h1>",
     "[h2]": "<h2>",

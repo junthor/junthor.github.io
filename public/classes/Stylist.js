@@ -1,15 +1,22 @@
+import { style_copy } from "../definition.js";
 import { set_columnbreak } from "../Utils.js";
-import { Popup } from "./Popup.js";
-import { BRS } from "../theme/theme.js";
-import { COLOR_PICKER_VARIABLES, SNIPPETS, FONT_BARBER_VARIABLES, lettrine_definition } from '../config/properties.js';
+import { ConfigWindow } from "./components/ConfigWindow.js";
+import { TextWindow } from './components/TextWindow.js';
+import { ColorWindow } from "./components/ColorWindow.js";
+import { THEMES } from "../theme/theme.js";
+import { SP_KEYWORDS } from "../config/tags.js";
+import { COLOR_PICKER_VARIABLES, FONT_BARBER_VARIABLES, lettrine_definition } from '../config/properties.js';
+import { SnippetsWindow } from "./components/SnippetsWindow.js";
 const PAPER = {
     Letter: { width: "215.9mm", height: "279.4mm" },
     A4: { width: "210mm", height: "297mm" },
     A5: { width: "148mm", height: "210mm" },
 };
 export class Stylist {
-    constructor(editor, style = BRS) {
+    constructor(editor, style = THEMES.BRS[1]) {
         this.editor = editor;
+        this.keyword = style.keyword || '';
+        this.document_title = 'My Document';
         this.undo_button = document.getElementById('undo-button');
         this.redo_button = document.getElementById('redo-button');
         this.templates = style.template;
@@ -25,10 +32,9 @@ export class Stylist {
         this.apply_lettrine_properties(this.styles[':root']['--lettrine-font']);
         this.color_variables = COLOR_PICKER_VARIABLES;
         this.font_variables = FONT_BARBER_VARIABLES;
-        this.snippets = SNIPPETS;
-        document.body.appendChild(this.create_color_picker());
-        document.body.appendChild(this.create_text_customizer());
-        document.body.appendChild(this.create_snippets_selector());
+        this.snippets = new SnippetsWindow(editor, this);
+        this.text = new TextWindow(this);
+        this.color = new ColorWindow(this);
         // Load format
         const format = document.getElementById('format-selector');
         const width = this.styles[":root"]["--page-width"];
@@ -38,242 +44,100 @@ export class Stylist {
             if (width == dim.width && height == dim.height && format)
                 format.value = size;
         }
+        this.config = new ConfigWindow(this, 'My Document', []);
         this.undo_stack = [];
         this.redo_stack = [];
         this.custom_css = '';
+    }
+    /**
+     * Update the current page
+     * @param page Page being changed
+     */
+    apply_theme_keyword(page) {
+        if (!this.keyword || this.keyword == '')
+            return;
+        let elements = page.getElementsByClassName(SP_KEYWORDS.theme);
+        for (let element of elements)
+            element.classList.add(this.keyword);
+    }
+    /**
+     * Update the whole document
+     */
+    set_theme_keyword(value) {
+        if (value == this.keyword)
+            return;
+        let pages = document.getElementById('page-container');
+        if (!pages)
+            return;
+        let elements = pages.getElementsByClassName(SP_KEYWORDS.theme);
+        for (let element of elements) {
+            if (this.keyword != '')
+                element.classList.remove(this.keyword);
+            if (value != '')
+                element.classList.add(value);
+        }
+        this.keyword = value;
+    }
+    get_keyword() {
+        return this.keyword;
+    }
+    set_document_title(title) {
+        this.document_title = title;
+    }
+    get_document_title() {
+        return this.document_title;
+    }
+    get_substitutions() {
+        return this.config.get_substitutions();
+    }
+    substitute(i, sub) {
+        let elements = document.getElementsByClassName(`substitute-${i}`);
+        let value = sub[0] ? sub[2] : sub[1];
+        for (let element of elements)
+            element.innerHTML = value;
     }
     set_custom_css(css) {
         this.custom_css = css;
         this.hot_load();
     }
-    create_text_customizer() {
-        let popup = new Popup();
-        popup.get_window().id = 'text-barber-container';
-        popup.set_title('<i class="fa-solid fa-pen-nib"></i> Text Tailor');
-        let text_container = popup.get_content();
-        text_container.style.position = "relative";
-        let text_barber = document.createElement('div');
-        text_barber.id = 'text-barber';
-        let preview_box = document.createElement('div');
-        preview_box.className = 'preview-box';
-        const max_width = 'calc(100% - 350px)';
-        let table = document.createElement("table");
-        table.style.tableLayout = "fixed";
-        table.innerHTML = `<thead><tr>
-            <th style='width:${max_width}'>Element</th>
-            <th style='width:200px'>Font Family</th>
-            <th style='width:100px'>Size</th>
-            <th style='width:50px'>Unit</th>
-        </tr></thead>`;
-        const font_units = `<option value="cm">cm</option>
-        <option value="pt">pt</option>
-        <option value="px">px</option>
-        <option value="em">em</option>
-        <option value="rem">rem</option>
-        <option value="%">%</option>`;
-        //text_container.appendChild(preview_box)
-        text_container.appendChild(text_barber);
-        for (const type in this.font_variables) {
-            let font_container = document.createElement('div');
-            font_container.className = 'text-barber-row';
-            let family = document.createElement('select');
-            for (const opt in this.font_variables[type].options) {
-                let ff = this.font_variables[type].options[opt];
-                family.innerHTML += `<option value="${ff}">${ff}</option>`;
-            }
-            let var_name = this.font_variables[type].family;
-            family.value = this.styles[':root'][var_name];
-            family.id = var_name;
-            family.stylist = this;
-            family.addEventListener('change', this.change_font);
-            var_name = this.font_variables[type].size;
-            let font_size = this.styles[':root'][var_name];
-            let font_unit = font_size.replaceAll(/[\d.]/gi, '');
-            let fs = parseFloat(font_size);
-            let font_name = document.createElement('div');
-            font_name.className = 'font-preview';
-            font_name.style.maxWidth = '100%';
-            font_name.innerHTML = this.font_variables[type].preview;
-            let size = document.createElement('input');
-            size.type = 'number';
-            size.step = '0.1';
-            size.value = `${fs}`;
-            size.id = var_name;
-            size.name = var_name;
-            let units = document.createElement('select');
-            units.innerHTML = font_units;
-            units.value = font_unit;
-            units.name = var_name;
-            size.stylist = this;
-            units.stylist = this;
-            size.fu = units;
-            units.fu = units;
-            size.fs = size;
-            units.fs = size;
-            size.addEventListener('change', this.change_font_size);
-            units.addEventListener('change', this.change_font_size);
-            let row = document.createElement('tr');
-            let td_0 = document.createElement("td");
-            td_0.appendChild(font_name);
-            let td_1 = document.createElement("td");
-            td_1.appendChild(family);
-            let td_2 = document.createElement("td");
-            td_2.appendChild(size);
-            let td_3 = document.createElement("td");
-            td_3.appendChild(units);
-            row.appendChild(td_0);
-            row.appendChild(td_1);
-            row.appendChild(td_2);
-            row.appendChild(td_3);
-            table.appendChild(row);
-        }
-        text_barber.appendChild(table);
-        return popup.get_window();
-    }
-    create_color_picker() {
-        let popup = new Popup();
-        popup.get_window().id = 'color-picker-container';
-        popup.set_title('<i class="fa-solid fa-palette"></i> Color Captain');
-        let color_picker = popup.get_content();
-        color_picker.id = 'color-picker';
-        for (const category in this.color_variables) {
-            let category_container = document.createElement('div');
-            category_container.className = "category";
-            category_container.innerHTML = `<div class='category-name'>${category}</div>`;
-            for (let [text, id] of Object.entries(this.color_variables[category])) {
-                let value = this.styles[':root'][id];
-                let container = document.createElement('div');
-                container.className = 'color-container full';
-                let picker = document.createElement('input');
-                picker.type = 'text';
-                picker.className = 'color-selector';
-                picker.id = id;
-                picker.value = value;
-                picker.setAttribute('data-coloris', '');
-                picker.addEventListener('input', this.change_color);
-                picker.addEventListener('change', this.change_color_delta);
-                let name = document.createElement('div');
-                name.className = 'color-name';
-                name.innerText = text;
-                let value_div = document.createElement('div');
-                value_div.className = 'color-value';
-                value_div.innerText = value;
-                picker.stylist = this;
-                picker.div = value_div;
-                container.appendChild(value_div);
-                container.appendChild(picker);
-                container.appendChild(name);
-                category_container.appendChild(container);
-            }
-            color_picker.appendChild(category_container);
-        }
-        return popup.get_window();
-    }
-    create_snippets_selector() {
-        let popup = new Popup();
-        popup.get_window().id = 'snippets-selector-container';
-        popup.set_title('<i class="fa-solid fa-wand-magic-sparkles"></i> Snippets Sailor');
-        let snippets_selector = popup.get_content();
-        snippets_selector.className = "snippets-selector";
-        let snippets_container = document.createElement('div');
-        snippets_container.className = 'snippets-container';
-        let column_category = document.createElement('div');
-        column_category.className = 'column-category';
-        let snippets_content = document.createElement('div');
-        snippets_content.className = 'snippets-content';
-        snippets_content.id = 'snippets-content';
-        let page_preview = document.createElement('div');
-        page_preview.className = 'page-preview';
-        let block_preview = document.createElement('div');
-        block_preview.className = 'block-preview';
-        let mini_page = document.createElement('div');
-        mini_page.className = 'mini-page';
-        page_preview.appendChild(mini_page);
-        snippets_selector.appendChild(snippets_container);
-        snippets_selector.appendChild(page_preview);
-        snippets_selector.appendChild(block_preview);
-        snippets_container.appendChild(column_category);
-        snippets_container.appendChild(snippets_content);
-        for (const category in this.snippets) {
-            let elt = document.createElement('div');
-            elt.className = 'snippet-category';
-            elt.innerHTML = category;
-            column_category.appendChild(elt);
-            const content = document.createElement('div');
-            content.className = 'snippets-content';
-            content.innerHTML = `<div class="snippet-category-name">${category}</div>`;
-            const item_display = document.createElement('div');
-            item_display.style.columns = "2";
-            item_display.style.padding = "8px";
-            content.appendChild(item_display);
-            for (const i in this.snippets[category]) {
-                let item = this.snippets[category][i];
-                let item_elt = document.createElement('div');
-                item_elt.className = 'item';
-                item_elt.innerHTML = item[0];
-                if (item.length > 3)
-                    item_elt.addEventListener('click', e => this.set_root_value(item[3], item[4], 'root_value'));
-                else
-                    item_elt.addEventListener('click', e => this.editor.insert(item[1]));
-                item_elt.addEventListener('mouseenter', e => {
-                    if (item[2] == 'block') {
-                        block_preview.innerHTML = this.editor.simple_parse(item[1]);
-                        page_preview.style.display = "none";
-                        block_preview.style.display = "block";
-                    }
-                    else {
-                        mini_page.innerHTML = this.editor.simple_parse(item[1]);
-                        block_preview.style.display = "none";
-                        page_preview.style.display = "flex";
-                    }
-                });
-                item_display.appendChild(item_elt);
-            }
-            elt.addEventListener('click', e => this.replace_snippet_content(content));
-        }
-        return popup.get_window();
-    }
-    replace_snippet_content(elt) {
-        let content = document.getElementById('snippets-content');
-        let parent = content?.parentElement;
-        if (!parent || !content)
-            return;
-        parent.removeChild(content);
-        parent.appendChild(elt);
-        elt.id = 'snippets-content';
-    }
     do(delta, mode) {
         for (let action of delta) {
             let nature = action.action;
             let value = mode == 'undo' ? action.old_value : action.new_value;
-            if (nature == 'font') {
-                if (action.property == '--lettrine-font')
-                    this.apply_lettrine_properties(value);
-                let family = document.getElementById(action.property);
-                family.value = value;
+            switch (nature) {
+                case 'font':
+                    if (action.property == '--lettrine-font')
+                        this.apply_lettrine_properties(value);
+                    let family = document.getElementById(action.property);
+                    family.value = value;
+                    break;
+                case 'color':
+                    this.color.restore_color(action.property, value);
+                    break;
+                case 'font_size':
+                    let size = document.getElementById(action.property);
+                    let font_size = value;
+                    let font_unit = font_size.replaceAll(/[\d.]/gi, '');
+                    size.value = parseFloat(font_size);
+                    size.unit.value = font_unit;
+                    break;
+                case 'input':
+                    let input = document.getElementById(action.property);
+                    if (input)
+                        input.value = value;
+                    break;
             }
-            else if (nature == 'color') {
-                let elt = document.getElementById(action.property);
-                elt.value = value;
-                elt.value_div.innerHTML = value;
-                elt.parentElement.style.color = value;
-            }
-            else if (nature == 'font_size') {
-                let size = document.getElementById(action.property);
-                let font_size = value;
-                let font_unit = font_size.replaceAll(/[\d.]/gi, '');
-                size.value = parseFloat(font_size);
-                size.unit.value = font_unit;
-            }
-            if (nature == 'style') {
+            if (nature == 'style')
                 this.styles = value;
-            }
-            else if (nature == 'template') {
+            else if (nature == 'template')
                 this.templates = value;
-            }
+            else if (nature == 'keyword')
+                this.set_theme_keyword(value);
             else
                 this.set_root_value(action.property, value);
         }
+        // Load margin
+        this.config.update_layout();
         this.hot_load();
         if (mode == 'undo')
             this.redo_stack.push(delta);
@@ -315,7 +179,7 @@ export class Stylist {
     add_to_delta(section, property, new_value, action, old_value) {
         if (!this.delta)
             return;
-        if (!old_value)
+        if (old_value == undefined)
             old_value = this.styles[section][property];
         this.delta.push({
             action: action,
@@ -323,15 +187,20 @@ export class Stylist {
             old_value: old_value, new_value: new_value
         });
     }
-    set_root_value(key, value, delta) {
+    get_root_value(key) {
+        return this.styles[':root'][key];
+    }
+    set_root_value(key, value, delta, old_value) {
         if (delta) {
+            if (!old_value)
+                old_value = this.styles[':root'][key];
             if (!this.delta) {
                 this.new_delta();
-                this.add_to_delta(':root', key, value, delta);
+                this.add_to_delta(':root', key, value, delta, old_value);
                 this.save_delta();
             }
             else
-                this.add_to_delta(':root', key, value, delta);
+                this.add_to_delta(':root', key, value, delta, old_value);
         }
         this.styles[':root'][key] = value;
         this.hot_load();
@@ -377,22 +246,6 @@ export class Stylist {
         this.stylist.set_root_value(this.fs.id, this.fs.value + this.fu.value, 'font_size');
         this.stylist.save_delta();
     }
-    change_color() {
-        if (!this.stylist.color_tmp) {
-            this.stylist.color_tmp = this.stylist.styles[':root'][this.id];
-        }
-        this.stylist.set_root_value(this.id, this.value);
-        this.div.innerHTML = this.value;
-    }
-    change_color_delta() {
-        this.stylist.new_delta();
-        if (!this.stylist.color_tmp)
-            this.stylist.color_tmp = this.value;
-        this.stylist.styles[':root'][this.id] = this.stylist.color_tmp;
-        this.stylist.set_root_value(this.id, this.value, 'color');
-        this.stylist.save_delta();
-        this.stylist.color_tmp = undefined;
-    }
     get_style() {
         return this.styles;
     }
@@ -404,26 +257,33 @@ export class Stylist {
             return undefined;
         return this.styles[from][font];
     }
+    // MARK: APPLY
     apply(style, delta = true) {
         let old_style;
         let old_template;
+        let old_keyword;
         if (delta) {
             old_style = this.styles;
-            old_template = style.template;
+            old_template = this.templates;
+            old_keyword = this.keyword || '';
         }
         this.templates = style.template;
         if ('load' in style && style.load) {
-            this.styles = style.load[0].style;
+            this.styles = style_copy(style.load[0].style);
             for (let i = 1; i < style.load.length; i++)
                 this.merge(style.load[i].style);
             this.merge(style.style);
         }
         else
-            this.styles = style.style;
+            this.styles = style_copy(style.style);
+        // Set the keyword
+        let new_keyword = style.keyword || '';
+        this.set_theme_keyword(new_keyword);
         if (old_style) {
             this.new_delta();
             this.add_to_delta('', '', this.styles, 'style', old_style);
             this.add_to_delta('', '', this.templates, 'template', old_template);
+            this.add_to_delta('', '', this.keyword, 'keyword', old_keyword);
             this.save_delta();
         }
         // Load colors
@@ -460,6 +320,8 @@ export class Stylist {
         }
         // Triggers the margin
         this.apply_lettrine_properties(this.styles[':root']['--lettrine-font']);
+        // Load margin
+        this.config.update_layout();
         this.hot_load();
         set_columnbreak(document.getElementsByClassName('column-break'));
     }

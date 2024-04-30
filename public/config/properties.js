@@ -10,7 +10,7 @@ export const COLOR_PICKER_VARIABLES = {
         'Heading': '--heading-color',
         'Table Heading': '--table-heading-color',
         'Lettrine': '--lettrine-color',
-        'Item Name': '--item-name-color',
+        'Caption': '--legend-color',
         'Monster Block': '--monster-text-color',
     },
     'Backgrounds': {
@@ -49,11 +49,13 @@ export const lettrine_definition = {
         ]
     },
     'Bookman Swash': {
-        '0 0 0 -0.1em': [
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z'
+        '0.05em 0.05em 0 -0.5em': [
+            'A', 'B', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'P', 'R', 'U', 'V', 'W', 'X', 'Y',
         ],
-        '-0.18em 0 0 -0.1em': ['Y'],
+        '0.05em 0.05em 0 -0.1em': [
+            'C', 'O', 'S', 'Q', 'Z', 'T'
+        ]
     },
     'OPTIBookman': {
         '0 0.1em 0 -0.5em': [
@@ -121,9 +123,9 @@ export const FONT_BARBER_VARIABLES = {
         options: available_fonts
     },
     'name': {
-        preview: '<span style="font-size: var(--item-name-size); font-family: var(--item-name-font); color:var(--item-name-color)">Item Name</p>',
-        family: '--item-name-font',
-        size: '--item-name-size',
+        preview: '<span style="font-size: var(--legend-size); font-family: var(--legend-font); color:var(--legend-color)">Caption</p>',
+        family: '--legend-font',
+        size: '--legend-size',
         options: available_fonts
     },
     'lettrine': {
@@ -137,10 +139,19 @@ const MONSTER_BLOCK_TEXT = "\n\n## Monster Name\n*Medium humanoid, any alignment
 export const SNIPPETS = {
     Cover: [
         ['D&D Cover', '[cover]\n\n# [s 0.15em]Title[/s]\n## [s 0.15em]Subtitle[/s]\n___\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[s 0.2em]Footnote[/s]\n[/footer]\n\n[/cover]'],
+        ['D&D Inside Cover', '[cover inside]\n\n# Title\n## Subtitle\n___\n[/cover]'],
         ['D&D Back Cover', '[cover back]\n\n## Title\nText \n___\nText\n\n[/cover]'],
         ['Banner (D&D)', '[banner]BANNER[/banner]'],
         ['Banner (Simple)', '[banner simple]BANNER[/banner]'],
         ['Banner (Ribbon)', '[banner ribbon]BANNER[/banner]'],
+    ],
+    Chapter: [
+        ['Dungeon Master Guide', '[chapter]\n# Title\n[/chapter]'],
+        ['Tasha\'s Cauldron of Everything', '[chapter tcoe decoration=1]\n# Title\n[/chapter]'],
+        ['Xanathar\'s Guide to Everything', '[chapter xgte decoration=1]\n# Title\n[/chapter]'],
+        ['Witchlight', '[chapter witch decoration=1]\n# Title\n[/chapter]'],
+        ['Waterdeep: Mad Mage', '[chapter wmm decoration=1]\n# Title\n[/chapter]'],
+        ['Waterdeep: Dragon Heist', '[chapter wdh decoration=1]\n# Title\n[/chapter]'],
     ],
     Part: [
         ['Dungeon Master Guide', '[part dmg]\n\n# Part 1\n## Subtitle\n\n[/part]'],
@@ -199,13 +210,16 @@ export const SNIPPETS = {
         ['Monster (Unframed)', `[monster noframe]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
     ],
     Footer: [
-        ['Footer (PHB)', "[footer number phb]FOOTNOTE[/footer]"],
-        ['Footer (DMG)', "[footer number dmg]FOOTNOTE[/footer]"],
-        ['Footer (EE)', "[footer number ee]FOOTNOTE[/footer]"],
-        ['Footer (XGtE)', "[footer number xgte]FOOTNOTE[/footer]"],
+        ['Player\'s Handbook', "[footer number phb]FOOTNOTE[/footer]"],
+        ['Dungeon Master Guide', "[footer number dmg]FOOTNOTE[/footer]"],
+        ['Evil Elemental', "[footer number ee]FOOTNOTE[/footer]"],
+        ['Xanathar\'s Guide to Everything', "[footer number xgte]FOOTNOTE[/footer]"],
         ['Footer (MToF)', "[footer number mtof]FOOTNOTE[/footer]"],
-        ['Footer (Draco)', "[footer number draco]FOOTNOTE[/footer]"],
-        ['Footer (Curator)', "[footer number curator]FOOTNOTE[/footer]"],
+        ['Draco', "[footer number draco]FOOTNOTE[/footer]"],
+        ['Tales Curator', "[footer number curator]FOOTNOTE[/footer]"],
+        ['Witchlight', "[footer number witch]FOOTNOTE[/footer]"],
+        ['Tasha\'s Cauldron of Everything', "[footer number tcoe]FOOTNOTE[/footer]"],
+        ['Tomb of Annihilation', "[footer number toa]FOOTNOTE[/footer]"],
         ['Only Number', "[footer hide number][/footer]"],
         ['Only Footnote', "[footer hide]FOOTNOTE[/footer]"],
     ],
