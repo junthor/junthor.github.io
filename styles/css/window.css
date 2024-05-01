@@ -273,6 +273,7 @@
 
 .window-popup .section {
     font-size: 20px;
+    column-span: all;
     padding: 8px;
     margin: 8px 0;
     font-weight: bold;

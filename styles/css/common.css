@@ -145,7 +145,7 @@
     z-index: 10; 
 }
 h1 { column-span: all; }
-p { margin: 0; hyphens: auto; }
+p { margin: 0; /*hyphens: auto;*/ }
 
 .lettrine {
     position: relative;

@@ -3,12 +3,50 @@
 @import url(dnd/waterdeep.css);
 @import url(dnd/phb.css);
 @import url(dnd/xgte.css);
+@import url(dnd/mtof.css);
 
 a { color: var(--heading-color); }
 
 /********************
     MARK: FOOTER 
 *********************/
+.lexicon::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    --size: calc(0.13 * var(--page-width));
+    width: 100%;
+    height: var(--size);
+
+    box-sizing: border-box;
+    background-image: url('../assets/lexicon-footer.png');
+    background-position: bottom right;
+    background-size: var(--size);
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+.lexicon {
+    position: absolute;
+    color: #9b7626;
+    text-align: right;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    --padding-h: calc(0.025 * var(--page-width));
+    padding-bottom: calc(0.1 * var(--page-width));
+    padding-right: var(--padding-h);
+    font-size: calc(0.025 * var(--page-width));
+}
+.page:nth-child(even) .lexicon {
+    right: unset;
+    left: 0;
+    text-align: left;
+    padding-right: unset;
+    padding-left: var(--padding-h);
+}
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -57,16 +95,9 @@ a { color: var(--heading-color); }
     bottom: calc(0.0555 * var(--page-width));
 }
 
-.footer.mtof {
-    background-image: url('../footers/MToF.png');
-    background-size: calc(0.378 * var(--page-width));
-    --b: calc(-0.0176 * var(--page-width));
-    background-position: bottom var(--b) right var(--b);
-    color:#e1d4b3;
-}
-.footer.mtof::after{ right: calc(0.0033 * var(--page-width)); }
-
-.page:nth-child(even) .footer, .page:nth-child(even) .footer::after, .page:nth-child(even) .footer > *{
+.page:nth-child(even) .footer, .page:nth-child(even) .footer::after, 
+.page:nth-child(even) .lexicon::before,
+.page:nth-child(even) .footer > *{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
@@ -83,11 +114,6 @@ a { color: var(--heading-color); }
     font-family: var(--text-font);
     font-size: var(--text-size);
     text-align: right;
-}
-
-.mtof .footnote { 
-    bottom: calc(0.048 * var(--page-width));
-    right: calc(0.0857 * var(--page-width));
 }
 .draco .footnote { 
     bottom: calc(0.0333 * var(--page-width));
@@ -572,10 +598,10 @@ dt {
     z-index: -1
 }
 
-.part, .part.phb { background-image: url('../headers/part-round.png'); }
-.part.dmg { background-image: url('../headers/part-rect.png'); }
+.part, .part.phb { background-image: url('../assets/PHB/part-phb.png'); }
+.part.dmg { background-image: url('../assets/DMG/part-dmg.png'); }
 .part.brs {
-    background-image: url('../headers/part-brs.svg');
+    background-image: url('../assets/BRS/part-brs.svg');
     background-position: center 1cm;
     background-size: 90%;
 }
@@ -607,7 +633,7 @@ dt {
     margin-top: -0.1em!important;
     width: 100%;
     height: 100%;
-    background-image: url('../headers/part-brs-bottom.svg');
+    background-image: url('../assets/BRS/part-brs-bottom.svg');
     background-position: center 1.1em;
     background-size: 40%;
     background-repeat: no-repeat

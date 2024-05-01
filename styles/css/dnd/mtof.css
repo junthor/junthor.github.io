@@ -1,0 +1,58 @@
+
+
+/********************
+   MARK: CHAPTER
+********************/
+.chapter.mtof {
+    position: relative;
+    width: fit-content;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1cm 0;
+}
+
+.chapter.mtof h1 {
+    width: fit-content;
+    margin: 0;
+}
+
+.chapter.mtof h1::before {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
+
+.chapter.mtof::before {
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: ''; 
+    
+    left: unset;
+    right: -3cm;
+    background-image: url('../../assets/MToF/mtof-chapter.png');
+    width: calc(3cm + var(--page-width));
+    height: 100%;
+    background-position: center right;
+}
+
+
+
+/********************
+   MARK: FOOTER
+********************/
+
+.footer.mtof {
+    background-image: url('../../assets/MToF/mtof-footer.png');
+    background-size: calc(0.378 * var(--page-width));
+    --b: calc(-0.0176 * var(--page-width));
+    background-position: bottom var(--b) right var(--b);
+    color:#808080;
+}
+.footer.mtof::after{ right: calc(0.0033 * var(--page-width)); }
+.mtof .footnote { 
+    bottom: calc(0.048 * var(--page-width));
+    right: calc(0.0857 * var(--page-width));
+}

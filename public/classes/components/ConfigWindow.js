@@ -25,6 +25,8 @@ export class ConfigWindow {
             [true, '<== ', ' ⇐ '],
             [true, ' --- ', ' — '],
             [true, ' -- ', ' – '],
+            [true, '"', '“'],
+            [true, '\'\'', '”'],
             [false, '(c)', '©'],
             [false, '(r)', '®'],
         ];

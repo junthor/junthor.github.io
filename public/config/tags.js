@@ -411,6 +411,7 @@ export const BBCODE_TAGS = {
         params: {
             fg: DEFAULT_PROPERTIES["fg"],
             number: ["style", "--footer-number: '", /\d+/, "'"],
+            letter: ["style", "--letter: '", /\w/, "'"],
         },
         keywords: {
             number: ["style", "--footer-number: counter(number-of-page)"],

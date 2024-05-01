@@ -98,7 +98,20 @@ const XGTE = {
             // COLORS
             '--page-background-image': 'url("../backgrounds/xgte.jpeg")',
             '--secondary-color': '#dbdbe1',
-            '--note-background': '#f2e5ba',
+            '--note-color': '#f2e5ba',
+            '--lettrine-size': '110pt',
+        },
+    }
+};
+const MTOF = {
+    template: ['5e.css'],
+    keyword: "mtof",
+    load: [DND5E],
+    style: {
+        ":root": {
+            // COLORS
+            '--secondary-color': '#d9ebe7',
+            '--note-color': '#e7f3f1',
             '--lettrine-size': '110pt',
         },
     }
@@ -201,7 +214,7 @@ const WITCHLIGHT = {
             // COLORS
             '--page-background-image': 'url("../backgrounds/witch.jpeg")',
             '--secondary-color': '#dbdbe1',
-            '--note-background': '#f2e5ba',
+            '--note-oclor': '#f2e5ba',
             '--lettrine-color': '#4e2d4a',
             '--lettrine-size': '60pt',
             '--lettrine-font': 'var(--h1-font)',
@@ -214,6 +227,7 @@ const WITCHLIGHT = {
 export const THEMES = {
     DND5E: ["(D&D 5e) Default", DND5E],
     PHB: ["(D&D 5e) Player's Handbook", PHB],
+    MToF: ["(D&D 5e) Mordenkainen's Tome of Foes", MTOF],
     XGtE: ["(D&D 5e) Xanathar's Guide to Everything", XGTE],
     TCoE: ["(D&D 5e) Tasha's Cauldron of Everything", TCOE],
     Witch: ["(D&D 5e) Witchlight", WITCHLIGHT],

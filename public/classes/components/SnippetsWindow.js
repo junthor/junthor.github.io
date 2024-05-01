@@ -37,31 +37,53 @@ export class SnippetsWindow {
         let cpt_id = 0;
         for (const category in SNIPPETS) {
             const content = this.window.create_content();
-            content.appendChild(this.window.create_section(category));
             // Add to the categories
             categories[category] = content;
-            // Buttons container
-            const item_display = document.createElement('div');
-            item_display.style.columns = "2";
-            item_display.style.padding = "8px";
-            content.appendChild(item_display);
-            for (const i in SNIPPETS[category]) {
-                let item = SNIPPETS[category][i];
-                let item_elt = document.createElement('div');
-                item_elt.className = 'item';
-                item_elt.innerHTML = item[0];
-                item_elt.item = item;
-                item_elt.snippet = this;
-                if (item.length > 3)
-                    item_elt.addEventListener('click', this.snippet_button_value);
-                else
-                    item_elt.addEventListener('click', this.snippet_button_insert);
-                item_elt.addEventListener('mouseenter', this.snippet_button_hover);
-                item_display.appendChild(item_elt);
+            for (let block of SNIPPETS[category]) {
+                let container = document.createElement('div');
+                let section = this.window.create_section(block.title);
+                content.appendChild(section);
+                container.className = block.container;
+                container.style.columns = "2";
+                container.style.padding = "8px";
+                for (let item of block.content) {
+                    let item_elt = document.createElement('div');
+                    item_elt.className = 'item';
+                    item_elt.innerHTML = item[0];
+                    item_elt.item = item;
+                    item_elt.snippet = this;
+                    if (item.length > 3)
+                        item_elt.addEventListener('click', this.snippet_button_value);
+                    else
+                        item_elt.addEventListener('click', this.snippet_button_insert);
+                    item_elt.addEventListener('mouseenter', this.snippet_button_hover);
+                    container.appendChild(item_elt);
+                }
+                if (block.container == "spoiler")
+                    this.create_spoiler(section, container);
+                content.appendChild(container);
             }
             cpt_id++;
         }
         return categories;
+    }
+    create_spoiler(section, content) {
+        let status = document.createElement('div');
+        section.style.cursor = "pointer";
+        status.style.float = "right";
+        status.innerHTML = '<';
+        status.style.rotate = '-90deg';
+        section.appendChild(status);
+        section.addEventListener('click', () => {
+            if (content.style.display == 'none') {
+                content.style.display = 'block';
+                status.style.rotate = '-90deg';
+            }
+            else {
+                content.style.display = 'none';
+                status.style.rotate = '0deg';
+            }
+        });
     }
     snippet_button_value() {
         let snippet = this.snippet;
