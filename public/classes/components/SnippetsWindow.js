@@ -25,7 +25,6 @@ export class SnippetsWindow {
         this.preview_page.appendChild(this.mini_page);
         this.categories = this.create_snippets();
         this.column = this.window.create_column(this.categories);
-        this.window.get_container().appendChild(this.column);
         this.window.get_container().appendChild(this.preview_page);
         this.window.get_container().appendChild(this.preview_block);
         let first_button = this.column.children[0];
@@ -60,30 +59,12 @@ export class SnippetsWindow {
                     container.appendChild(item_elt);
                 }
                 if (block.container == "spoiler")
-                    this.create_spoiler(section, container);
+                    this.window.create_spoiler(section, container);
                 content.appendChild(container);
             }
             cpt_id++;
         }
         return categories;
-    }
-    create_spoiler(section, content) {
-        let status = document.createElement('div');
-        section.style.cursor = "pointer";
-        status.style.float = "right";
-        status.innerHTML = '<';
-        status.style.rotate = '-90deg';
-        section.appendChild(status);
-        section.addEventListener('click', () => {
-            if (content.style.display == 'none') {
-                content.style.display = 'block';
-                status.style.rotate = '-90deg';
-            }
-            else {
-                content.style.display = 'none';
-                status.style.rotate = '0deg';
-            }
-        });
     }
     snippet_button_value() {
         let snippet = this.snippet;

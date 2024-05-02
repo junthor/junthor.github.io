@@ -1,5 +1,4 @@
 import { DraggableWindow } from "./DraggableWindow.js";
-import { THEMES } from "../../theme/theme.js";
 export class ConfigWindow {
     constructor(stylist, title, margin) {
         this.title = title;
@@ -37,7 +36,6 @@ export class ConfigWindow {
             Substitutions: this.substitution_tab
         };
         this.column = this.window.create_column(this.categories);
-        this.window.get_container().appendChild(this.column);
         let first_button = this.column.children[0];
         first_button.click();
         document.body.appendChild(this.window.get_window());
@@ -101,23 +99,8 @@ export class ConfigWindow {
                     margin_input.value = this.stylist.get_root_value(margin_input.id);
             });
         }
-        // Themes
-        let theme_field = document.createElement('div');
-        let theme_label = document.createElement('label');
-        let theme_input = document.createElement('select');
-        for (let i in THEMES) {
-            let theme = THEMES[i];
-            theme_input.innerHTML += `<option value='${i}'>${theme[0]}</option>`;
-        }
-        theme_input.addEventListener('change', () => this.stylist.apply(THEMES[theme_input.value][1]));
-        theme_field.className = 'field';
-        theme_label.innerHTML = 'Theme';
-        theme_label.style.width = label_width;
-        theme_field.appendChild(theme_label);
-        theme_field.appendChild(theme_input);
         general_tab.appendChild(this.window.create_section('Document'));
         general_tab.appendChild(title_field);
-        general_tab.appendChild(theme_field);
         general_tab.appendChild(this.window.create_section('Page Layout'));
         general_tab.appendChild(columns_field);
         general_tab.appendChild(margins);

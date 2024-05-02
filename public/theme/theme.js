@@ -290,12 +290,16 @@ const WITCHLIGHT = {
     }
 };
 export const THEMES = {
-    DND5E: ["(D&D 5e) Default", DND5E],
-    PHB: ["(D&D 5e) Player's Handbook", PHB],
-    MToF: ["(D&D 5e) Mordenkainen's Tome of Foes", MTOF],
-    XGtE: ["(D&D 5e) Xanathar's Guide to Everything", XGTE],
-    TCoE: ["(D&D 5e) Tasha's Cauldron of Everything", TCOE],
-    Witch: ["(D&D 5e) Witchlight", WITCHLIGHT],
-    BRS: ["(D&D 5e) Basic Rules", BRS],
-    SHADOWDARK: ["(Shadow Dark) Default", SHADOW],
+    "Dungeons & Dragons": {
+        DND5E: ["Default", DND5E],
+        PHB: ["Player's Handbook", PHB],
+        MToF: ["Mordenkainen's Tome of Foes", MTOF],
+        XGtE: ["Xanathar's Guide to Everything", XGTE],
+        TCoE: ["Tasha's Cauldron of Everything", TCOE],
+        Witch: ["Witchlight", WITCHLIGHT],
+        BRS: ["Basic Rules", BRS],
+    },
+    "Shadowdark": {
+        SHADOWDARK: ["Default", SHADOW],
+    }
 };

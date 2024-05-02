@@ -47,13 +47,18 @@ export class DraggableWindow {
     create_column(categories) {
         let column = document.createElement('div');
         column.className = 'window-column';
+        this.content_container.appendChild(column);
         for (let category in categories) {
             let elt = document.createElement('div');
             elt.className = 'column-item';
             elt.innerHTML = category;
             let content = categories[category];
-            elt.addEventListener('click', () => this.replace_content(elt, content));
+            elt.content = content;
+            elt.window = this;
+            elt.addEventListener('click', this.replace_content);
             column.appendChild(elt);
+            content.style.display = "none";
+            this.content_container.appendChild(content);
         }
         return column;
     }
@@ -62,15 +67,34 @@ export class DraggableWindow {
         content.className = 'window-content';
         return content;
     }
-    replace_content(category, element) {
-        let current_category = this.get_window().getElementsByClassName('column-item active')[0];
-        if (current_category)
+    create_spoiler(section, content) {
+        let status = document.createElement('div');
+        section.style.cursor = "pointer";
+        status.style.float = "right";
+        status.innerHTML = '<';
+        status.style.rotate = '-90deg';
+        section.appendChild(status);
+        section.addEventListener('click', () => {
+            if (content.style.display == 'none') {
+                content.style.display = 'block';
+                status.style.rotate = '-90deg';
+            }
+            else {
+                content.style.display = 'none';
+                status.style.rotate = '0deg';
+            }
+        });
+    }
+    replace_content() {
+        let current_category = this.window.get_window().getElementsByClassName('column-item active')[0];
+        if (current_category) {
             current_category.classList.remove('active');
-        let current_content = this.get_container().getElementsByClassName('window-content')[0];
-        if (current_content)
-            this.get_container().removeChild(current_content);
-        this.get_container().appendChild(element);
-        category.classList.add("active");
+            let current_content = current_category.content;
+            if (current_content)
+                current_content.style.display = "none";
+        }
+        this.content.style.display = "block";
+        this.classList.add("active");
     }
     get_window() {
         return this.window;

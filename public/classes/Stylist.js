@@ -1,19 +1,18 @@
 import { style_copy } from "../definition.js";
 import { set_columnbreak } from "../Utils.js";
 import { ConfigWindow } from "./components/ConfigWindow.js";
-import { TextWindow } from './components/TextWindow.js';
-import { ColorWindow } from "./components/ColorWindow.js";
 import { THEMES } from "../theme/theme.js";
 import { SP_KEYWORDS } from "../config/tags.js";
 import { COLOR_PICKER_VARIABLES, FONT_BARBER_VARIABLES, lettrine_definition } from '../config/properties.js';
 import { SnippetsWindow } from "./components/SnippetsWindow.js";
+import { ThemeWindow } from "./components/ThemeWindow.js";
 const PAPER = {
     Letter: { width: "215.9mm", height: "279.4mm" },
     A4: { width: "210mm", height: "297mm" },
     A5: { width: "148mm", height: "210mm" },
 };
 export class Stylist {
-    constructor(editor, style = THEMES.BRS[1]) {
+    constructor(editor, style = THEMES['Dungeons & Dragons'].BRS[1]) {
         this.editor = editor;
         this.keyword = style.keyword || '';
         this.document_title = 'My Document';
@@ -33,8 +32,7 @@ export class Stylist {
         this.color_variables = COLOR_PICKER_VARIABLES;
         this.font_variables = FONT_BARBER_VARIABLES;
         this.snippets = new SnippetsWindow(editor, this);
-        this.text = new TextWindow(this);
-        this.color = new ColorWindow(this);
+        this.theme = new ThemeWindow(this);
         // Load format
         const format = document.getElementById('format-selector');
         const width = this.styles[":root"]["--page-width"];
@@ -112,7 +110,7 @@ export class Stylist {
                     family.value = value;
                     break;
                 case 'color':
-                    this.color.restore_color(action.property, value);
+                    this.theme.restore_color(action.property, value);
                     break;
                 case 'input':
                     let input = document.getElementById(action.property);
@@ -136,6 +134,8 @@ export class Stylist {
         }
         // Load margin
         this.config.update_layout();
+        this.sync_colors();
+        this.sync_fonts();
         this.hot_load();
         if (mode == 'undo')
             this.redo_stack.push(delta);
@@ -280,6 +280,26 @@ export class Stylist {
             this.save_delta();
         }
         // Load colors
+        this.sync_colors();
+        // Load fonts
+        this.sync_fonts();
+        // Load format
+        const format = document.getElementById('format-selector');
+        const width = this.styles[":root"]["--page-width"];
+        const height = this.styles[":root"]["--page-height"];
+        for (const size in PAPER) {
+            let dim = PAPER[size];
+            if (width == dim.width && height == dim.height && format)
+                format.value = size;
+        }
+        // Triggers the margin
+        this.apply_lettrine_properties(this.styles[':root']['--lettrine-font']);
+        // Load margin
+        this.config.update_layout();
+        this.hot_load();
+        set_columnbreak(document.getElementsByClassName('column-break'));
+    }
+    sync_colors() {
         for (const category in this.color_variables) {
             for (let [name, color] of Object.entries(this.color_variables[category])) {
                 let picker = document.getElementById(color);
@@ -289,7 +309,8 @@ export class Stylist {
                     picker.parentElement.style.color = picker.value;
             }
         }
-        // Load fonts
+    }
+    sync_fonts() {
         for (const font in this.font_variables) {
             let data = this.font_variables[font];
             let ff = data.family;
@@ -309,21 +330,6 @@ export class Stylist {
                 italic.checked = this.styles[':root'][fi] == italic.name;
             }
         }
-        // Load format
-        const format = document.getElementById('format-selector');
-        const width = this.styles[":root"]["--page-width"];
-        const height = this.styles[":root"]["--page-height"];
-        for (const size in PAPER) {
-            let dim = PAPER[size];
-            if (width == dim.width && height == dim.height && format)
-                format.value = size;
-        }
-        // Triggers the margin
-        this.apply_lettrine_properties(this.styles[':root']['--lettrine-font']);
-        // Load margin
-        this.config.update_layout();
-        this.hot_load();
-        set_columnbreak(document.getElementsByClassName('column-break'));
     }
     merge(style) {
         for (let [key, properties] of Object.entries(style)) {
