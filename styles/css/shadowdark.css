@@ -14,7 +14,6 @@
 }
 
 .page {
-    font-family: "Montserrat", sans-serif;
     color: var(--text-color);
     font-size: var(--text-size);
     font-family: var(--text-font);
