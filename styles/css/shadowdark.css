@@ -117,13 +117,9 @@ h5 {
     box-sizing: border-box;
 }
 
-.page table tr td, table tr th {
+.page table tr td, table tr th, .page table tr:last-child td {
     background: none!important;
     border-bottom: 1px solid black;
-}
-.page table tr:last-child td {
-    background: none!important;
-    border: none;
 }
 .page table {
     margin-bottom: 0.3cm;
