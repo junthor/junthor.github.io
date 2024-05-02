@@ -25,8 +25,7 @@ export class ConfigWindow {
             [true, '<== ', ' ⇐ '],
             [true, ' --- ', ' — '],
             [true, ' -- ', ' – '],
-            [true, '"', '“'],
-            [true, '\'\'', '”'],
+            [true, '\'\'', '“'],
             [false, '(c)', '©'],
             [false, '(r)', '®'],
         ];
@@ -92,8 +91,8 @@ export class ConfigWindow {
             margin.appendChild(margin_input);
             margin_input.id = `--page-margin-${align.toLowerCase()}`;
             margins.appendChild(margin);
-            margin_input.pattern = '\\d+(\\.\\d+)?(cm|mm|px|pt|in|em|rem)';
-            margin_input.title = 'Should be a valid size (cm, mm, px, pt, in, em, rem)';
+            margin_input.pattern = '\\d+(\\.\\d+)?(cm|mm|px|pt|in|em|rem|%)';
+            margin_input.title = 'Should be a valid size (cm, mm, px, pt, in, em, rem, %)';
             margin_input.value = this.stylist.get_root_value(margin_input.id);
             margin_input.addEventListener('change', () => {
                 if (margin_input.reportValidity())

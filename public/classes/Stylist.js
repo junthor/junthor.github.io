@@ -114,17 +114,15 @@ export class Stylist {
                 case 'color':
                     this.color.restore_color(action.property, value);
                     break;
-                case 'font_size':
-                    let size = document.getElementById(action.property);
-                    let font_size = value;
-                    let font_unit = font_size.replaceAll(/[\d.]/gi, '');
-                    size.value = parseFloat(font_size);
-                    size.unit.value = font_unit;
-                    break;
                 case 'input':
                     let input = document.getElementById(action.property);
                     if (input)
                         input.value = value;
+                    break;
+                case 'check':
+                    let check = document.getElementById(action.property);
+                    if (check)
+                        check.checked = value == check.name;
                     break;
             }
             if (nature == 'style')
@@ -241,11 +239,6 @@ export class Stylist {
         this.stylist.set_root_value(this.id, this.value, 'font');
         this.stylist.save_delta();
     }
-    change_font_size() {
-        this.stylist.new_delta();
-        this.stylist.set_root_value(this.fs.id, this.fs.value + this.fu.value, 'font_size');
-        this.stylist.save_delta();
-    }
     get_style() {
         return this.styles;
     }
@@ -301,13 +294,20 @@ export class Stylist {
             let data = this.font_variables[font];
             let ff = data.family;
             let fs = data.size;
+            let fw = data.weight;
+            let fi = data.italic;
             let family = document.getElementById(ff);
             let size = document.getElementById(fs);
-            let font_size = this.styles[':root'][fs];
-            let font_unit = font_size.replaceAll(/[\d.]/gi, '');
             family.value = this.styles[':root'][ff];
-            size.fs.value = font_size.substring(0, font_size.length - font_unit.length);
-            size.fu.value = font_unit;
+            size.value = this.styles[':root'][fs];
+            if (fw) {
+                let weight = document.getElementById(fw);
+                weight.checked = this.styles[':root'][fw] == weight.name;
+            }
+            if (fi) {
+                let italic = document.getElementById(fi);
+                italic.checked = this.styles[':root'][fi] == italic.name;
+            }
         }
         // Load format
         const format = document.getElementById('format-selector');

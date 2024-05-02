@@ -490,6 +490,51 @@ a { color: var(--heading-color); }
 /********************
     MARK: TEXT 
 *********************/
+
+
+.lettrine {
+    position: relative;
+    float: left;
+    left: 0;
+    top: 0;
+    font-family: var(--lettrine-font);
+    font-size: var(--lettrine-size);
+    color: var(--lettrine-color);
+    box-sizing: border-box;
+    line-height: 0.7;
+    text-anchor: start;
+}
+.lettrine::before {
+    padding: inherit;
+}
+
+span.A { margin: var(--lettrine-letter-A); }
+span.B { margin: var(--lettrine-letter-B); }
+span.C { margin: var(--lettrine-letter-C); }
+span.D { margin: var(--lettrine-letter-D); }
+span.E { margin: var(--lettrine-letter-E); }
+span.F { margin: var(--lettrine-letter-F); }
+span.G { margin: var(--lettrine-letter-G); }
+span.H { margin: var(--lettrine-letter-H); }
+span.I { margin: var(--lettrine-letter-I); }
+span.J { margin: var(--lettrine-letter-J); }
+span.K { margin: var(--lettrine-letter-K); }
+span.L { margin: var(--lettrine-letter-L); }
+span.M { margin: var(--lettrine-letter-M); }
+span.N { margin: var(--lettrine-letter-N); }
+span.O { margin: var(--lettrine-letter-O); }
+span.P { margin: var(--lettrine-letter-P); }
+span.Q { margin: var(--lettrine-letter-Q); }
+span.R { margin: var(--lettrine-letter-R); }
+span.S { margin: var(--lettrine-letter-S); }
+span.T { margin: var(--lettrine-letter-T); }
+span.U { margin: var(--lettrine-letter-U); }
+span.V { margin: var(--lettrine-letter-V); }
+span.W { margin: var(--lettrine-letter-W); }
+span.X { margin: var(--lettrine-letter-X); }
+span.Y { margin: var(--lettrine-letter-Y); }
+span.Z { margin: var(--lettrine-letter-Z); }
+
 .page {
     font-size: var(--text-size);
     color: var(--text-color);
@@ -531,31 +576,17 @@ h1 + h2, h1 + h3, h1 + h4, h1 + h5 { margin-top: 0!important; }
 }
 
 h1 {
-    font-family: var(--h1-font);
-    font-size: var(--h1-size);
-    font-weight: normal;
     text-shadow: 0 1px 0 #cbd0c5, 1px 1px 0 #cbd0c5, 1px 0 0 #cbd0c5;
     margin-bottom: 0.5em;
-}
-
-h2 {
-    font-family: var(--h2-font);
-    font-size: var(--h2-size);
-    font-weight: normal;
+    column-span: all;
 }
 
 h3 {
-    font-family: var(--h3-font);
-    font-size: var(--h3-size);
-    font-weight: normal;
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: -2px;
 }
 
 h4 {
-    font-family: var(--h4-font);
-    font-size: var(--h4-size);
-    font-weight: normal;
     margin-bottom: 0;
 }
 

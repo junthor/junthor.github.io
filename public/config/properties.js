@@ -24,11 +24,11 @@ export const COLOR_PICKER_VARIABLES = {
 export const available_fonts = [
     'Bookinsanity', 'Libre Baskerville', 'Martel Sans', 'Mr Eaves Small Caps',
     'Nodesto Caps Condensed', 'Overpass', 'Raleway', 'Scaly Sans', 'Scaly Sans Caps', 'Sedan',
-    'Sovngarde', 'Zatanna Misdirection',
+    'Sovngarde', 'Zatanna Misdirection', 'Montserrat', 'JSL Blackletter', 'OldNewspaperTypes'
 ];
 export const lettrine_fonts = [
     'Heavy Rain', 'Morris Jenson Initialen', 'Bookman Swash', 'Royal',
-    'Solbera Imitation', 'Solbera Imitation Color', 'Zallman'
+    'Solbera Imitation', 'Solbera Imitation Color', 'Zallman', 'Mr Eaves Small Caps', 'JSL Blackletter',
 ];
 export const lettrine_definition = {
     'Solbera Imitation': {
@@ -96,24 +96,32 @@ export const FONT_BARBER_VARIABLES = {
         preview: '<h1>Page Title</h1>',
         family: '--h1-font',
         size: '--h1-size',
+        weight: '--h1-weight',
+        italic: '--h1-italic',
         options: available_fonts
     },
     'H2': {
         preview: '<h2>Section Title</h2>',
         family: '--h2-font',
         size: '--h2-size',
+        weight: '--h2-weight',
+        italic: '--h2-italic',
         options: available_fonts
     },
     'H3': {
         preview: '<h3>Subsection Title</h3>',
         family: '--h3-font',
         size: '--h3-size',
+        weight: '--h3-weight',
+        italic: '--h3-italic',
         options: available_fonts
     },
     'H4': {
         preview: '<h4>Paragraph Title</h4>',
         family: '--h4-font',
         size: '--h4-size',
+        weight: '--h4-weight',
+        italic: '--h4-italic',
         options: available_fonts
     },
     'H5': {

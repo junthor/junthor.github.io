@@ -205,6 +205,70 @@ const BRS = {
         }
     }
 };
+const SHADOW = {
+    template: ['shadowdark.css'],
+    style: {
+        ":root": {
+            '--page-width': '148mm',
+            '--page-height': '210mm',
+            '--page-margin-left': '1.2cm',
+            '--page-margin-right': '1.2cm',
+            '--page-margin-top': '1.2cm',
+            '--page-margin-bottom': '1.2cm',
+            '--column-count': '2',
+            // COLORS
+            '--text-color': '#000000',
+            '--heading-color': '#000000',
+            '--table-heading-color': '#000000',
+            '--table-text-color': '#000000',
+            '--primary-color': '#000000',
+            '--secondary-color': '#000000',
+            '--table-color': '#ffffff00',
+            '--description-color': '#f8f1da',
+            '--note-color': '#f8f1da',
+            '--monster-text-color': '#58180D',
+            '--monster-separator-color': '#9c2b1b',
+            '--monster-background-color': '#fbf8f4',
+            '--legend-color': '#766649',
+            '--page-background-color': '#ffffff',
+            '--page-background-image': 'none',
+            '--lettrine-color': '#000000',
+            // FONTS
+            '--text-font': 'Montserrat',
+            '--cover-font': 'JSL Blackletter',
+            '--lettrine-font': 'JSL Blackletter',
+            '--cover-subtitle-font': 'Montserrat',
+            '--title-font': 'JSL Blackletter',
+            '--h1-font': 'JSL Blackletter',
+            '--h2-font': 'Montserrat',
+            '--h3-font': 'Montserrat',
+            '--h4-font': 'Montserrat',
+            '--table-font': 'Montserrat',
+            '--table-title-font': 'Montserrat',
+            '--legend-font': 'Montserrat',
+            '--quote-font': 'Montserrat',
+            // TEXT SIZE
+            '--cover-title-size': '60pt',
+            '--cover-subtitle-size': '24pt',
+            '--text-size': '10pt',
+            '--h1-size': '22pt',
+            '--h2-size': '14pt',
+            '--h2-weight': 'bold',
+            '--h3-size': '14pt',
+            '--h3-weight': 'bold',
+            '--h4-size': '14pt',
+            '--table-title-size': '13pt',
+            '--table-text-size': '8.5pt',
+            '--note-text-size': '9pt',
+            '--quote-size': '10pt',
+            '--lettrine-size': '60pt',
+            '--legend-size': '14pt',
+            // SPACES
+            '--space-between': '10px',
+            '--space-after-heading': '4px',
+        }
+    }
+};
 const WITCHLIGHT = {
     template: ['5e.css'],
     keyword: "witch",
@@ -217,7 +281,7 @@ const WITCHLIGHT = {
             '--note-oclor': '#f2e5ba',
             '--lettrine-color': '#4e2d4a',
             '--lettrine-size': '60pt',
-            '--lettrine-font': 'var(--h1-font)',
+            '--lettrine-font': 'Mr Eaves Small Caps',
         },
         ".lettrine": {
             'padding': "4px"
@@ -232,4 +296,5 @@ export const THEMES = {
     TCoE: ["(D&D 5e) Tasha's Cauldron of Everything", TCOE],
     Witch: ["(D&D 5e) Witchlight", WITCHLIGHT],
     BRS: ["(D&D 5e) Basic Rules", BRS],
+    SHADOWDARK: ["(Shadow Dark) Default", SHADOW],
 };
