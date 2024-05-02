@@ -1,12 +1,12 @@
 
 @font-face {
     font-family: "OldNewspaperTypes";
-    src: url('./../../fonts/Shadowdark/OldNewspaperTypes.ttf') format("truetype");
+    src: url('./../../fonts/Shadowdark/OldNewspaperTypes.woff2');
 }
 
 @font-face {
     font-family: "JSL Blackletter";
-    src: url('./../../fonts/Shadowdark/JBLACK.ttf') format("truetype");
+    src: url('./../../fonts/Shadowdark/JSL-Blackletter.woff2');
 }
 
 .page-content {
@@ -81,6 +81,13 @@ h2 {
     border-bottom: 1pt solid var(--heading-color);
 }
 
+h4 {
+    border-bottom: 2pt solid var(--heading-color);
+    font-variant-caps: small-caps;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.3em;
+}
+
 p + * {
     margin-top: 0.6cm;
 }
@@ -111,15 +118,15 @@ h5 {
     box-sizing: border-box;
 }
 
-table tr td, table tr th {
+.page table tr td, table tr th {
     background: none!important;
     border-bottom: 1px solid black;
 }
-table tr:last-child td {
+.page table tr:last-child td {
     background: none!important;
     border: none;
 }
-table {
+.page table {
     margin-bottom: 0.3cm;
 }
 
