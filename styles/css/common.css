@@ -164,17 +164,17 @@ p { margin: 0; /*hyphens: auto;*/ }
     mask-position: bottom left;
     mask-repeat: no-repeat;
     mask-composite: add;
-    -webkit-mask-image: var(--wc-mask);
-    -webkit-mask-size: var(--wc-size);
-    -webkit-mask-position: bottom left;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-composite: destination-over;
     --wc-scale-x: 1;
     --wc-scale-y: 1;
     --wc-x: 0;
     --wc-y: 0;
+    -webkit-mask-image: var(--wc-mask);
+    -webkit-mask-size: var(--wc-size), 100%;
+    -webkit-mask-position: bottom var(--wc-y) left var(--wc-x), bottom left;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-composite: destination-over;
 
-    transform: scale(var(--wc-scale-x), var(--wc-scale-y)) translate(var(--wc-x), var(--wc-y));
+    transform: scale(var(--wc-scale-x), var(--wc-scale-y));
     z-index: -2;
 }
 .watercolor.reverse{

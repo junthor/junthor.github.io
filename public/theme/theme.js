@@ -2,8 +2,8 @@ const DND5E = {
     template: ['5e.css'],
     style: {
         ":root": {
-            '--page-width': '210mm',
-            '--page-height': '297mm',
+            '--page-width': '215.9mm',
+            '--page-height': '279.4mm',
             '--page-margin-left': '1.4cm',
             '--page-margin-right': '1.4cm',
             '--page-margin-top': '1.4cm',
@@ -15,10 +15,10 @@ const DND5E = {
             '--table-heading-color': '#000000',
             '--table-text-color': '#000000',
             '--primary-color': '#C9AD6A',
-            '--secondary-color': '#E0E5C1',
+            '--secondary-color': '#e4d6af',
             '--table-color': '#ffffff00',
-            '--description-color': '#f8f1da',
-            '--note-color': '#f8f1da',
+            '--description-color': '#e4d6af',
+            '--note-color': '#e4d6af',
             '--monster-text-color': '#58180D',
             '--monster-separator-color': '#9c2b1b',
             '--monster-background-color': '#fbf8f4',
@@ -173,8 +173,6 @@ const BRS = {
     keyword: 'brs',
     style: {
         ":root": {
-            '--page-width': '215.9mm',
-            '--page-height': '279.4mm',
             // COLORS
             '--page-background-image': 'none',
             '--page-background-color': '#ffffff',
@@ -278,8 +276,9 @@ const WITCHLIGHT = {
         ":root": {
             // COLORS
             '--page-background-image': 'url("../backgrounds/witch.jpeg")',
-            '--secondary-color': '#dbdbe1',
-            '--note-oclor': '#f2e5ba',
+            '--secondary-color': '#d1dac9',
+            '--note-color': '#ffe1b3',
+            '--description-color': '#dbd0dd',
             '--lettrine-color': '#4e2d4a',
             '--lettrine-size': '60pt',
             '--lettrine-font': 'Mr Eaves Small Caps',

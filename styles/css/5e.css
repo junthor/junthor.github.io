@@ -114,6 +114,7 @@ a { color: var(--heading-color); }
     font-family: var(--text-font);
     font-size: var(--text-size);
     text-align: right;
+    text-transform: uppercase;
 }
 .draco .footnote { 
     bottom: calc(0.0333 * var(--page-width));

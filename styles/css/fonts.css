@@ -1,3 +1,5 @@
+/* MARK: D&D 5e */
+
 @font-face {
     font-family: "Bookinsanity";
     src: 
@@ -133,11 +135,8 @@
     font-weight: bold;
 }
 
-@font-face {
-    font-family: "Ivory Swashes";
-    src: url('./../../fonts/Lettrines/IvorySwashes.otf') format("opentype");
-}
 
+/* MARK: LETTRINES */
 @font-face {
     font-family: "Solbera Imitation";
     src: 
@@ -147,6 +146,11 @@
     font-family: "Solbera Imitation Color";
     src: 
         url('./../../fonts/Solbera Imitation/Solbera Imitation Color.otf') format("opentype");
+}
+
+@font-face {
+    font-family: "Ivory Swashes";
+    src: url('./../../fonts/Lettrines/IvorySwashes.otf') format("opentype");
 }
 @font-face {
     font-family: "Morris Jenson Initialen";
@@ -177,4 +181,15 @@
     font-family: "Bookman Swash";
     src: 
         url('./../../fonts/Lettrines/BookmanSwash.woff2');
+}
+
+/* MARK: SHADOWDARK */
+@font-face {
+    font-family: "OldNewspaperTypes";
+    src: url('./../../fonts/Shadowdark/OldNewspaperTypes.woff2');
+}
+
+@font-face {
+    font-family: "JSL Blackletter";
+    src: url('./../../fonts/Shadowdark/JSL-Blackletter.woff2');
 }

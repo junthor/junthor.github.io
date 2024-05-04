@@ -1,14 +1,3 @@
-
-@font-face {
-    font-family: "OldNewspaperTypes";
-    src: url('./../../fonts/Shadowdark/OldNewspaperTypes.woff2');
-}
-
-@font-face {
-    font-family: "JSL Blackletter";
-    src: url('./../../fonts/Shadowdark/JSL-Blackletter.woff2');
-}
-
 .page-content {
     column-gap: 0.4cm;
 }

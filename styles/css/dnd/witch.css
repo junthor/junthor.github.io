@@ -47,3 +47,21 @@
 /********************
    MARK: FOOTER
 ********************/
+
+.footer.witch {
+    background-image: url('../../assets/Witchlight/witch-footer-1.png');
+    background-position: bottom right;
+    --size: calc(0.10 * var(--page-height));
+    background-size: var(--size);
+    color: var(--lettrine-color);
+}
+.footer.witch::after{
+    text-shadow: 0 0 2px white, 0 0 1px white;
+}
+
+.footer.witch.v2, .footer.witch.blue   { background-image: url('../../assets/Witchlight/witch-footer-2.png'); }
+.footer.witch.v3, .footer.witch.red    { background-image: url('../../assets/Witchlight/witch-footer-3.png'); }
+.footer.witch.v4, .footer.witch.orange { background-image: url('../../assets/Witchlight/witch-footer-4.png'); }
+.footer.witch.v5, .footer.witch.purple { background-image: url('../../assets/Witchlight/witch-footer-5.png'); }
+.footer.witch.v6, .footer.witch.pink   { background-image: url('../../assets/Witchlight/witch-footer-6.png'); }
+.footer.witch.v7, .footer.witch.green  { background-image: url('../../assets/Witchlight/witch-footer-7.png'); }

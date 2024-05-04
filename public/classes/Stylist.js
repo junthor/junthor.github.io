@@ -20,13 +20,13 @@ export class Stylist {
         this.redo_button = document.getElementById('redo-button');
         this.templates = style.template;
         if (style.load) {
-            this.styles = style.load[0].style;
+            this.styles = style_copy(style.load[0].style);
             for (let i = 1; i < style.load.length; i++)
                 this.merge(style.load[i].style);
             this.merge(style.style);
         }
         else
-            this.styles = style.style;
+            this.styles = style_copy(style.style);
         // Triggers the margin
         this.apply_lettrine_properties(this.styles[':root']['--lettrine-font']);
         this.color_variables = COLOR_PICKER_VARIABLES;
