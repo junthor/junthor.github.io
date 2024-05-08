@@ -3,7 +3,7 @@ import { set_columnbreak } from "../Utils.js";
 import { ConfigWindow } from "./components/ConfigWindow.js";
 import { THEMES } from "../theme/theme.js";
 import { SP_KEYWORDS } from "../config/tags.js";
-import { COLOR_PICKER_VARIABLES, FONT_BARBER_VARIABLES, lettrine_definition } from '../config/properties.js';
+import { lettrine_definition } from '../config/properties.js';
 import { SnippetsWindow } from "./components/SnippetsWindow.js";
 import { ThemeWindow } from "./components/ThemeWindow.js";
 const PAPER = {
@@ -12,7 +12,7 @@ const PAPER = {
     A5: { width: "148mm", height: "210mm" },
 };
 export class Stylist {
-    constructor(editor, style = THEMES['Dungeons & Dragons'].BRS[1]) {
+    constructor(editor, style = THEMES['Dungeons & Dragons'].DND5E[1]) {
         this.editor = editor;
         this.keyword = style.keyword || '';
         this.document_title = 'My Document';
@@ -29,8 +29,6 @@ export class Stylist {
             this.styles = style_copy(style.style);
         // Triggers the margin
         this.apply_lettrine_properties(this.styles[':root']['--lettrine-font']);
-        this.color_variables = COLOR_PICKER_VARIABLES;
-        this.font_variables = FONT_BARBER_VARIABLES;
         this.snippets = new SnippetsWindow(editor, this);
         this.theme = new ThemeWindow(this);
         // Load format
@@ -134,8 +132,8 @@ export class Stylist {
         }
         // Load margin
         this.config.update_layout();
-        this.sync_colors();
-        this.sync_fonts();
+        this.theme.sync_colors();
+        this.theme.sync_fonts();
         this.hot_load();
         if (mode == 'undo')
             this.redo_stack.push(delta);
@@ -234,9 +232,12 @@ export class Stylist {
     }
     change_font() {
         this.stylist.new_delta();
-        if (this.id == '--lettrine-font')
+        let id = this.id;
+        if (id.includes('-custom'))
+            id = id.substring(0, id.length - 7);
+        if (id == '--lettrine-font')
             this.stylist.apply_lettrine_properties(this.value);
-        this.stylist.set_root_value(this.id, this.value, 'font');
+        this.stylist.set_root_value(id, this.value, 'font');
         this.stylist.save_delta();
     }
     get_style() {
@@ -280,9 +281,9 @@ export class Stylist {
             this.save_delta();
         }
         // Load colors
-        this.sync_colors();
+        this.theme.sync_colors();
         // Load fonts
-        this.sync_fonts();
+        this.theme.sync_fonts();
         // Load format
         const format = document.getElementById('format-selector');
         const width = this.styles[":root"]["--page-width"];
@@ -298,38 +299,6 @@ export class Stylist {
         this.config.update_layout();
         this.hot_load();
         set_columnbreak(document.getElementsByClassName('column-break'));
-    }
-    sync_colors() {
-        for (const category in this.color_variables) {
-            for (let [name, color] of Object.entries(this.color_variables[category])) {
-                let picker = document.getElementById(color);
-                picker.value = this.styles[':root'][color];
-                picker.div.innerHTML = picker.value;
-                if (picker.parentElement)
-                    picker.parentElement.style.color = picker.value;
-            }
-        }
-    }
-    sync_fonts() {
-        for (const font in this.font_variables) {
-            let data = this.font_variables[font];
-            let ff = data.family;
-            let fs = data.size;
-            let fw = data.weight;
-            let fi = data.italic;
-            let family = document.getElementById(ff);
-            let size = document.getElementById(fs);
-            family.value = this.styles[':root'][ff];
-            size.value = this.styles[':root'][fs];
-            if (fw) {
-                let weight = document.getElementById(fw);
-                weight.checked = this.styles[':root'][fw] == weight.name;
-            }
-            if (fi) {
-                let italic = document.getElementById(fi);
-                italic.checked = this.styles[':root'][fi] == italic.name;
-            }
-        }
     }
     merge(style) {
         for (let [key, properties] of Object.entries(style)) {

@@ -25,9 +25,9 @@ a { color: var(--heading-color); }
     background-position: bottom right;
     background-size: var(--size);
     background-repeat: no-repeat;
-    z-index: -1;
+    z-index: -10;
 }
-.lexicon {
+.lexicon-letter {
     position: absolute;
     color: #9b7626;
     text-align: right;
@@ -38,8 +38,9 @@ a { color: var(--heading-color); }
     padding-bottom: calc(0.1 * var(--page-width));
     padding-right: var(--padding-h);
     font-size: calc(0.025 * var(--page-width));
+    z-index: -1;
 }
-.page:nth-child(even) .lexicon {
+.page:nth-child(even) .lexicon-letter {
     right: unset;
     left: 0;
     text-align: left;
@@ -68,6 +69,7 @@ a { color: var(--heading-color); }
     text-align: center;
     content: var(--footer-number);
     width: calc(0.0476 * var(--page-width));
+    z-index: 4;
 }
 
 .footer.curator { 
@@ -96,7 +98,6 @@ a { color: var(--heading-color); }
 }
 
 .page:nth-child(even) .footer, .page:nth-child(even) .footer::after, 
-.page:nth-child(even) .lexicon::before,
 .page:nth-child(even) .footer > *{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -556,20 +557,23 @@ ul, ol {
 }
 
 /* SPACES */
-p + h1, p + h2, p + h3, p + h4, p + h5, p + h6,
 p + ul, p + ol { margin-top: 0.325cm; }
 :is(ul, ol) + p { margin-top: 0.325cm; }
 :is(ul, ol) + div + p { text-indent: 1em; }
 p + p { text-indent: 1em; margin-top: 0;}
 * + h2, * + h3, * + h4, * + h5 { margin-top: var(--space-between); }
-h1 + h2, h1 + h3, h1 + h4, h1 + h5 { margin-top: 0!important; }
 .wide + h2, .wide + h3, .wide + h4, .wide + h5 { margin-top: 0!important; }
+
+/* No spaces between headers */ 
+h1 + h2, h1 + h3, h1 + h4, h1 + h5 { margin-top: 0!important; }
+h2 + h3, h2 + h4, h2 + h5 { margin-top: 0!important; }
+h3 + h4, h3 + h5 { margin-top: 0!important; }
+h4 + h5 { margin-top: 0!important; }
 
 /*  LETTRINES */
 .page h1 + p::first-line, .page .chapter + p::first-line {
-    font-family: var(--h1-font);
+    font-variant-caps: small-caps;
     font-size: 125%;
-    line-height: 1;
 }
 
 .font-preview h1 {
@@ -584,7 +588,7 @@ h1 {
 
 h3 {
     border-bottom: 2px solid var(--primary-color);
-    padding-bottom: -2px;
+    padding-bottom: 0.05em;
 }
 
 h4 {
@@ -595,11 +599,14 @@ h5, h6 {
     font-size: var(--table-title-size);
     color: var(--table-text-color);
     font-family: var(--table-title-font);
+    font-weight: var(--table-title-weight);
+    font-style: var(--table-title-italic);
     margin-bottom: 3px;
     letter-spacing: 0.05em
 }
 
 dl { margin: var(--space-between) 0 var(--space-between) 1em; }
+.monster dl { margin: 0 0 0 1em}
 dd {
     display: inline;
     width: fit-content;
@@ -698,6 +705,7 @@ dt {
 
 .chapter h1::before { content: var(--chapter-number) ': '; }
 .chapter.notitle h1::before { content: ''!important; }
+.chapter h1 { margin-bottom: 0;}
 
 
 /********************

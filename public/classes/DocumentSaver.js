@@ -5,10 +5,11 @@ export class DocumentSaver {
         this.reader = new FileReader();
     }
     save() {
+        let title = this.stylist.get_document_title();
         let data = {
             content: this.editor.get_text(),
             css: this.editor.get_css(),
-            title: this.stylist.get_document_title(),
+            title: title,
             style: {
                 template: this.stylist.get_templates(),
                 keyword: this.stylist.get_keyword(),
@@ -19,7 +20,7 @@ export class DocumentSaver {
         let a = document.createElement("a");
         let file = new Blob([json], { type: "text/plain;charset=utf-8" });
         a.href = URL.createObjectURL(file);
-        a.download = "document.curator";
+        a.download = `${title.replaceAll(' ', '_').toLowerCase()}.curator`;
         a.click();
     }
     load(file) {

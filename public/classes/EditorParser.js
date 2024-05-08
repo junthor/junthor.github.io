@@ -96,9 +96,11 @@ export class EditorParser {
                 while (i + 1 < text.length && text[i + 1] == '#')
                     i++;
                 let level = i - offset + 1;
+                if (text[i + 1] != ' ')
+                    break;
                 while (i + 1 < text.length && text[i + 1] != '\n')
                     i++;
-                let txt = text.substring(offset + level, i + 1).trim();
+                let txt = text.substring(offset + level + 1, i + 1).trim();
                 txt = this.parse_markdown_inline(txt);
                 // TOC
                 if (txt.includes('[*]')) {

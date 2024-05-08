@@ -242,7 +242,7 @@
 }
 
 .window-column {
-    width: 200px;
+    width: 150px;
     overflow-y: auto;
     box-sizing: border-box;
     background-color: var(--window-dark-background);
@@ -252,7 +252,7 @@
 
 .column-item {
     padding: 8px;
-    font-size: 20px;
+    font-size: 16px;
     cursor: pointer;
     font-weight: bold;
     padding-left: 8px;

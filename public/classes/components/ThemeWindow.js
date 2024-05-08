@@ -54,6 +54,7 @@ export class ThemeWindow {
     create_fonts() {
         let text_barber = this.window.create_content();
         text_barber.id = 'text-barber';
+        let EV_CHANGE = new UIEvent('change');
         const max_width = 'calc(100% - 350px)';
         let table = document.createElement("table");
         table.style.tableLayout = "fixed";
@@ -78,6 +79,29 @@ export class ThemeWindow {
             family.id = var_name;
             family.stylist = this.stylist;
             family.addEventListener('change', this.stylist.change_font);
+            let custom_input = document.createElement('input');
+            custom_input.addEventListener('change', this.stylist.change_font);
+            custom_input.style.display = 'none';
+            custom_input.id = var_name + "-custom";
+            custom_input.stylist = this.stylist;
+            custom_input.style.width = '173px';
+            let custom_check = document.createElement('input');
+            custom_check.type = "checkbox";
+            custom_check.id = var_name + "-check";
+            custom_check.title = "Custom Font";
+            custom_check.style.marginRight = '4px';
+            custom_check.addEventListener('change', () => {
+                if (custom_check.checked) {
+                    family.style.display = 'none';
+                    custom_input.style.display = '';
+                    custom_input.dispatchEvent(EV_CHANGE);
+                }
+                else {
+                    family.style.display = '';
+                    custom_input.style.display = 'none';
+                    family.dispatchEvent(EV_CHANGE);
+                }
+            });
             var_name = FONT_BARBER_VARIABLES[type].size;
             let font_size = this.stylist.get_root_value(var_name);
             let font_name = document.createElement('div');
@@ -127,7 +151,9 @@ export class ThemeWindow {
             let td_3 = document.createElement("td");
             let td_4 = document.createElement("td");
             td_0.appendChild(font_name);
+            td_1.appendChild(custom_check);
             td_1.appendChild(family);
+            td_1.appendChild(custom_input);
             td_2.appendChild(size_input);
             if (font_weight)
                 td_3.appendChild(bold_check);
@@ -202,5 +228,52 @@ export class ThemeWindow {
         let old_color = this.window.color_tmp;
         stylist.set_root_value(this.id, this.value, 'color', old_color);
         this.window.color_tmp = undefined;
+    }
+    sync_colors() {
+        for (const category in COLOR_PICKER_VARIABLES) {
+            for (let name in COLOR_PICKER_VARIABLES[category]) {
+                let color = COLOR_PICKER_VARIABLES[category][name];
+                let picker = document.getElementById(color);
+                picker.value = this.stylist.get_root_value(color);
+                picker.div.innerHTML = picker.value;
+                picker.style.color = picker.value;
+                if (picker.parentElement && picker.parentElement.className == "clr-field")
+                    picker.parentElement.style.color = picker.value;
+            }
+        }
+    }
+    sync_fonts() {
+        for (const font in FONT_BARBER_VARIABLES) {
+            let data = FONT_BARBER_VARIABLES[font];
+            let ff = data.family;
+            let fs = data.size;
+            let fw = data.weight;
+            let fi = data.italic;
+            let family = document.getElementById(ff);
+            let size = document.getElementById(fs);
+            let checkbox = document.getElementById(ff + "-check");
+            let old_value = family.value;
+            family.value = this.stylist.get_root_value(ff);
+            // If not an option = custom font
+            if (family.value == '') {
+                if (!checkbox.checked) {
+                    checkbox.checked = true;
+                    family.style.display = 'none';
+                }
+                family.value = old_value;
+                family = document.getElementById(ff + "-custom");
+                family.value = this.stylist.get_root_value(ff);
+                family.style.display = '';
+            }
+            size.value = this.stylist.get_root_value(fs);
+            if (fw) {
+                let weight = document.getElementById(fw);
+                weight.checked = this.stylist.get_root_value(fw) == weight.name;
+            }
+            if (fi) {
+                let italic = document.getElementById(fi);
+                italic.checked = this.stylist.get_root_value(fi) == italic.name;
+            }
+        }
     }
 }

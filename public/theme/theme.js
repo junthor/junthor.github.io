@@ -40,6 +40,7 @@ const DND5E = {
             '--table-title-font': 'Scaly Sans Caps',
             '--legend-font': 'Zatanna Misdirection',
             '--quote-font': 'Sedan',
+            '--table-title-weight': 'bold',
             // TEXT SIZE
             '--cover-title-size': '60pt',
             '--cover-subtitle-size': '24pt',
@@ -55,8 +56,8 @@ const DND5E = {
             '--lettrine-size': '95pt',
             '--legend-size': '14pt',
             // SPACES
-            '--space-between': '10px',
-            '--space-after-heading': '4px',
+            '--space-between': '0.5cm',
+            '--space-after-heading': '0.1cm',
         }
     }
 };
@@ -79,14 +80,54 @@ const CURATOR = {
         ":root": {
             // COLORS
             '--page-background-image': 'url("../backgrounds/curator.jpg")',
+            '--h1-font': "Salsa",
+            '--h1-weight': "bold",
+            '--h2-font': "Salsa",
+            '--h2-weight': "bold",
+            '--h3-font': "Salsa",
+            '--h3-weight': "bold",
+            '--h4-font': "Salsa",
+            '--h4-weight': "bold",
             // TEXT SIZE
             '--text-size': '9.6pt',
             '--lettrine-size': '80pt',
             '--lettrine-font': 'Zallman',
-            '--lettrine-color': '#9c693f',
-            '--heading-color': '#9c693f',
-            '--column-count': '3',
+            '--lettrine-color': '#054362',
+            '--heading-color': '#054362',
+            '--table-head-color': '#4e3c4f',
+            '--secondary-color': '#dddddd',
         },
+        ".page h5": {
+            "background-color": 'var(--table-head-color)',
+            "text-transform": 'uppercase',
+            "color": "white",
+            "margin-bottom": "0",
+            "padding": "8px",
+            "text-shadow": "0 0 4px #00000088",
+        },
+        ".note h5, .description h5": {
+            "background-color": 'transparent',
+            "text-transform": 'initial',
+            "color": "var(--table-title-color)",
+            "margin-bottom": "3px",
+            "padding": "0",
+            "text-shadow": "none",
+        },
+        "h5 + table thead": {
+            "background-color": 'var(--table-head-color)',
+            "color": 'white',
+            "text-transform": 'uppercase',
+            "text-shadow": "0 0 4px #00000088",
+        },
+        "h5 + table": {
+            '--table-color': '#cccccc',
+        },
+        ".wide > h5": {
+            "font-size": '18pt'
+        },
+        ".wide:has(table)": {
+            'box-shadow': "0 0 18px #00000066"
+        }
     }
 };
 const XGTE = {
@@ -296,7 +337,7 @@ export const THEMES = {
         XGtE: ["Xanathar's Guide to Everything", XGTE],
         TCoE: ["Tasha's Cauldron of Everything", TCOE],
         Witch: ["Witchlight", WITCHLIGHT],
-        BRS: ["Basic Rules", BRS],
+        CURATOR: ["Curator", CURATOR],
     },
     "Shadowdark": {
         SHADOWDARK: ["Default", SHADOW],

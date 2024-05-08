@@ -188,6 +188,9 @@ p { margin: 0; /*hyphens: auto;*/ }
     position: relative;
     transform: scale(var(--wc-scale-x), var(--wc-scale-y));
 }
+.watercolor > .wc-container > * {
+    transform: translate(var(--wc-x), calc(-1 * var(--wc-y)))
+}
 
 .watercolor.right{
     --wc-scale-x: -1;

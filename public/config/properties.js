@@ -128,6 +128,8 @@ export const FONT_BARBER_VARIABLES = {
         preview: '<h5>Table Title</h5>',
         family: '--table-title-font',
         size: '--table-title-size',
+        weight: '--table-title-weight',
+        italic: '--table-title-italic',
         options: available_fonts
     },
     'Table': {

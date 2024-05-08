@@ -92,11 +92,11 @@ the guide by clicking on the guide button on the right side of the preview's bar
             return;
         if (active == 'text') {
             txt_button.className = 'disabled';
-            css_button.className = '';
+            css_button.className = 'big-button';
         }
         else if (active == 'css') {
             css_button.className = 'disabled';
-            txt_button.className = '';
+            txt_button.className = 'big-button';
         }
     }
     set_text_session() {
@@ -132,7 +132,7 @@ the guide by clicking on the guide button on the right side of the preview's bar
         let buttonbar = document.createElement("div");
         buttonbar.className = "bbcode-content-buttons";
         let save_button = document.createElement("button");
-        save_button.className = "save-button";
+        save_button.className = "big-button save-button";
         save_button.title = "Save file";
         save_button.innerHTML = '<i class="bi bi-floppy2-fill"></i> Save';
         save_button.addEventListener("click", (e) => this.save());
@@ -143,7 +143,7 @@ the guide by clicking on the guide button on the right side of the preview's bar
         load_input.addEventListener("change", (e) => this.load(load_input));
         let load_button = document.createElement("label");
         load_button.setAttribute('for', 'load-input');
-        load_button.className = "load-button";
+        load_button.className = "big-button load-button";
         load_button.title = "Open file";
         load_button.innerHTML = '<i class="bi bi-folder-symlink-fill"></i> Open';
         let paper_format = document.createElement("select");
@@ -161,12 +161,12 @@ the guide by clicking on the guide button on the right side of the preview's bar
         }
         zoom.addEventListener('change', e => this.set_zoom(parseFloat(zoom.value)));
         let pdf_button = document.createElement("button");
-        pdf_button.className = "print-button";
+        pdf_button.className = "big-button print-button";
         pdf_button.title = "Save as PDF";
         pdf_button.innerHTML = '<i class="bi bi-filetype-pdf"></i>';
         pdf_button.addEventListener("click", () => print_document(this.style_css(), this.stylist.get_document_title()));
         let guide_button = document.createElement("button");
-        guide_button.className = "guide-button";
+        guide_button.className = "big-button guide-button";
         guide_button.title = "Load Guide";
         guide_button.innerHTML = '<i class="fa-solid fa-circle-question"></i> Guide';
         guide_button.addEventListener("click", (e) => this.file_manager.apply_data(Guide));

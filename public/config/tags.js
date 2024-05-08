@@ -248,7 +248,7 @@ export const BBCODE_TAGS = {
             bg: DEFAULT_PROPERTIES["bg"],
             color: DEFAULT_PROPERTIES["bg"],
             x: ["style", "--wc-x:", DEFAULT_REGEX["size"]],
-            y: ["style", "--wc-y: calc(-1 * ", DEFAULT_REGEX["size"], ")"],
+            y: ["style", "--wc-y: ", DEFAULT_REGEX["size"]],
             zIndex: DEFAULT_PROPERTIES["z-index"],
             opacity: ["style", "opacity:", DEFAULT_REGEX["float"]],
         },
@@ -353,6 +353,11 @@ export const BBCODE_TAGS = {
         },
         auto_params: {
             class: "monster",
+        },
+    },
+    lexicon: {
+        regex: {
+            "<div class='lexicon-letter'>$1</div>": /\[lexicon (.*?)\]/gi,
         },
     },
     columns: {
