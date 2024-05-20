@@ -6,6 +6,7 @@
     <script type="text/javascript" src="./scripts/html2canvas.js"></script>
     <script type="text/javascript" src="./scripts/jszip.min.js"></script>
     <script type="text/javascript" src="./scripts/FileSaver.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,7 +66,7 @@
         position: absolute;
         left: 0;
         top: 0;
-        z-index: -2;
+        z-index: -5;
         background-color: white;
     }
 
@@ -105,6 +106,7 @@
         width: 816px;
         background-size: contain;
         background-repeat: no-repeat;
+        z-index: 1;
     }
 
     #text.community::before {
@@ -141,20 +143,13 @@
         font-family: 'Eveleth Clean', sans-serif;
         letter-spacing: 0.05em;
         text-shadow: 2px 2px 2px #222;
-        
-        mask-image: url('./styles/daggerheart/assets/subclass-top-mask.png');
-        mask-repeat: no-repeat;
-        mask-position: center center;
-        background: linear-gradient(to right, var(--main-color), var(--main-color) 40%, var(--scnd-color) 60%, var(--scnd-color));
-        z-index: -1;
+        z-index: 2;
     }
     #text.domain::after {
         top: -38px;
         padding-top: 1px;
         color: #fff;
         text-shadow: 1px 1px 1px #222;
-        
-        mask-image: url('./styles/daggerheart/assets/domain-top-mask.png');
     }
     #text.domain.black::after {
         color: #000;
@@ -274,7 +269,7 @@
         padding-right: 10px;
         width: 86px;
         height: 86px;
-        background-image: url('./styles/daggerheart/assets/stress-cost-bg.webp');
+        background-image: url('./styles/daggerheart/assets/stress-cost-bg.png');
         background-size: contain;
         background-position: top right;
         background-repeat: no-repeat;
@@ -294,7 +289,55 @@
         padding-top: 4px;
     }
     #icons img { width: 100%; }
-    
+    #mask {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 0;
+        content: 'xxx';
+    }
+    #left-mask { background-color: var(--main-color); }
+    #right-mask { background-color: var(--scnd-color); }
+    #gradiant-mask { 
+        margin: 0 -2px;
+        background: linear-gradient(to right, var(--main-color), var(--scnd-color)); 
+    }
+
+    .domain #mask {
+        top: -38px;
+        left: 3px;
+        height: 40px;
+        right: 0;
+    }
+    .domain #gradiant-mask {
+        width: 206px;
+        height: 100%;
+    }
+    .domain #left-mask, #right-mask{
+        margin-top: 7px;
+        width: 28px;
+        height: 30px;
+    }
+    .subclass #mask {
+        top: -56px;
+        left: 3px;
+        height: 36px;
+        right: 0;
+    }
+    .subclass #gradiant-mask {
+        width: 206px;
+        height: 100%;
+    }
+    .subclass #left-mask, #right-mask{
+        margin-top: 7px;
+        width: 24px;
+        height: 30px;
+    }
 </style>
 
 <body>
@@ -303,7 +346,6 @@
 
         <div id="form">
             <button onclick="render()">DOWNLOAD</button>
-            <button onclick="upload()">UPLOAD</button>
             <input type="text"    oninput="set_artwork(this.value)" placeholder="Image Link"/>
             <select onchange="set_type(this.value)">
                 <option value="ancestry">Ancestry</option>
@@ -355,7 +397,12 @@
                 <div id="stress" style="display: none;"></div>
             </div>
             <div id="artwork"></div>
-            <div id="text" class="domain">
+            <div id="text" class="subclass">
+                <div id="mask">
+                    <div id="left-mask"></div>
+                    <div id="gradiant-mask"></div>
+                    <div id="right-mask"></div>
+                </div>
                 <div id="content">
                     <h1 id="title"></h1>
                     <div id="description"></div>
@@ -447,9 +494,9 @@
         
     }
 
-    function set_banner(self, id) {
-        if(id == 'main') BANNER.main = self.value
-        else BANNER.scnd = self.value
+    function set_banner(value, id) {
+        if(id == 'main') BANNER.main = value
+        else BANNER.scnd = value
         update_banner(document.getElementById('classname').value)
     }
     
@@ -471,10 +518,11 @@
         let element = document.getElementById('card');
         let title = document.getElementById('title').innerText
         title = title.replace(' ', '_').toLowerCase()
-        html2canvas(element).then(function (canvas) {
+        
+        html2canvas(element, {useCORS: true}).then(function (canvas) {
             const card = canvas.toDataURL('image/png');
             downloadURI(card, `${title}.png`);
-        });
+        })
     }
 
     function upload() {
@@ -517,7 +565,7 @@ De plus, lorsque vous effectuez un Jet d’Incantation dans un environnement nat
                 auto_generate(elt, data, i+1, images)
             })
         })
-    }   
+    }
 
     function auto_fill(data) {
         let card = data.card
