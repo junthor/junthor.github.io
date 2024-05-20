@@ -193,3 +193,8 @@
     font-family: "JSL Blackletter";
     src: url('./../../fonts/Shadowdark/JSL-Blackletter.woff2');
 }
+
+@font-face {
+    font-family: "Waildesh";
+    src: url('./../../fonts/Waildesh/Waildesh.otf');
+}
