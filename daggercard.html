@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="./scripts/html2canvas.js"></script>
+    <script type="text/javascript" src="./scripts/jszip.min.js"></script>
+    <script type="text/javascript" src="./scripts/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>Daggercard</title>
+</head>
+
+<style>
+
+@font-face {
+        font-family: 'Eveleth Clean';
+        src: url('./fonts/Eveleth/Eveleth Clean Regular.otf') format('opentype');
+    }
+
+    body {
+        background-color: #bfbfbf;
+    }
+
+    #container {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+
+    #form { padding: 8px; }
+
+    #form > * {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 6px 0;
+    }
+
+    #form textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    #card {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-end;
+
+        width: 816px;
+        height: 1110px;
+        position: relative;
+        overflow: hidden;
+
+        flex-shrink: 0;
+    }
+
+    #artwork {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-position: top center;
+        background-repeat: no-repeat;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -2;
+        background-color: white;
+    }
+
+    #text {
+        position: relative;
+
+        min-height: 520px;
+        background-color: white;
+
+        color: black;
+        font-family: 'Barlow', sans-serif;
+        font-size: 22pt;
+
+        padding: 0 80px;
+
+        --main-color: #664295;
+        --scnd-color: #664295;
+        --content: 'Sorcerer'
+    }
+
+    #content {
+        position: relative;
+        margin-bottom: 124px;
+        z-index: 1;
+    }
+
+    #info {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #text::before {
+        position: absolute;
+        content: '';
+        left: 0;
+        width: 816px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    #text.community::before {
+        top: -199px;
+        height: 199px;
+        background-image: url('./styles/daggerheart/assets/community-top.png');
+    }
+
+    #text.ancestry::before {
+        top: -100px;
+        height: 300px;
+        background-image: url('./styles/daggerheart/assets/ancestry-top.png');
+    }
+
+    #text.domain::before {
+        top: -50px;
+        height: 300px;
+        background-image: url('./styles/daggerheart/assets/domain-top.png');
+    }
+
+    #text.subclass::before {
+        top: -80px;
+        height: 300px;
+        background-image: url('./styles/daggerheart/assets/subclass-top.png');
+    }
+    #text.subclass::after, #text.domain::after {
+        content: var(--content);
+        left: 0;
+        right: 0;
+        top: -55px;
+        height: 40px;
+        font-size: 18pt;
+        color: #ffe980;
+        font-family: 'Eveleth Clean', sans-serif;
+        letter-spacing: 0.05em;
+        text-shadow: 2px 2px 2px #222;
+        
+        mask-image: url('https://junthor.github.io/styles/daggerheart/assets/subclass-top-mask.png');
+        mask-repeat: no-repeat;
+        mask-position: center center;
+        background: linear-gradient(to right, var(--main-color), var(--main-color) 40%, var(--scnd-color) 60%, var(--scnd-color));
+        z-index: -1;
+    }
+    #text.domain::after {
+        top: -38px;
+        padding-top: 1px;
+        color: #fff;
+        text-shadow: 1px 1px 1px #222;
+        
+        mask-image: url('https://junthor.github.io/styles/daggerheart/assets/domain-top-mask.png');
+    }
+    #text.domain.black::after {
+        color: #000;
+        text-shadow: 1px 1px 1px #ddd;
+    }
+
+    #text.ancestry { margin-top: 10px; }
+    #text.ancestry > #content { margin-top: -20px; }
+
+    #text::after {
+        position: absolute;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 0.1em;
+        font-family: 'Overpass', sans-serif;
+    }
+
+    #text.community::after {
+        content: 'Community';
+        width: 205px;
+        right: 72px;
+        top: -93px;
+    }
+
+    #text.ancestry::after {
+        content: 'Ancestry';
+        width: 175px;
+        right: 86px;
+        top: -24px;
+    }
+
+    #content > h1, #content > h1 * {
+        margin: 0;
+        font-family: 'Eveleth Clean', sans-serif;
+        text-transform: uppercase;
+    }
+    .subclass #content > h1, .domain #content > h1 {
+        text-align: center;
+        font-size: 28pt;
+    }
+    .domain #content > h1 { margin-top: 20px; }
+    .domain #content > #effect { margin-top: -18px; }
+
+    #content > #description * {
+        color: #444;
+        margin-top: 0;
+        margin-bottom: 1em;
+    }
+
+    .ancestry #description, .community #description {
+        font-style: italic;
+    }
+
+    .subclass #content > #description * {
+        margin-bottom: 1em;
+        color: inherit;
+        text-align: center;
+    }
+
+    #content li { font-style: italic; }
+    
+
+    #credit {
+        position: absolute;
+        left: 80px;
+        right: 80px;
+        bottom: 60px;
+
+        color: #444;
+        font-size: 14pt;
+        font-style: italic;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        font-family: 'Barlow', sans-serif;
+    }
+
+    #banner {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-end;
+        position: absolute;
+        top: -40px;
+        left: 100px;
+
+        width: 140px;
+        height: 279px;
+    }
+    #banner .background {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #level {
+        position: relative;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'Eveleth Clean', sans-serif;
+        font-size: 38pt;
+        color: white;
+        z-index: 2;
+    }
+    #info {
+        width: 100%;
+    }
+    #stress {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        top: 60px;
+        right: 80px;
+        padding-right: 10px;
+        width: 86px;
+        height: 86px;
+        background-image: url('./styles/daggerheart/assets/stress-cost-bg.webp');
+        background-size: contain;
+        background-position: top right;
+        background-repeat: no-repeat;
+
+        font-family: 'Eveleth Clean', sans-serif;
+        font-size: 20pt;
+        color: white;
+    }
+    #icons {
+        position: relative;
+        bottom: 0;
+
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: flex-end;
+        padding: 60px 38px;
+        padding-top: 4px;
+    }
+    #icons img { width: 100%; }
+    
+</style>
+
+<body>
+    
+    <div id="container">
+
+        <div id="form">
+            <button onclick="render()">DOWNLOAD</button>
+            <button onclick="upload()">UPLOAD</button>
+            <input type="text"    oninput="set_artwork(this.value)" placeholder="Image Link"/>
+            <select onchange="set_type(this.value)">
+                <option value="ancestry">Ancestry</option>
+                <option value="community">Community</option>
+                <option value="domain">Domain</option>
+                <option value="subclass">Subclass</option>
+            </select>
+            <div>
+                <input type="checkbox" onchange="toggle_banner(this)"/>
+                <select onchange="set_banner(this.value, 'main')">
+                    <option value="arcana">Arcana</option>
+                    <option value="blade">Blade</option>
+                    <option value="bone">Bone</option>
+                    <option value="codex">Codex</option>
+                    <option value="grace">Grace</option>
+                    <option value="midnight">Midnight</option>
+                    <option value="sage">Sage</option>
+                    <option value="splendor">Splendor</option>
+                    <option value="valor">Valor</option>
+                </select>
+                <select onchange="set_banner(this.value, 'scnd')">
+                    <option value="arcana">Arcana</option>
+                    <option value="blade">Blade</option>
+                    <option value="bone">Bone</option>
+                    <option value="codex">Codex</option>
+                    <option value="grace">Grace</option>
+                    <option value="midnight">Midnight</option>
+                    <option value="sage">Sage</option>
+                    <option value="splendor">Splendor</option>
+                    <option value="valor">Valor</option>
+                </select>
+                <input type="number" placeholder="Stress Cost" onchange="set_stress(this.value)"/>
+                <input type="number" placeholder="Card Level" onchange="set_level(this.value)"/>
+            </div>
+            <input type="text" id="classname" placeholder="Type" onchange="update_banner(this.value)"/>
+            <input type="text"    oninput="set_text(this.value, false, 'title')" placeholder="Title"/>
+            <textarea type="text" oninput="set_text(this.value, true, 'description')" placeholder="Description"></textarea>
+            <textarea type="text" oninput="set_text(this.value, true, 'effect')" placeholder="Text"></textarea>
+            <input type="text" oninput="set_text(this.value, false, 'artist')" placeholder="Artist Name"/>
+        </div>
+        <div id="card">
+            <div id="info">
+                <div id="banner" style="display: none;">
+                    <img class="background" id="main-banner">
+                    <img class="background" id="scnd-banner">
+                    <div id="level"></div>
+                    <div id="icons"></div>
+                </div>
+                <div id="stress" style="display: none;"></div>
+            </div>
+            <div id="artwork"></div>
+            <div id="text" class="domain">
+                <div id="content">
+                    <h1 id="title"></h1>
+                    <div id="description"></div>
+                    <div id="effect"></div>
+                </div>
+            </div>
+            <div id="credit">
+                <span id="artist">Artist Name</span>
+                <span id="copyright">©2024 Daggerheart v1.4 Open Beta</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    const BANNER = { main: 'arcana', scnd: 'arcana' }
+    const COLORS = {
+        arcana:   "#664295",
+        blade:    "#b93035",
+        bone:     "#c1c7cc",
+        codex:    "#3471ac",
+        grace:    "#cb3b90",
+        midnight: "#2c2c2c",
+        sage:     "#0e854d",
+        splendor: "#e1c146",
+        valor:    "#dc7a27",
+    }
+
+    function toggle_banner(checked) {
+        const banner = document.getElementById('banner')
+        if(checked) {
+            banner.style.display = ''
+            update_banner(document.getElementById('classname').value)
+        }
+        else banner.style.display = 'none'
+    }
+
+    function set_artwork(value) {
+        const artwork = document.getElementById('artwork')
+        artwork.style.backgroundImage = `url('${value}')`
+    }
+
+    function set_level(value){
+        const level = document.getElementById('level')
+        level.innerHTML = value
+    }
+
+    function set_stress(value){
+        const stress = document.getElementById('stress')
+        stress.innerHTML = value
+        if(!value || value == '') stress.style.display = 'none'
+        else stress.style.display = ''
+    }
+
+    function set_type(value) {
+        const text = document.getElementById('text')
+        text.className = value
+        if (BANNER.main == 'bone' || BANNER.main == 'splendor'){
+            text.className += ' black'
+        }
+    }
+
+    function update_banner(classname) {
+        const main_banner = document.getElementById('main-banner')
+        const scnd_banner = document.getElementById('scnd-banner')
+        const icons = document.getElementById('icons')
+        const text = document.getElementById('text')
+
+        main_banner.src = `./styles/daggerheart/assets/banners/${BANNER.main}.png`
+        scnd_banner.src = `./styles/daggerheart/assets/banners/${BANNER.scnd}-b.png`
+
+        let main_icon = BANNER.main
+        let scnd_icon = BANNER.scnd
+
+        // Black Icons
+        if (BANNER.main == 'bone' || BANNER.main == 'splendor'){
+            main_icon += "-b"
+            scnd_icon += "-b"
+            text.classList.add('black')
+        } else text.classList.remove('black')
+
+        icons.innerHTML = `<img src="./styles/daggerheart/assets/banners/icons/${main_icon}.png"/>`
+        if (BANNER.main != BANNER.scnd) {
+            icons.innerHTML += `<img src="./styles/daggerheart/assets/banners/icons/${scnd_icon}.png"/>`
+        }
+        text.style = `--main-color: ${COLORS[BANNER.main]}; --scnd-color: ${COLORS[BANNER.scnd]}; --content: "${classname}"`
+        
+    }
+
+    function set_banner(self, id) {
+        if(id == 'main') BANNER.main = self.value
+        else BANNER.scnd = self.value
+        update_banner(document.getElementById('classname').value)
+    }
+    
+    function set_text(text, parse, id){
+        const element = document.getElementById(id);
+        if(parse) element.innerHTML = marked.parse(text);
+        else element.innerHTML = text;
+    }
+
+    function downloadURI(uri, name) {
+        let link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        document.body.appendChild(link);
+        link.click();
+    }
+
+    function render() {
+        let element = document.getElementById('card');
+        let title = document.getElementById('title').innerText
+        title = title.replace(' ', '_').toLowerCase()
+        html2canvas(element).then(function (canvas) {
+            const card = canvas.toDataURL('image/png');
+            downloadURI(card, `${title}.png`);
+        });
+    }
+
+    function upload() {
+        auto_render([{
+            card: 'domain',
+            image: 'https://images.demiplane.com/elements/daggerheart/subclasses/druid-playtest.jpg',
+            schools: 'sage',
+            stress: '1',
+            level: '1',
+            type: 'Capacité',
+            title: 'Langue Naturelle',
+            effect: `Vous êtes en mesure de parler la langue du monde invisible et naturel. Lorsque vous voulez parler aux  plantes ou aux animaux autour de vous, effectuez un **Jet d’Instinct (12)**. Sur un succès, ils vous livreront les informations dont ils disposent. Sur un lancer avec Peur, leur connaissances peuvent être limitées ou avoir un certain coût.  
+
+De plus, lorsque vous effectuez un Jet d’Incantation dans un environnement naturel, vous pouvez dépenser un **Espoir** avant votre lancer pour ajouter **+1** au résultat.`,
+            artist: 'JeSaisPas'
+        }])
+    }
+
+    function auto_render(data) {
+        let element = document.getElementById('card');
+        let images = []
+        auto_generate(element, data, 0, images)
+    }
+
+    function auto_generate(elt, data, i, images) {
+        if(data.length == i) {
+            const zip = new JSZip();
+            for(let j = 0; j < images.length; j++) {
+                zip.file(`card${j}.png`, images[j])
+            }
+            zip.generateAsync({type:"blob"}).then(function(content) {
+                saveAs(content, "cards.zip")
+            })
+            return;
+        }
+        auto_fill(data[i])
+        html2canvas(elt, {useCORS: true}).then(function (canvas) {
+            canvas.toBlob(function(blob) {
+                images.push(blob)
+                auto_generate(elt, data, i+1, images)
+            })
+        })
+    }   
+
+    function auto_fill(data) {
+        let card = data.card
+        let image = data.image || ''
+        let schools = data.schools || ''
+        let stress = data.stress || ''
+        let level = data.level || ''
+        let type = data.type || ''
+        let title = data.title || ''
+        let description = data.description || ''
+        let effect = data.effect || ''
+        let artist = data.artist || ''
+
+        if(schools != '') {
+            schools = schools.split(',')
+            toggle_banner(true)
+        } else toggle_banner(false)
+        BANNER.main = schools[0].trim().toLowerCase() || 'arcana'
+        BANNER.scnd = BANNER.main
+        if(schools.length > 1) BANNER.scnd = schools[1].trim().lowercase()
+
+        set_type(card)
+        update_banner(type)
+        set_artwork(image)
+        set_level(level)
+        set_stress(stress)
+        set_text(title, false, 'title')
+        set_text(artist, false, 'artist')
+        set_text(description, true, 'description')
+        set_text(effect, true, 'effect')
+    }
+
+</script>
+
+</html>
