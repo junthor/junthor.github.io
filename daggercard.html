@@ -24,6 +24,7 @@
 
     body {
         background-color: #bfbfbf;
+        text-rendering: geometricPrecision;
     }
 
     #container {
@@ -55,19 +56,14 @@
         overflow: hidden;
 
         flex-shrink: 0;
+        background-color: white;
     }
 
     #artwork {
-        width: 100%;
-        height: 100%;
-        background-size: contain;
-        background-position: top center;
-        background-repeat: no-repeat;
         position: absolute;
         left: 0;
         top: 0;
-        z-index: -5;
-        background-color: white;
+        width: 100%;
     }
 
     #text {
@@ -84,7 +80,8 @@
 
         --main-color: #664295;
         --scnd-color: #664295;
-        --content: 'Sorcerer'
+        --content: ' ';
+        --after-size: 20pt;
     }
 
     #content {
@@ -97,6 +94,7 @@
         position: absolute;
         top: 0;
         left: 0;
+        right: 0;
     }
 
     #text::before {
@@ -133,17 +131,18 @@
         background-image: url('./styles/daggerheart/assets/subclass-top.png');
     }
     #text.subclass::after, #text.domain::after {
-        content: var(--content);
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
         left: 0;
         right: 0;
         top: -55px;
-        height: 40px;
-        font-size: 18pt;
+        height: 34px;
         color: #ffe980;
         font-family: 'Eveleth Clean', sans-serif;
         letter-spacing: 0.05em;
         text-shadow: 2px 2px 2px #222;
-        z-index: 2;
     }
     #text.domain::after {
         top: -38px;
@@ -165,18 +164,35 @@
         text-align: center;
         letter-spacing: 0.1em;
         font-family: 'Overpass', sans-serif;
+        z-index: 2;
+        font-size: var(--after-size);
+        content: var(--content);
     }
 
+    #text.community { --content: 'Community' }
+    #text.ancestry { --content: 'Ancestry' }
+
     #text.community::after {
-        content: 'Community';
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
         width: 205px;
+        height: 34px;
         right: 72px;
         top: -93px;
     }
 
     #text.ancestry::after {
-        content: 'Ancestry';
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+
         width: 175px;
+        height: 37px;
+
         right: 86px;
         top: -24px;
     }
@@ -233,7 +249,7 @@
         justify-content: flex-end;
         position: absolute;
         top: -40px;
-        left: 100px;
+        left: 80px;
 
         width: 140px;
         height: 279px;
@@ -253,9 +269,6 @@
         font-size: 38pt;
         color: white;
         z-index: 2;
-    }
-    #info {
-        width: 100%;
     }
     #stress {
         display: flex;
@@ -303,9 +316,9 @@
     }
     #left-mask { background-color: var(--main-color); }
     #right-mask { background-color: var(--scnd-color); }
-    #gradiant-mask { 
+    #gradient-mask { 
         margin: 0 -2px;
-        background: linear-gradient(to right, var(--main-color), var(--scnd-color)); 
+        background: linear-gradient(to right, var(--main-color) 0, var(--scnd-color) 1); 
     }
 
     .domain #mask {
@@ -314,11 +327,11 @@
         height: 40px;
         right: 0;
     }
-    .domain #gradiant-mask {
+    .domain #gradient-mask {
         width: 206px;
         height: 100%;
     }
-    .domain #left-mask, #right-mask{
+    .domain #left-mask, .domain #right-mask{
         margin-top: 7px;
         width: 28px;
         height: 30px;
@@ -329,14 +342,26 @@
         height: 36px;
         right: 0;
     }
-    .subclass #gradiant-mask {
+    .subclass #gradient-mask {
         width: 206px;
         height: 100%;
     }
-    .subclass #left-mask, #right-mask{
+    .subclass #left-mask, .subclass #right-mask{
         margin-top: 7px;
         width: 24px;
         height: 30px;
+    }
+    #bleed {
+        position: absolute;
+        z-index: 10;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        background-image: url('./styles/daggerheart/assets/bleed-over.png');
+        background-size: cover;
     }
 </style>
 
@@ -346,7 +371,8 @@
 
         <div id="form">
             <button onclick="render()">DOWNLOAD</button>
-            <input type="text"    oninput="set_artwork(this.value)" placeholder="Image Link"/>
+            <input type="file" onchange="upload(this.files)" accept=".json">UPLOAD</button>
+            <input type="text" oninput="set_artwork(this.value)" placeholder="Image Link"/>
             <select onchange="set_type(this.value)">
                 <option value="ancestry">Ancestry</option>
                 <option value="community">Community</option>
@@ -354,7 +380,7 @@
                 <option value="subclass">Subclass</option>
             </select>
             <div>
-                <input type="checkbox" onchange="toggle_banner(this)"/>
+                <input type="checkbox" onchange="toggle_banner(this.checked)"/>
                 <select onchange="set_banner(this.value, 'main')">
                     <option value="arcana">Arcana</option>
                     <option value="blade">Blade</option>
@@ -380,13 +406,14 @@
                 <input type="number" placeholder="Stress Cost" onchange="set_stress(this.value)"/>
                 <input type="number" placeholder="Card Level" onchange="set_level(this.value)"/>
             </div>
-            <input type="text" id="classname" placeholder="Type" onchange="update_banner(this.value)"/>
+            <input type="text" id="subtitle" placeholder="Type" onchange="set_subtitle(this.value)"/>
             <input type="text"    oninput="set_text(this.value, false, 'title')" placeholder="Title"/>
             <textarea type="text" oninput="set_text(this.value, true, 'description')" placeholder="Description"></textarea>
             <textarea type="text" oninput="set_text(this.value, true, 'effect')" placeholder="Text"></textarea>
             <input type="text" oninput="set_text(this.value, false, 'artist')" placeholder="Artist Name"/>
         </div>
         <div id="card">
+            <img id="artwork"/>
             <div id="info">
                 <div id="banner" style="display: none;">
                     <img class="background" id="main-banner">
@@ -396,11 +423,10 @@
                 </div>
                 <div id="stress" style="display: none;"></div>
             </div>
-            <div id="artwork"></div>
-            <div id="text" class="subclass">
+            <div id="text" class="ancestry">
                 <div id="mask">
                     <div id="left-mask"></div>
-                    <div id="gradiant-mask"></div>
+                    <div id="gradient-mask"></div>
                     <div id="right-mask"></div>
                 </div>
                 <div id="content">
@@ -437,14 +463,14 @@
         const banner = document.getElementById('banner')
         if(checked) {
             banner.style.display = ''
-            update_banner(document.getElementById('classname').value)
+            update_banner(document.getElementById('subtitle').value)
         }
         else banner.style.display = 'none'
     }
 
     function set_artwork(value) {
         const artwork = document.getElementById('artwork')
-        artwork.style.backgroundImage = `url('${value}')`
+        artwork.src = `${value}`
     }
 
     function set_level(value){
@@ -465,9 +491,10 @@
         if (BANNER.main == 'bone' || BANNER.main == 'splendor'){
             text.className += ' black'
         }
+        update_subtitle_size()
     }
 
-    function update_banner(classname) {
+    function update_banner() {
         const main_banner = document.getElementById('main-banner')
         const scnd_banner = document.getElementById('scnd-banner')
         const icons = document.getElementById('icons')
@@ -490,14 +517,48 @@
         if (BANNER.main != BANNER.scnd) {
             icons.innerHTML += `<img src="./styles/daggerheart/assets/banners/icons/${scnd_icon}.png"/>`
         }
-        text.style = `--main-color: ${COLORS[BANNER.main]}; --scnd-color: ${COLORS[BANNER.scnd]}; --content: "${classname}"`
-        
+        text.style.setProperty('--main-color', COLORS[BANNER.main])
+        text.style.setProperty('--scnd-color', COLORS[BANNER.scnd])
+        update_subtitle_size()
+    }
+
+    function set_subtitle(subtitle) {
+        subtitle = subtitle.trim()
+        if(!subtitle || subtitle == '') text.style.removeProperty('--content')
+        else text.style.setProperty('--content', `'${subtitle}'`)
+        update_subtitle_size()
+    }
+
+    function update_subtitle_size(){
+        const text = document.getElementById('text')
+        const subtitle = text.style.getPropertyValue('--content').length - 2
+        if(!subtitle || subtitle == '') {
+            text.style.removeProperty('--after-size');
+            return;
+        }
+
+        const ref = document.getElementById('text').classList
+        let size = 20
+        let max_length = 0
+        switch (ref[0]){
+            case 'ancestry':
+                max_length = 8
+                break
+            case 'community':
+                max_length = 9
+                break
+            default:
+                max_length = 10
+                size = 18
+        }
+        if(subtitle <= max_length) text.style.setProperty('--after-size', `${size}pt`)
+        else text.style.setProperty('--after-size', `${max_length/subtitle * size}pt`)
     }
 
     function set_banner(value, id) {
         if(id == 'main') BANNER.main = value
         else BANNER.scnd = value
-        update_banner(document.getElementById('classname').value)
+        update_banner()
     }
     
     function set_text(text, parse, id){
@@ -519,26 +580,22 @@
         let title = document.getElementById('title').innerText
         title = title.replace(' ', '_').toLowerCase()
         
-        html2canvas(element, {useCORS: true}).then(function (canvas) {
+        html2canvas(element, {useCORS: true, dpi:300}).then(function (canvas) {
             const card = canvas.toDataURL('image/png');
             downloadURI(card, `${title}.png`);
         })
     }
 
-    function upload() {
-        auto_render([{
-            card: 'domain',
-            image: 'https://images.demiplane.com/elements/daggerheart/subclasses/druid-playtest.jpg',
-            schools: 'sage',
-            stress: '1',
-            level: '1',
-            type: 'Capacité',
-            title: 'Langue Naturelle',
-            effect: `Vous êtes en mesure de parler la langue du monde invisible et naturel. Lorsque vous voulez parler aux  plantes ou aux animaux autour de vous, effectuez un **Jet d’Instinct (12)**. Sur un succès, ils vous livreront les informations dont ils disposent. Sur un lancer avec Peur, leur connaissances peuvent être limitées ou avoir un certain coût.  
-
-De plus, lorsque vous effectuez un Jet d’Incantation dans un environnement naturel, vous pouvez dépenser un **Espoir** avant votre lancer pour ajouter **+1** au résultat.`,
-            artist: 'JeSaisPas'
-        }])
+    function upload(file) {
+        if(!file) return
+        file = file[0]
+        const reader = new FileReader()
+        reader.readAsText(file)
+        reader.onload = () => {
+            const data = reader.result
+            if (data == null) return
+            auto_render(JSON.parse(data))
+        }
     }
 
     function auto_render(data) {
@@ -559,12 +616,14 @@ De plus, lorsque vous effectuez un Jet d’Incantation dans un environnement nat
             return;
         }
         auto_fill(data[i])
-        html2canvas(elt, {useCORS: true}).then(function (canvas) {
-            canvas.toBlob(function(blob) {
-                images.push(blob)
-                auto_generate(elt, data, i+1, images)
+        setTimeout( () => {
+            html2canvas(elt, {useCORS: true, dpi:300}).then(function (canvas) {
+                canvas.toBlob(function(blob) {
+                    images.push(blob)
+                    auto_generate(elt, data, i+1, images)
+                })
             })
-        })
+        }, 10)
     }
 
     function auto_fill(data) {
@@ -573,22 +632,25 @@ De plus, lorsque vous effectuez un Jet d’Incantation dans un environnement nat
         let schools = data.schools || ''
         let stress = data.stress || ''
         let level = data.level || ''
-        let type = data.type || ''
+        let subtitle = data.subtitle || ''
         let title = data.title || ''
         let description = data.description || ''
         let effect = data.effect || ''
         let artist = data.artist || ''
 
+        BANNER.main = 'arcana'
+        BANNER.scnd = BANNER.main
         if(schools != '') {
             schools = schools.split(',')
             toggle_banner(true)
+            BANNER.main = schools[0].trim().toLowerCase() || 'arcana'
+            BANNER.scnd = BANNER.main
+            if(schools.length > 1) BANNER.scnd = schools[1].trim().lowercase()
         } else toggle_banner(false)
-        BANNER.main = schools[0].trim().toLowerCase() || 'arcana'
-        BANNER.scnd = BANNER.main
-        if(schools.length > 1) BANNER.scnd = schools[1].trim().lowercase()
 
         set_type(card)
-        update_banner(type)
+        update_banner()
+        set_subtitle(subtitle)
         set_artwork(image)
         set_level(level)
         set_stress(stress)
