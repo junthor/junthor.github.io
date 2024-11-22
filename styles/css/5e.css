@@ -4,6 +4,7 @@
 @import url(dnd/phb.css);
 @import url(dnd/xgte.css);
 @import url(dnd/mtof.css);
+@import url(dnd/modern.css);
 
 a { color: var(--heading-color); }
 

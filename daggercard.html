@@ -37,7 +37,36 @@
     #form > * {
         width: 100%;
         box-sizing: border-box;
+    }
+
+    input, textarea, select, button, label {
+        padding: 8px;
+        border-radius: 8px;
+        border: none;
+
+        font-family: 'Barlow', sans-serif;
         margin: 6px 0;
+        font-size: 11pt;
+    }
+    button, label {
+        background-color: #eee;
+    }
+
+    button:hover, label:hover {
+        background-color: #ffe980;
+        cursor: pointer;
+    }
+
+    .col2 {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+
+    input[type="file"] { display: none; }
+
+    input:focus, textarea:focus {
+        outline-color: #ffe980;
     }
 
     #form textarea {
@@ -267,9 +296,12 @@
         text-align: center;
         font-family: 'Eveleth Clean', sans-serif;
         font-size: 38pt;
+        margin-bottom: -14px;
         color: white;
         z-index: 2;
     }
+    #level.black { color: black; }
+
     #stress {
         display: flex;
         flex-flow: column nowrap;
@@ -364,24 +396,43 @@
         background-image: url('./styles/daggerheart/assets/bleed-over.png');
         background-size: cover;
     }
+    #batch-progress {
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        
+        background-color: #000000ee;
+        z-index: 10;
+        color: white;
+        font-size: 22pt;
+        font-family: 'Eveleth Clean', sans-serif;
+        text-align: center;
+    }
 </style>
 
 <body>
-    
+    <div id="batch-progress"></div>
     <div id="container">
-
         <div id="form">
-            <button onclick="render()">DOWNLOAD</button>
-            <input type="file" onchange="upload(this.files)" accept=".json">UPLOAD</button>
+            <div class="col2">
+                <button onclick="render()">Download PNG</button>
+                <label for="batch">Batch Rendering (ZIP)</label>
+                <input id="batch" type="file" onchange="upload(this.files)" accept=".json"/>
+            </div>
             <input type="text" oninput="set_artwork(this.value)" placeholder="Image Link"/>
-            <select onchange="set_type(this.value)">
+            <select onchange="set_layout(this.value)">
                 <option value="ancestry">Ancestry</option>
                 <option value="community">Community</option>
                 <option value="domain">Domain</option>
                 <option value="subclass">Subclass</option>
             </select>
-            <div>
-                <input type="checkbox" onchange="toggle_banner(this.checked)"/>
+            <div id="banner-input" style="display: none;">
                 <select onchange="set_banner(this.value, 'main')">
                     <option value="arcana">Arcana</option>
                     <option value="blade">Blade</option>
@@ -393,7 +444,7 @@
                     <option value="splendor">Splendor</option>
                     <option value="valor">Valor</option>
                 </select>
-                <select onchange="set_banner(this.value, 'scnd')">
+                <select id="second-banner" onchange="set_banner(this.value, 'scnd')" style="display: none;">
                     <option value="arcana">Arcana</option>
                     <option value="blade">Blade</option>
                     <option value="bone">Bone</option>
@@ -404,10 +455,10 @@
                     <option value="splendor">Splendor</option>
                     <option value="valor">Valor</option>
                 </select>
-                <input type="number" placeholder="Stress Cost" onchange="set_stress(this.value)"/>
-                <input type="number" placeholder="Card Level" onchange="set_level(this.value)"/>
+                <input id="input-level" type="number" placeholder="Card Level" onchange="set_level(this.value)"/>
+                <input id="input-stress" type="number" placeholder="Stress Cost" onchange="set_stress(this.value)"/>
             </div>
-            <input type="text" id="subtitle" placeholder="Type" onchange="set_subtitle(this.value)"/>
+            <input type="text" id="subtitle" placeholder="Subtitle (Class Name, Ancestry, Community, etc.)" onchange="set_subtitle(this.value)"/>
             <input type="text"    oninput="set_text(this.value, false, 'title')" placeholder="Title"/>
             <textarea type="text" oninput="set_text(this.value, true, 'description')" placeholder="Description"></textarea>
             <textarea type="text" oninput="set_text(this.value, true, 'effect')" placeholder="Text"></textarea>
@@ -447,7 +498,7 @@
 </body>
 
 <script>
-    const BANNER = { main: 'arcana', scnd: 'arcana' }
+    const BANNER = { main: 'arcana', scnd: 'arcana', type: 0 }
     const COLORS = {
         arcana:   "#664295",
         blade:    "#b93035",
@@ -462,11 +513,37 @@
 
     function toggle_banner(checked) {
         const banner = document.getElementById('banner')
+        const input = document.getElementById('banner-input')
+        const level = document.getElementById('level')
+        const stress = document.getElementById('stress')
         if(checked) {
+            const scnd = document.getElementById('second-banner')
+            const lvl = document.getElementById('input-level')
+            const str = document.getElementById('input-stress')
+            if(BANNER.type == 0) {
+                scnd.style.display = 'none'
+                lvl.style.display = ''
+                str.style.display = ''
+                level.style.display = ''
+                stress.style.display = ''
+            }
+            else {
+                scnd.style.display = ''
+                set_banner(scnd.value, 'scnd')
+                lvl.style.display = 'none'
+                str.style.display = 'none'
+                level.style.display = 'none'
+                stress.style.display = 'none'
+            }
             banner.style.display = ''
-            update_banner(document.getElementById('subtitle').value)
+            input.style.display = ''
+            update_banner()
         }
-        else banner.style.display = 'none'
+        else {
+            banner.style.display = 'none'
+            input.style.display = 'none'
+            stress.style.display = 'none'
+        }
     }
 
     function set_artwork(value) {
@@ -486,12 +563,20 @@
         else stress.style.display = ''
     }
 
-    function set_type(value) {
+    function set_layout(value) {
         const text = document.getElementById('text')
         text.className = value
         if (BANNER.main == 'bone' || BANNER.main == 'splendor'){
             text.className += ' black'
         }
+        if(value == "domain") {
+            BANNER.type = 0
+            BANNER.scnd = BANNER.main
+        }
+        else if(value == "subclass") {
+            BANNER.type = 1
+        }
+        toggle_banner(value == "domain" || value == "subclass")
         update_subtitle_size()
     }
 
@@ -500,6 +585,7 @@
         const scnd_banner = document.getElementById('scnd-banner')
         const icons = document.getElementById('icons')
         const text = document.getElementById('text')
+        const level = document.getElementById('level')
 
         main_banner.src = `./styles/daggerheart/assets/banners/${BANNER.main}.png`
         scnd_banner.src = `./styles/daggerheart/assets/banners/${BANNER.scnd}-b.png`
@@ -511,8 +597,13 @@
         if (BANNER.main == 'bone' || BANNER.main == 'splendor'){
             main_icon += "-b"
             scnd_icon += "-b"
+            level.className = 'black'
             text.classList.add('black')
-        } else text.classList.remove('black')
+
+        } else {
+            text.classList.remove('black')
+            level.className = ''
+        }
 
         icons.innerHTML = `<img src="./styles/daggerheart/assets/banners/icons/${main_icon}.png"/>`
         if (BANNER.main != BANNER.scnd) {
@@ -557,7 +648,10 @@
     }
 
     function set_banner(value, id) {
-        if(id == 'main') BANNER.main = value
+        if(id == 'main') {
+            BANNER.main = value
+            if(BANNER.type == 0) BANNER.scnd = value
+        }
         else BANNER.scnd = value
         update_banner()
     }
@@ -602,10 +696,14 @@
     function auto_render(data) {
         let element = document.getElementById('card');
         let images = []
-        auto_generate(element, data, 0, images)
+        const progress = document.getElementById('batch-progress')
+        progress.style.display = 'flex'
+        document.body.style.overflow = 'hidden'
+        auto_generate(element, data, 0, images, progress)
     }
 
-    function auto_generate(elt, data, i, images) {
+    function auto_generate(elt, data, i, images, progress) {
+        progress.innerHTML = `RENDERING<br>${i+1}/${data.length}`
         if(data.length == i) {
             const zip = new JSZip();
             for(let j = 0; j < images.length; j++) {
@@ -614,6 +712,8 @@
             zip.generateAsync({type:"blob"}).then(function(content) {
                 saveAs(content, "cards.zip")
             })
+            progress.style.display = "none"
+            document.body.style.overflow = ''
             return;
         }
         auto_fill(data[i])
@@ -621,14 +721,14 @@
             html2canvas(elt, {useCORS: true, dpi:300}).then(function (canvas) {
                 canvas.toBlob(function(blob) {
                     images.push(blob)
-                    auto_generate(elt, data, i+1, images)
+                    auto_generate(elt, data, i+1, images, progress)
                 })
             })
         }, 10)
     }
 
     function auto_fill(data) {
-        let card = data.card
+        let layout = data.layout
         let image = data.image || ''
         let schools = data.schools || ''
         let stress = data.stress || ''
@@ -649,7 +749,7 @@
             if(schools.length > 1) BANNER.scnd = schools[1].trim().lowercase()
         } else toggle_banner(false)
 
-        set_type(card)
+        set_layout(layout)
         update_banner()
         set_subtitle(subtitle)
         set_artwork(image)

@@ -10,52 +10,74 @@ export class EditorParser {
         this.COMPLEX_TAGS = tags;
         this.SIMPLE_TAGS = static_tags;
         this.TOC = [];
-        marked.Renderer.prototype.listitem = function (text, task, checked) {
-            // ToC
-            if (text.includes('::')) {
-                text = text.split('::', 2);
-                let h = text[0];
-                text = text[1].split('<ul>');
-                let p = parseInt(text[0].trim());
-                text[0] = `<span class='toc-page'>${p}</span></a>`;
-                text = text.join('<ul>');
-                text = `<a class="toc-entry" href="#page${p - 1}"><span class='toc-heading'>${h}</span>${text}`;
-            }
-            return `<li class='toc-li'>${text}</li>\n`;
-        };
-        marked.Renderer.prototype.paragraph = function (text) {
-            if (text.includes("::")) {
-                text = text.split("\n");
-                let res = [];
-                let dl = [];
-                for (const txt of text) {
-                    if (txt.includes("::"))
-                        dl.push(txt);
-                    else {
-                        if (dl.length > 0) {
-                            let list = "<dl>";
-                            for (const desc of dl) {
-                                let sep = desc.search('::');
-                                list += `<div><dt>${desc.substring(0, sep)}</dt><dd>${desc.substring(sep + 2)}</dd></div>`;
+        const renderer = {
+            listitem(token) {
+                console.log(token);
+                let text;
+                if (token.tokens.length > 1) {
+                    // @ts-ignore
+                    text = this.parser.parse([token.tokens[1]]);
+                    // @ts-ignore
+                    text = this.parser.parseInline([token.tokens[0]]) + text;
+                }
+                else {
+                    // @ts-ignore
+                    text = this.parser.parseInline(token.tokens);
+                }
+                console.log(text);
+                // ToC
+                if (text.includes('::')) {
+                    text = text.split('::', 2);
+                    let h = text[0];
+                    text = text[1].split('<ul>');
+                    let p = parseInt(text[0].trim());
+                    text[0] = `<span class='toc-page'>${p}</span></a>`;
+                    text = text.join('<ul>');
+                    text = `<a class="toc-entry" href="#page${p - 1}"><span class='toc-heading'>${h}</span>${text}`;
+                }
+                return `<li class='toc-li'>${text}</li>\n`;
+            },
+            paragraph(token) {
+                // @ts-ignore
+                let text = this.parser.parseInline(token.tokens);
+                if (text.includes("::")) {
+                    text = text.split("\n");
+                    let res = [];
+                    let dl = [];
+                    for (const txt of text) {
+                        if (txt.includes("::"))
+                            dl.push(txt);
+                        else {
+                            if (dl.length > 0) {
+                                let list = "<dl>";
+                                for (const desc of dl) {
+                                    let sep = desc.search('::');
+                                    list += `<div><dt>${desc.substring(0, sep)}</dt><dd>${desc.substring(sep + 2)}</dd></div>`;
+                                }
+                                res.push(list + '</dl>');
+                                dl = [];
                             }
-                            res.push(list + '</dl>');
-                            dl = [];
+                            res.push(`<p>${txt}</p>`);
                         }
-                        res.push(`<p>${txt}</p>`);
                     }
-                }
-                if (dl.length > 0) {
-                    let list = "<dl>";
-                    for (let desc of dl) {
-                        let sep = desc.search('::');
-                        list += `<div><dt>${desc.substring(0, sep)}</dt><dd>${desc.substring(sep + 2)}</dd></div>`;
+                    if (dl.length > 0) {
+                        let list = "<dl>";
+                        for (let desc of dl) {
+                            let sep = desc.search('::');
+                            list += `<div><dt>${desc.substring(0, sep)}</dt><dd>${desc.substring(sep + 2)}</dd></div>`;
+                        }
+                        res.push(list + '</dl>');
                     }
-                    res.push(list + '</dl>');
+                    return res.join("\n");
                 }
-                return res.join("\n");
+                return `<p>${text}</p>\n`;
             }
-            return `<p>${text}</p>\n`;
         };
+        const extension = {
+            useNewRenderer: true,
+            renderer: renderer
+        };
+        marked.use(extension);
     }
     get_toc() {
         return this.TOC;
