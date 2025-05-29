@@ -99,12 +99,13 @@
     box-shadow: 0 0 10px #00000055;
     border: 1px solid #111;
     color: var(--window-font-color);
+    font-family: 'Lato', sans-serif;
 }
 
 .window-title {
+    margin: auto;
     width: fit-content;
-    font-size: 22px;
-    font-family: 'Lato', sans-serif;
+    font-size: 18px;
 }
 
 .window-header {
@@ -139,7 +140,6 @@
     box-sizing: border-box;
     resize: both;
     overflow: hidden;
-    font-family: 'Lato', sans-serif;
 }
 
 .window-popup .field {
@@ -175,7 +175,6 @@
 .window-popup td input {
     width: 100%;
 }
-
 
 .window-popup select {
     cursor: pointer;
@@ -226,11 +225,12 @@
     justify-content: center;
     align-items: center;
 
-    background-color: rgb(148, 51, 51);
+    /* background-color: rgb(194, 52, 52); */
+    background-color: #FFFFFF88;
     cursor: pointer;
     font-size: 20px;
-    border-radius: 100%;
-    border: 2px solid black;
+    border-radius: 0%;
+    border: 2px solid #FFFFFF22;
     color: black;
     text-align: center;
     padding: 1px 2px;
@@ -238,7 +238,8 @@
 }
 
 .close-button:hover {
-    background-color: rgb(176, 85, 85);
+    background-color: rgb(195, 58, 58);
+    color: white;
 }
 
 .window-column {
@@ -274,13 +275,12 @@
 }
 
 .window-popup .section {
-    font-size: 20px;
+    font-size: 18px;
     column-span: all;
     padding: 8px;
     margin: 8px 0;
     font-weight: bold;
     border: 1px solid var(--window-background-light-accent);
-    font-family: 'Lato', sans-serif;
     background-color: var(--window-background-accent);
 }
 
@@ -339,10 +339,9 @@
     padding: 8px;
     font-size: 16px;
     cursor: pointer;
-    font-weight: bold;
     border-radius: 4px;
-    outline: 2px solid #00000022;
-    border: 1px solid var(--window-background-strong-accent);
+    /* outline: 2px solid #00000022; */
+    /* border: 1px solid var(--window-background-strong-accent); */
     margin: 8px 0;
     box-sizing: border-box;
     background-color: var(--window-background-accent);
@@ -350,7 +349,7 @@
 .item:first-child { margin-top: 0; }
 .item:last-child { margin-bottom: 0; }
 .item:hover {
-    border: 1px solid #ffffffaa;
+    /* border: 1px solid #ffffffaa; */
     background-color: #2487a3;
 }
 

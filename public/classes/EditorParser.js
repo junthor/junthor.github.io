@@ -12,7 +12,7 @@ export class EditorParser {
         this.TOC = [];
         const renderer = {
             listitem(token) {
-                console.log(token);
+                // console.log(token)
                 let text;
                 if (token.tokens.length > 1) {
                     // @ts-ignore
@@ -24,7 +24,7 @@ export class EditorParser {
                     // @ts-ignore
                     text = this.parser.parseInline(token.tokens);
                 }
-                console.log(text);
+                // console.log(text)
                 // ToC
                 if (text.includes('::')) {
                     text = text.split('::', 2);
@@ -198,9 +198,13 @@ export class EditorParser {
             const TOC = [];
             // Parse Heading Because of (1) TOC and (2) Find on Editor 
             texts[i] = this.parse_headings(texts[i], TOC);
-            texts[i] = texts[i].replaceAll(/^(:*\s*):(\s*)$/gm, function (match, g1, g2) {
+            texts[i] = texts[i].replaceAll(/^(:*\s*):(\s*\n+)(\-)?/gm, function (match, g1, g2, g3) {
                 if (g1 !== g2)
                     g1 = g1.replaceAll(/\s/g, '');
+                console.log(match);
+                if (g3 != null && g3 != "") {
+                    return '\n<br>\n'.repeat(g1.length + 1) + g2 + g3;
+                }
                 return '<br>'.repeat(g1.length + 1) + g2;
             });
             if (substitutions) {

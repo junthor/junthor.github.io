@@ -92,6 +92,7 @@ export const BBCODE_TAGS = {
         params: {
             title: ["style", "--chapter-number:'", DEFAULT_REGEX["text"], "'"],
             prefix: ["style", "--chapter-number:'", DEFAULT_REGEX["text"], " ' counter(number-of-chapter)"],
+            colored: ["style", "--colored:", DEFAULT_REGEX["color"]],
             decoration: ["class", "decoration v", DEFAULT_REGEX["text"]],
             margin: DEFAULT_PROPERTIES["margin"],
             "margin-top": DEFAULT_PROPERTIES["margin-top"],

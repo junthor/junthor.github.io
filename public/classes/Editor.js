@@ -269,6 +269,14 @@ the guide by clicking on the guide button on the right side of the preview's bar
                 if (next && next instanceof HTMLParagraphElement) {
                     let lettrine = document.createElement('span');
                     let letter = next.innerText[0].toUpperCase();
+                    let parent = h1.parentElement;
+                    if (parent) {
+                        let custom_color = getComputedStyle(parent).getPropertyValue('--colored');
+                        if (custom_color) {
+                            lettrine.style.setProperty('--color', custom_color.trim());
+                            parent.classList.add("colored");
+                        }
+                    }
                     lettrine.title = letter;
                     lettrine.innerHTML = letter;
                     lettrine.className = `${letter} lettrine`;
