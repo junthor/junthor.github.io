@@ -25,6 +25,26 @@
     font-style: italic;
 }
 @font-face {
+    font-family: "Wolpe Pegasus";
+    src: url('./../../fonts/Wolpe Pegasus/Wolpe Pegasus Regular.otf') format("opentype");
+}
+@font-face {
+    font-family: "Wolpe Pegasus";
+    src: url('./../../fonts/Wolpe Pegasus/Wolpe Pegasus Italic.otf') format("opentype");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Wolpe Pegasus";
+    src: url('./../../fonts/Wolpe Pegasus/Wolpe Pegasus Bold.otf') format("opentype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Wolpe Pegasus";
+    src: url('./../../fonts/Wolpe Pegasus/Wolpe Pegasus Bold Italic.otf') format("opentype");
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
     font-family: "Zatanna Misdirection";
     src: 
         url('./../../fonts/Zatanna Misdirection/Zatanna Misdirection.otf') format("opentype");

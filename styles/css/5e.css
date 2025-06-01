@@ -5,6 +5,7 @@
 @import url(dnd/xgte.css);
 @import url(dnd/mtof.css);
 @import url(dnd/modern.css);
+@import url(dnd/phb24.css);
 
 a { color: var(--heading-color); }
 
@@ -127,6 +128,29 @@ a { color: var(--heading-color); }
     right: calc(0.0905 * var(--page-width));
 }
 
+.pagedecoration {
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    box-sizing: border-box;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.page-content:has(.pagedecoration.test) {
+    padding-top: 8px;
+}
+
+.pagedecoration.test{
+    background-image: url('https://i.imgur.com/BZza3sd.png');
+    top: 10px;
+    left: calc(var(--page-margin-left) - 18px);
+    right: calc(var(--page-margin-right) - 18px);
+    bottom: var(--page-margin-bottom);
+}
 
 /********************
     MARK: COVER 
@@ -572,9 +596,18 @@ h3 + h4, h3 + h5 { margin-top: 0!important; }
 h4 + h5 { margin-top: 0!important; }
 
 /*  LETTRINES */
-.page h1 + p::first-line, .page .chapter + p::first-line {
+.page h1 ~ p:first-of-type::first-line, .page .chapter ~ p:first-of-type::first-line {
     font-variant-caps: small-caps;
     font-size: 125%;
+}
+
+.page h2 + p:first-of-type::first-line,
+.page h3 + p:first-of-type::first-line,
+.page h4 + p:first-of-type::first-line,
+.page h5 + p:first-of-type::first-line,
+.page h6 + p:first-of-type::first-line {
+    font-variant-caps: normal !important;
+    font-size: inherit !important;
 }
 
 .font-preview h1 {
@@ -619,6 +652,45 @@ dt {
     width: fit-content;
     margin-right: 0.2em;
     margin-left: -1em;
+}
+
+.annotate {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    --text: '';
+}
+
+.annotation-content {
+    flex-grow: 1;
+}
+
+.annotate.highlight > .annotation-content {
+    background: linear-gradient(90deg, #dad15411 0%, #00000000 100%);
+}
+
+.annotation-number {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    border-left: 2px solid var(--primary-color);
+    width: 10px;
+}
+
+.annotate > .annotation-number::before {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    content: var(--text);
+    border-radius: 100%;
+    height: 1.5em;
+    width: 1.5em;
+    font-size: 8pt;
+    margin-left: calc(-1px - 0.75em);
+    background-color:  rgb(185, 115, 90);
 }
 
 /********************
@@ -733,7 +805,7 @@ td {
 ********************/
 
 * + .note {
-    margin-top: calc(var(--space-between) * 2)!important;
+    /* margin-top: calc(var(--space-between) * 2)!important; */
 }
 .note {
     break-inside: avoid;

@@ -9,6 +9,7 @@ export class DocumentSaver {
         let data = {
             content: this.editor.get_text(),
             css: this.editor.get_css(),
+            macros: this.editor.get_custom_macros(),
             title: title,
             style: {
                 template: this.stylist.get_templates(),
@@ -37,6 +38,8 @@ export class DocumentSaver {
     apply_data(data) {
         if (data['css'])
             this.editor.set_css(data['css']);
+        if (data['macros'])
+            this.editor.set_macros(data['macros']);
         if (data['style'])
             this.stylist.apply(data['style'], true);
         if (data['content'])

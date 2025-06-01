@@ -375,6 +375,10 @@ export const SNIPPETS = {
                     "--page-background-image", "url('../backgrounds/DiA.jpeg')"],
                 ['Waterdeep', "[image link='./styles/backgrounds/Waterdeep.jpeg' absolute top=0 left=0 width=100% height=100%]", "page",
                     "--page-background-image", "url('../backgrounds/Waterdeep.jpeg')"],
+                ['Warhammer', "[image link='./styles/backgrounds/wfrp.jpg' absolute top=0 left=0 width=100% height=100%]", "page",
+                    "--page-background-image", "url('../backgrounds/wfrp.jpg')"],
+                ['Warhammer Letter', "[image link='./styles/backgrounds/wfrp-letter.jpg' absolute top=0 left=0 width=100% height=100%]", "page",
+                    "--page-background-image", "url('../backgrounds/wfrp-letter.jpg')"],
             ]
         }
     ]

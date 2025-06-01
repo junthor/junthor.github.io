@@ -174,7 +174,7 @@ const TCOE = {
             '--quote-font': "'Delicious Handrawn', cursive",
             '--quote-size': "13pt"
         },
-        '.chapter + p::first-letter, h1 + p::first-letter': {
+        '.chapter ~ p:first-of-type::first-letter, h1 ~ p:first-of-type::first-letter': {
             'text-shadow': '0 0 2px #d1d7cb'
         },
         'blockquote': {

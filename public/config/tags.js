@@ -58,6 +58,7 @@ const DEFAULT_PROPERTIES = {
     pr: ["style", "padding-right:", DEFAULT_REGEX["size"]],
 };
 const theme_keywords = [
+    'phb24',
     'phb', 'dmg', 'witch', 'xgte', 'tcoe', 'dia', 'toa', 'wmm', 'wdh', 'ee',
     'mtof', 'draco', 'curator', 'brs'
 ];
@@ -83,6 +84,13 @@ export const BBCODE_TAGS = {
         auto_params: {
             class: "part wide",
         },
+    },
+    pagedecoration: {
+        tag: "div",
+        full_tag: false,
+        regex: {
+            "<div class='pagedecoration $1'></div>": /\[pagedecoration (.*?)\]/gi,
+        }
     },
     chapter: {
         tag: "div",
@@ -302,6 +310,20 @@ export const BBCODE_TAGS = {
             class: "note",
         },
     },
+    annotate: {
+        tag: "div",
+        add_start: "<div class='annotation-number'></div><div class='annotation-content'>",
+        add_end: "</div>",
+        params: {
+            text: ["style", "--text:'", DEFAULT_REGEX["text"], "'"],
+        },
+        keywords: {
+            highlight: ["class", "highlight"],
+        },
+        auto_params: {
+            class: "annotate",
+        },
+    },
     description: {
         tag: "div",
         add_start: "\n",
@@ -475,7 +497,7 @@ export const BBCODE_TAGS_STATIC = {
     "[cover back]": "<div class='back-cover'>",
     "[wide]": '<div class="wide">',
     "[/wide]": "</div>",
-    "[newcolumn]": '<div class="column-break"></div>',
+    "[newcolumn]": '<div style="display:inline-block"></div><div class="column-break"></div>',
     "[nextcolumn]": '<div style="display:inline-block"></div><div class="column-break"></div>',
     "[columnbreak]": '<div style="display:inline-block"></div><div class="column-break"></div>',
     "[/monster]": "</div>",

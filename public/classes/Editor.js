@@ -1,11 +1,14 @@
 import { DocumentSaver } from "./DocumentSaver.js";
 import { PageManager } from "./PageManager.js";
 import { EditorParser } from "./EditorParser.js";
+import { CustomMacro, CustomTemplate } from "./CustomMacros.js";
 import { Stylist } from "./Stylist.js";
 import { Guide } from '../config/guide.js';
 import { format, set_columnbreak, MOUSE_POS, print_document, isWebkit } from "../Utils.js";
 export class Editor {
     constructor(container_id) {
+        this.macros = {};
+        this.templates = {};
         this.page_zoom = 0;
         this.pages = [];
         let separator = document.createElement("div");
@@ -70,6 +73,11 @@ export class Editor {
         this.css_editor = ace.createEditSession('/* CSS */');
         this.css_editor.addEventListener("change", (e) => this.on_input_css(e));
         this.css_editor.setMode('ace/mode/css');
+        // @ts-ignore
+        this.macros_editor = ace.createEditSession('[macro custom][/macro]');
+        this.macros_editor.addEventListener("change", (e) => this.on_input_macros(e));
+        this.macros_editor.setMode('ace/mode/markdown');
+        this.on_input_macros(null);
         this.editor = ace_editor;
         this.editor.setShowPrintMargin(false);
         this.file_manager = new DocumentSaver(this, this.stylist);
@@ -88,15 +96,23 @@ the guide by clicking on the guide button on the right side of the preview's bar
     session_buttons(active) {
         let txt_button = document.getElementById('text-editor-button');
         let css_button = document.getElementById('css-editor-button');
-        if (!txt_button || !css_button)
+        let macros_button = document.getElementById('macros-editor-button');
+        if (!txt_button || !css_button || !macros_button)
             return;
         if (active == 'text') {
             txt_button.className = 'disabled';
+            macros_button.className = 'big-button';
             css_button.className = 'big-button';
         }
         else if (active == 'css') {
             css_button.className = 'disabled';
+            macros_button.className = 'big-button';
             txt_button.className = 'big-button';
+        }
+        else if (active == 'macros') {
+            css_button.className = 'big-button';
+            txt_button.className = 'big-button';
+            macros_button.className = 'disabled';
         }
     }
     set_text_session() {
@@ -107,10 +123,51 @@ the guide by clicking on the guide button on the right side of the preview's bar
         this.editor.setSession(this.css_editor);
         this.session_buttons('css');
     }
+    set_macros_session() {
+        this.editor.setSession(this.macros_editor);
+        this.session_buttons('macros');
+    }
     undo() { this.stylist.undo(); }
     redo() { this.stylist.redo(); }
     on_input_css(e) {
         this.stylist.set_custom_css(this.get_css());
+    }
+    on_input_macros(e) {
+        if (!e)
+            return;
+        let text = this.macros_editor.getValue();
+        let macros = CustomMacro.parse(text);
+        let changes = CustomMacro.get_all_changes(this.macros, macros);
+        this.macros = macros;
+        if (changes.length > 0) {
+            let updated_pages = new Set();
+            for (const macro of changes) {
+                let pages = this.parser.get_pages_with_macro(macro);
+                if (pages.length == 0)
+                    continue;
+                pages = pages.filter(page => !updated_pages.has(page));
+                for (const page of pages) {
+                    let data = { page: page, updated: 1, delta: 0 };
+                    this.parse(data);
+                    updated_pages.add(page);
+                }
+            }
+        }
+        this.macros = macros;
+        this.templates = CustomTemplate.parse(text);
+        // Update the templates menu with available templates
+        const templatesMenu = document.getElementById("templates-menu");
+        if (templatesMenu) {
+            templatesMenu.innerHTML = "";
+            Object.entries(this.templates).forEach(([name, template]) => {
+                const div = document.createElement("div");
+                let capitalize = name.replace(/\b\w/g, c => c.toUpperCase());
+                div.title = capitalize;
+                div.textContent = capitalize;
+                div.onclick = () => this.insert(template.getContent() || "", "", true);
+                templatesMenu.appendChild(div);
+            });
+        }
     }
     on_input(e) {
         // Number of characters in the delta
@@ -189,6 +246,9 @@ the guide by clicking on the guide button on the right side of the preview's bar
     get_text() {
         return this.text_editor.getValue();
     }
+    get_custom_macros() {
+        return this.macros_editor.getValue();
+    }
     get_css() {
         return this.css_editor.getValue();
     }
@@ -206,6 +266,11 @@ the guide by clicking on the guide button on the right side of the preview's bar
         this.set_css_session();
         this.clear_text();
         this.editor.insert(css);
+    }
+    set_macros(macros) {
+        this.set_macros_session();
+        this.clear_text();
+        this.editor.insert(macros);
     }
     manage_unchanged_pages(page, delta) {
         if (delta > 0) {
@@ -246,10 +311,10 @@ the guide by clicking on the guide button on the right side of the preview's bar
             if (data.page > 0)
                 start_offset = 1;
             this.manage_unchanged_pages(first_page + 1, data.delta);
-            texts = this.parser.parse(text, first_page, start_offset, offset, substitutions);
+            texts = this.parser.parse(text, first_page, start_offset, offset, substitutions, this.macros);
         }
         else {
-            texts = this.parser.parse(text, 0, 0, 0, substitutions);
+            texts = this.parser.parse(text, 0, 0, 0, substitutions, this.macros);
             this.set_pages_number(texts.length);
         }
         let webkit = isWebkit();
@@ -265,6 +330,9 @@ the guide by clicking on the guide button on the right side of the preview's bar
                     if (parent && parent.classList.contains('chapter')) {
                         next = parent.nextElementSibling;
                     }
+                }
+                while (next && !(next instanceof HTMLParagraphElement || next instanceof HTMLHeadingElement)) {
+                    next = next.nextElementSibling;
                 }
                 if (next && next instanceof HTMLParagraphElement) {
                     let lettrine = document.createElement('span');

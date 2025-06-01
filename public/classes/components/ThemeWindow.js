@@ -41,7 +41,6 @@ export class ThemeWindow {
                 let item = themes[theme];
                 let item_elt = document.createElement('div');
                 item_elt.className = 'item';
-                console.log(theme);
                 item_elt.innerHTML = item[0];
                 item_elt.addEventListener('click', () => this.stylist.apply(item[1]));
                 container.appendChild(item_elt);
@@ -171,7 +170,6 @@ export class ThemeWindow {
     }
     restore_color(id, color) {
         let elt = document.getElementById(id);
-        console.log(elt);
         if (!elt)
             return;
         elt.value = color;

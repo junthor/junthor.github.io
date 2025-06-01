@@ -41,13 +41,16 @@ body {
     --color: gray;
 
     background-color: var(--color);
-    border: 1px solid color-mix(in srgb, var(--color) 70%, white 30%);
     box-shadow: 0 2px 0 color-mix(in srgb, var(--color) 70%, black 30%);
     padding: 8px;
     font-family: 'Lato', sans-serif;
-    border-radius: 10px;
 
     cursor: pointer;
+}
+
+.big-button:not(.widgets .big-button) {
+    border: 1px solid color-mix(in srgb, var(--color) 70%, white 30%);
+    border-radius: 10px;
 }
 .big-button:hover {
     background-color: color-mix(in hsl shorter hue, var(--color) 70%, white 20%);
@@ -108,7 +111,6 @@ br + p {
 #options {
     display: flex;
     flex-flow: column nowrap;
-    height: 100px;
     flex-shrink: 0;
     align-items: flex-start;
     justify-content: flex-end;
@@ -172,6 +174,7 @@ button.disabled{
     border: 1px solid #aaa;
     margin: 4px;
 }
+
 .button-container .widgets button {
     width: 30px;
 }
@@ -179,7 +182,22 @@ button.disabled{
     border:none;
     border-radius: 0 8px 8px 0;
 }
-.button-container .widgets button:first-child{
+.widgets:has(.widget-label) {
+    margin-top: 1em;
+}
+.widgets .widget-label {
+    position: absolute;
+    font-variant: all-small-caps;
+    font-family: 'Lato', sans-serif;
+    font-size: 9.5pt;
+    margin-top: -1.2em;
+    margin-left: 8px;
+    height: 1em;
+    flex-grow: 1;
+    color: #888;
+}
+
+.button-container .widgets button:first-of-type {
     border-radius: 8px 0 0 8px;
 }
 .button-container .widgets button .dropdown {

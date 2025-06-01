@@ -1,0 +1,57 @@
+.chapter.phb24 h1 {
+    font-family: "Wolpe Pegasus", serif;
+    font-size: 36pt;
+    text-align: center;
+    font-weight: bold;
+    font-variant: small-caps;
+    text-shadow: none;
+    
+    margin-top: calc(0.01 * var(--page-width));
+    padding-bottom: 0.3em;
+    
+    color: rgba(0, 0, 0, 0);
+    background-image: linear-gradient(#3d0800, #bb8477 90%);
+    background-size: 100% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.chapter.phb24 h1::before { 
+    display: block;
+    content: var(--chapter-number);
+    font-size: 20pt;
+    font-weight: normal;
+    /* color: #bc9e5c; */
+    color: rgb(185, 115, 90);
+    letter-spacing: 2px;
+    font-variant: all-small-caps;
+    filter: drop-shadow(0 0 5px white) 
+            drop-shadow(0 0 3px white);
+    
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 0.6em;
+    padding: 0.3em 5em;
+
+    background-image: url('../../assets/PHB24/chapter-before-left.png'), url('../../assets/PHB24/chapter-before-right.png');
+    background-position: left center, right center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: contain, contain;
+}
+
+.chapter.phb24::after {
+    display: block;
+    width: 88%;
+    margin: auto;
+    margin-top: -6em;
+    content: ' ';
+    background-image: url('../../assets/PHB24/chapter-after.png');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 8em;
+}
+
+.chapter.phb24.notitle h1::before {
+    all: unset;
+}

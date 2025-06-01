@@ -66,6 +66,7 @@
     <div id="options">
         <div class="button-container" id="editor-buttons">
             <div class="widgets">
+                <div class="widget-label">Undo & Redo</div>
                 <button id="undo-button" class="disabled" title='Undo' onclick="editor.undo()"><i
                         class="fa-solid fa-rotate-left"></i></button>
                 <button id="redo-button" class="disabled" title='Redo' onclick="editor.redo()"><i
@@ -73,42 +74,30 @@
             </div>
 
             <div class="widgets">
+                <div class="widget-label">Styling Apps</div>
                 <button id="config-app-button"   style="--color:#888"></button>
                 <button id="theme-app-button"    style="--color:#888"></button>
                 <button id="snippets-app-button" style="--color:#888"></button>
                     
                 </button>
-                <button title="Quick Snippets" style="--color:#888; position: relative;">
+                <button title="Custom Templates" style="--color:#888; position: relative;">
                     <i class="fa-solid fa-bolt"></i>
 
-                    <div class="dropdown">
-                        <div title="Cover"
-                            onclick="editor.insert('[cover]\n\n# [s 0.15em]Title[/s]\n## [s 0.15em]Subtitle[/s]\n___\n\n[banner]HOMEBREW[/banner]\n\n[footer hide]\n[s 0.2em]Footnote[/s]\n[/footer]\n\n[/cover]')">
-                            <i class="fa-solid fa-book"></i> Cover Page
-                        </div>
-                        <div title="Part" onclick="editor.insert('[part]\n\n# PART 1\n## Subtitle\n\n[/part]')"><i
-                                class="fa-solid fa-bookmark"></i> Part Page</div>
-                        <div title="Footer" onclick="editor.insert('[footer show number]', '[/footer]')"><i
-                                class="fa-solid fa-asterisk"></i> Footer</div>
-                        <div title="Note" onclick="editor.insert('[note]\n\n##### Note\n', '\n\n[/note]')"><i
-                                class="bi bi-sticky-fill"></i> Note</div>
-                        <div title="Description"
-                            onclick="editor.insert('[description]\n\n##### Description', '\n\n[/description]')"><i
-                                class="bi bi-card-text"></i> Description</div>
-                        <div title="Quote" onclick="editor.insert('\n> ', '\n> - Author\n')"><i class="bi bi-quote"></i>
-                            Quote</div>
-                        <div title="Monster Stats" onclick="editor.insert(`[monster]${MONSTER_BLOCK_TEXT}[/monster]`)">
-                            <i class="fa-solid fa-skull"></i> Monster Stats
-                        </div>
+                    <div id="templates-menu" class="dropdown">
                     </div>
                 </button>
             </div>
 
             <div class="widgets">
+                <div class="widget-label">Editors</div>
                 <button id="text-editor-button" style="--color:#888" class="disabled" title='Text Editor'  onclick="editor.set_text_session()">
                     <i class="fa-solid fa-book"></i></button>
+
                 <button id="css-editor-button" style="--color:#888"  class="big-button" title='Style Editor' onclick="editor.set_css_session()">
                     <i class="fa-solid fa-paintbrush"></i></button>
+
+                <button id="macros-editor-button" style="--color:#888"  class="big-button" title='Macros Editor' onclick="editor.set_macros_session()">
+                    <i class="fa-solid fa-microchip"></i></button>
             </div>
         </div>
 
@@ -117,6 +106,7 @@
 
             <div class="widgets">
 
+                <div class="widget-label">Font Style</div>
                 <button title='Text Align' style="position: relative;"><i class="fa-solid fa-align-left"></i>
                     <div class="dropdown">
                         <div title='Align Left' onclick="editor.insert_line('[left]', '[/left]', '\n\n')"><i
@@ -154,6 +144,7 @@
             </div>
 
             <div class="widgets">
+                <div class="widget-label">Text Style</div>
                 <button title='Bold' onclick="editor.insert_line('**', '**', '  \n\n')"><i
                         class="fa-solid fa-bold"></i></button>
                 <button title='Italic' onclick="editor.insert('*', '*')"><i class="fa-solid fa-italic"></i></button>
@@ -168,6 +159,7 @@
             </div>
 
             <div class="widgets">
+                <div class="widget-label">Lists</div>
                 <button title='Unordered List' onclick="editor.insert_line('- ')"><i
                         class="fa-solid fa-list-ul"></i></button>
                 <button title='Ordered List' onclick="editor.insert_line('{0}. ')"><i
@@ -178,6 +170,7 @@
 
 
             <div class="widgets">
+                <div class="widget-label">Elements</div>
                 <button title="Table"
                     onclick="editor.insert('##### Table Title\n| Column 1 | Column 2 |\n|----------|----------|\n| Value 1  | Value 2  |')"><i
                         class="fa-solid fa-table"></i></button>
@@ -197,6 +190,7 @@
 
 
             <div class="widgets">
+                <div class="widget-label">Layout</div>
                 <button title="Column Break" onclick="editor.insert('[newcolumn]')">
                     <img alt="column-break" class="svg-icon" src='./icons/column-break2.svg' /></button>
                 <button title="Page Break" onclick="editor.insert('[newpage]')">

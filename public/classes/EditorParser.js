@@ -10,6 +10,7 @@ export class EditorParser {
         this.COMPLEX_TAGS = tags;
         this.SIMPLE_TAGS = static_tags;
         this.TOC = [];
+        this.MACROS = [];
         const renderer = {
             listitem(token) {
                 // console.log(token)
@@ -82,6 +83,14 @@ export class EditorParser {
     get_toc() {
         return this.TOC;
     }
+    get_pages_with_macro(macro) {
+        let pages = [];
+        for (let i = 0; i < this.MACROS.length; i++) {
+            if (this.MACROS[i].has(macro))
+                pages.push(i);
+        }
+        return pages;
+    }
     parse_markdown_inline(text) {
         return marked.parseInline(text);
     }
@@ -139,6 +148,50 @@ export class EditorParser {
         }
         return res + text.substring(s);
     }
+    parse_macros(text, macros) {
+        let res = '';
+        let inside = 0;
+        let s = 0;
+        let present_macros = new Set();
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] == '`') {
+                let cpt = 1;
+                while (text[++i] == '`')
+                    cpt++;
+                if (inside > 0 && cpt >= inside)
+                    inside = 0;
+                else if (inside == 0)
+                    inside = cpt;
+            }
+            else if (inside == 1 && text[i] == '\n')
+                inside = 0;
+            if (inside > 0)
+                continue;
+            // Lookahead for macros
+            if (text[i] == '{' && text[i + 1] == '{') {
+                res += text.substring(s, i);
+                s = i + 2;
+                let end = text.indexOf('}}', s);
+                if (end < 0) {
+                    res += '{{' + text.substring(s, text.length);
+                    s = text.length;
+                    break;
+                }
+                let macro_name = text.substring(s, end).trim();
+                present_macros.add(macro_name);
+                if (macros[macro_name]) {
+                    res += macros[macro_name].getContent();
+                }
+                else {
+                    res += `{{${macro_name}}}`;
+                }
+                s = end + 2;
+                i = s - 1;
+            }
+        }
+        res += text.substring(s);
+        return [res, present_macros];
+    }
     parse_supscript(text) {
         let res = '';
         let open = 0;
@@ -192,18 +245,24 @@ export class EditorParser {
         res += text.substring(s);
         return res;
     }
-    parse(text, page = 0, start = 0, offset = 0, substitutions) {
+    parse(text, page = 0, start = 0, offset = 0, substitutions, macros) {
         let texts = text.split("[newpage]");
         for (let i = start; i < texts.length - offset; i++) {
             const TOC = [];
             // Parse Heading Because of (1) TOC and (2) Find on Editor 
             texts[i] = this.parse_headings(texts[i], TOC);
-            texts[i] = texts[i].replaceAll(/^(:*\s*):(\s*\n+)(\-)?/gm, function (match, g1, g2, g3) {
+            // Parse Macros
+            if (macros) {
+                let macro_results = this.parse_macros(texts[i], macros);
+                texts[i] = macro_results[0];
+                this.MACROS[page + i - start] = macro_results[1];
+            }
+            // : to <br>
+            texts[i] = texts[i].replaceAll(/^(:*):(\s*\n)(\n*\-)?/gm, function (match, g1, g2, g3) {
                 if (g1 !== g2)
                     g1 = g1.replaceAll(/\s/g, '');
-                console.log(match);
                 if (g3 != null && g3 != "") {
-                    return '\n<br>\n'.repeat(g1.length + 1) + g2 + g3;
+                    return '\n' + '<br>\n'.repeat(g1.length + 1) + g2 + g3;
                 }
                 return '<br>'.repeat(g1.length + 1) + g2;
             });
