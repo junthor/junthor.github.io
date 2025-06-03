@@ -55,3 +55,83 @@
 .chapter.phb24.notitle h1::before {
     all: unset;
 }
+
+.monster.phb24 {
+    background-image: none;
+    background-color: rgb(240, 240, 230);
+    border: 0.3em double #00000066;
+    border-radius: 1em;
+    padding: 8px;
+}
+
+.monster.phb24::before, .monster.phb24::after {
+    display: none;
+}
+
+.monster.phb24 h2 {
+    font-size: 18pt !important;
+    font-family: "Scaly Sans", sans-serif;
+    font-weight: 600;
+    font-variant: small-caps;
+    border-bottom: 1px solid var(--monster-text-color);
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+}
+
+.monster.phb24 dl {
+    color: var(--monster-text-color);
+}
+
+.monster.phb24 table:first-of-type {
+    color: var(--monster-text-color);
+    --first-line-color: rgb(232, 227, 213);
+    --first-line-values-color: rgb(217, 208, 202);
+    --second-line-color: rgb(210, 214, 204);
+    --second-line-values-color: rgb(203, 198, 200);
+
+    th {
+        font-size: 70%;
+        color: #888;
+        font-weight: normal !important;
+        text-transform: uppercase;
+    }
+    
+    tbody tr td { border-top: 1px solid white !important; }
+    
+    tbody tr:last-child td { border-bottom: 1px solid white !important; }
+    
+    tbody tr:nth-child(odd) td { background: var(--first-line-color)}
+    tbody tr:nth-child(odd) td:nth-child(4n),
+    tbody tr:nth-child(odd) td:nth-child(4n+3) {
+        background: var(--first-line-values-color);
+    }
+
+    tbody tr td:nth-child(4n+1) {
+        font-weight: bold;
+        font-variant: small-caps;
+    }
+
+    tbody tr td:nth-child(4n+5) {
+        padding-left: 12px;
+        clip-path: inset(0 0 0 8px);
+    }
+
+    tbody tr:nth-child(even) td { background: var(--second-line-color) }
+    tbody tr:nth-child(even) td:nth-child(4n),
+    tbody tr:nth-child(even) td:nth-child(4n+3) {
+        background: var(--second-line-values-color)
+    }
+}
+
+.monster.phb24 h2 + p {
+    color: #444444;
+    margin-bottom: 0.4em;
+}
+
+.habitat {
+    margin: 0.5em 0;
+    padding: 0.3em;
+    border-top: 2px solid #c5bc9f;
+    font-family: "Overpass", sans-serif;
+    background-image: linear-gradient(to right, rgba(238, 228, 211, 0.5), #eee4d3 40%);
+}

@@ -29,6 +29,7 @@
     contain: size;
 
     counter-increment: number-of-page;
+    counter-reset: note-number;
 
     z-index: 10;
 
@@ -52,6 +53,7 @@
     background-color: var(--page-background-color);
     background-image: var(--page-background-image);
     background-size: 100% 100%;
+    background-position: left;
     z-index: -3;
 }
 
@@ -62,6 +64,8 @@
     transform: scaleX(-1);
     filter: FlipH;
     -ms-filter: "FlipH";
+    background-position: right;
+    background-image: var(--page-background-image2, var(--page-background-image));
 }
 
 .page img {

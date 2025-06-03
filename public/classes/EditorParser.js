@@ -556,6 +556,8 @@ export class EditorParser {
             code = `</${syntax['tag']}>`;
             if (syntax['add_end'])
                 code = syntax['add_end'] + code;
+            if (syntax['add_after'])
+                code += syntax['add_after'];
             result.push(code);
             return end;
         }

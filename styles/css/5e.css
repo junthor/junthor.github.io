@@ -658,7 +658,10 @@ dt {
     display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
-    --text: '';
+    counter-increment: note-number;
+    --text: counter(note-number);
+    --shift: 12px;
+    margin-left: calc(0px - var(--shift));
 }
 
 .annotation-content {
@@ -666,7 +669,8 @@ dt {
 }
 
 .annotate.highlight > .annotation-content {
-    background: linear-gradient(90deg, #dad15411 0%, #00000000 100%);
+    --faded-color: color-mix(in srgb, var(--primary-color) 30%, transparent);
+    background: linear-gradient(90deg, var(--faded-color) 0%, #00000000 100%);
 }
 
 .annotation-number {
@@ -674,7 +678,8 @@ dt {
     flex-flow: row nowrap;
     align-items: center;
     border-left: 2px solid var(--primary-color);
-    width: 10px;
+    width: var(--shift);
+    flex-shrink: 0;
 }
 
 .annotate > .annotation-number::before {
@@ -690,7 +695,7 @@ dt {
     width: 1.5em;
     font-size: 8pt;
     margin-left: calc(-1px - 0.75em);
-    background-color:  rgb(185, 115, 90);
+    background-color: var(--heading-color)
 }
 
 /********************

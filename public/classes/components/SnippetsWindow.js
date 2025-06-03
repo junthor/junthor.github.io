@@ -48,7 +48,7 @@ export class SnippetsWindow {
                 for (let item of block.content) {
                     let item_elt = document.createElement('div');
                     item_elt.className = 'item';
-                    item_elt.innerHTML = item[0];
+                    item_elt.innerHTML = typeof item[0] === 'string' ? item[0] : item[0][0];
                     item_elt.item = item;
                     item_elt.snippet = this;
                     if (item.length > 3)
@@ -69,21 +69,46 @@ export class SnippetsWindow {
     snippet_button_value() {
         let snippet = this.snippet;
         let item = this.item;
-        snippet.stylist.set_root_value(item[3], item[4], 'root_value');
+        if (typeof item[3] !== 'string')
+            return;
+        if (item[3] == '--page-background-image') {
+            let page_background, page_background2;
+            if (Array.isArray(item[4])) {
+                page_background = item[4][0];
+                page_background2 = item[4][1];
+            }
+            else {
+                page_background = item[4];
+                page_background2 = item[4];
+            }
+            snippet.stylist.set_root_value('--page-background-image', page_background, 'root_value');
+            snippet.stylist.set_root_value('--page-background-image2', page_background2, 'root_value');
+        }
+        else if (typeof item[4] === 'string') {
+            snippet.stylist.set_root_value(item[3], item[4], 'root_value');
+        }
     }
     snippet_button_insert() {
-        this.snippet.editor.insert(this.item[1]);
+        if (typeof this.item[1] === 'string')
+            this.snippet.editor.insert(this.item[1]);
     }
     snippet_button_hover() {
         let snippet = this.snippet;
         let item = this.item;
+        let content = item[1];
+        if (Array.isArray(content)) {
+            if (content.length > 0)
+                content = item[1][0];
+            else
+                return;
+        }
         if (item[2] == 'block') {
-            snippet.preview_block.innerHTML = snippet.editor.simple_parse(item[1]);
+            snippet.preview_block.innerHTML = snippet.editor.simple_parse(content);
             snippet.preview_page.style.display = "none";
             snippet.preview_block.style.display = "block";
         }
         else {
-            snippet.mini_page.innerHTML = snippet.editor.simple_parse(item[1]);
+            snippet.mini_page.innerHTML = snippet.editor.simple_parse(content);
             snippet.preview_block.style.display = "none";
             snippet.preview_page.style.display = "flex";
         }

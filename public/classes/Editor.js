@@ -349,7 +349,15 @@ the guide by clicking on the guide button on the right side of the preview's bar
                     lettrine.innerHTML = letter;
                     lettrine.className = `${letter} lettrine`;
                     next.style.position = 'relative';
-                    next.innerHTML = lettrine.outerHTML + next.innerHTML.substring(1);
+                    // Replace only the first visible character outside of tags
+                    let replaced = false;
+                    next.innerHTML = next.innerHTML.replace(/(^|>)([^<\s])/, (match, p1, p2) => {
+                        if (!replaced) {
+                            replaced = true;
+                            return p1 + lettrine.outerHTML;
+                        }
+                        return match;
+                    });
                     //next.classList.add(next.innerText[0].toUpperCase())
                     if (webkit)
                         next.classList.add('webkit');

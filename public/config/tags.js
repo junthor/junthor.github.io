@@ -312,8 +312,9 @@ export const BBCODE_TAGS = {
     },
     annotate: {
         tag: "div",
-        add_start: "<div class='annotation-number'></div><div class='annotation-content'>",
+        add_start: "<div class='annotation-number'></div><div class='annotation-content'>\n",
         add_end: "</div>",
+        add_after: "\n",
         params: {
             text: ["style", "--text:'", DEFAULT_REGEX["text"], "'"],
         },
@@ -362,14 +363,24 @@ export const BBCODE_TAGS = {
             class: "frame",
         },
     },
+    habitat: {
+        tag: "div",
+        add_start: "\n",
+        add_after: "\n",
+        auto_params: {
+            class: "habitat",
+        },
+    },
     monster: {
         tag: "div",
         add_start: "\n",
         add_end: "\n",
+        exclusive_keywords: [exclusive_themes],
         params: DEFAULT_PROPERTIES,
         keywords: {
             wide: ["class", "wide"],
             brs: ["class", "brs"],
+            phb24: ["class", "phb24"],
             classic: ["class", "classic"],
             noframe: ["class", "noframe"],
             unframe: ["class", "noframe"],

@@ -164,6 +164,7 @@ export const FONT_BARBER_VARIABLES = {
     },
 };
 const MONSTER_BLOCK_TEXT = "\n\n## Monster Name\n*Medium humanoid, any alignment*\n___\n**Armor Class** :: 10\n**Hit Points** :: 22 (5d8)\n**Speed** :: 30 ft.\n___\n|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |\n|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|\n|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|10 (+0)|\n___\n**Senses** :: passive Perception 10\n**Languages** :: —\n**Challenge** :: 1 (200 XP)\n___\n***Feature 1*** Description.\n:\n***Feature 2*** Description. \n\n### Actions\n***Action 1*** Description.\n:\n***Action 2*** Description. \n\n";
+const MONSTER_BLOCK_TEXT_24 = "\n\n## Monster Name\n*Medium humanoid, any alignment*\n\n**Armor Class** :: 10\n**Hit Points** :: 22 (5d8)\n**Speed** :: 30 ft.\n\n|     |     | Mod | Save |     |     | Mod | Save |     |     | Mod | Save |\n|:---:|:---:|:---:|:----:|:---:|:---:|:---:|:----:|:---:|:---:|:---:|:----:|\n| Str | 10  | 0   | 0    | Dex | 10  | 0   | 0    | Con | 10  | 0   | 0    |\n| Int | 10  | 0   | 0    | Wis | 10  | 0   | 0    | Cha | 10  | 0   | 0    |\n\n:\n\n**Senses** :: passive Perception 10\n**Languages** :: —\n**Challenge** :: 1 (200 XP)\n\n### Traits\n***Feature 1*** Description.\n:\n***Feature 2*** Description. \n\n### Actions\n***Action 1*** Description.\n:\n***Action 2*** Description. \n\n";
 export const SNIPPETS = {
     Cover: [
         { container: 'block',
@@ -318,6 +319,7 @@ export const SNIPPETS = {
                 ['Monster', `[monster]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
                 ['Monster (BRS)', `[monster brs]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
                 ['Monster (Unframed)', `[monster noframe]${MONSTER_BLOCK_TEXT}[/monster]`, "block"],
+                ['Monster (PHB24)', `[monster phb24]${MONSTER_BLOCK_TEXT_24}[/monster]`, "block"],
             ]
         }
     ],
@@ -347,6 +349,8 @@ export const SNIPPETS = {
                 ['None', "", "page", "--page-background-image", "none"],
                 ['Player Handbook', "[image link='./styles/backgrounds/PHB.png' absolute top=0 left=0 width=100% height=100%]", "page",
                     "--page-background-image", "url('../backgrounds/PHB.png')"],
+                ['Player Handbook 2024', "[image link='./styles/backgrounds/phb24l.jpg' absolute top=0 left=0 width=100% height=100%]", "page",
+                    "--page-background-image", ["url('../backgrounds/phb24l.jpg')", "url('../backgrounds/phb24r.jpg')"]],
                 ['Elemental Evil', "[image link='./styles/backgrounds/EE.jpeg' absolute top=0 left=0 width=100% height=100%]", "page",
                     "--page-background-image", "url('../backgrounds/EE.jpeg')"],
                 ['Genesys', "[image link='./styles/backgrounds/Genesys.png' absolute top=0 left=0 width=100% height=100%]", "page",

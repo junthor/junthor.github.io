@@ -61,6 +61,18 @@ const DND5E = {
         }
     }
 };
+const PHB24 = {
+    template: ['5e.css'],
+    keyword: "phb24",
+    load: [DND5E],
+    style: {
+        ":root": {
+            // COLORS
+            '--page-background-image': 'url("../backgrounds/phb24r.jpg")',
+            '--page-background-image2': 'url("../backgrounds/phb24l.jpg")',
+        },
+    }
+};
 const PHB = {
     template: ['5e.css'],
     keyword: "phb",
@@ -332,10 +344,12 @@ const WITCHLIGHT = {
 export const THEMES = {
     "Dungeons & Dragons": {
         DND5E: ["Default", DND5E],
+        PHB24: ["Player's Handbook 2024", PHB24],
         PHB: ["Player's Handbook", PHB],
         MToF: ["Mordenkainen's Tome of Foes", MTOF],
         XGtE: ["Xanathar's Guide to Everything", XGTE],
         TCoE: ["Tasha's Cauldron of Everything", TCOE],
+        BRS: ["Basic Ruleset", BRS],
         Witch: ["Witchlight", WITCHLIGHT],
         CURATOR: ["Curator", CURATOR],
     },
